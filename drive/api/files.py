@@ -182,6 +182,7 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
         file_name, file_ext = os.path.splitext(title)
         from rentals.gx_library.api import gx_valide
         from rentals.util import get_original_doc_name
+
         file_name = get_original_doc_name(file_name)
         try:
             data = pd.read_excel(file)

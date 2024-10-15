@@ -11,6 +11,8 @@ import { capture } from "@/telemetry"
 const store = useStore()
 const route = useRoute()
 
+const stopCode = [417, 404] // Set to immediately stop retrying uploads if this error code is encountered
+
 const dropzone = ref()
 const computedFullPath = ref("")
 const emitter = inject("emitter")
@@ -106,7 +108,7 @@ onMounted(() => {
     hiddenInputContainer: "#fileSelection",
     uploadMultiple: false,
     chunking: true,
-    retryChunks: true,
+    retryChunks: false,
     forceChunking: true,
     url: "/api/method/drive.api.files.upload_file",
     dictUploadCanceled: "Upload canceled by user",
@@ -188,17 +190,66 @@ onMounted(() => {
       progress: progress,
     })
   })
-  dropzone.value.on("error", function (file, response) {
+
+  dropzone.value.on("error", function (file, response, xhr) {
     let message
-    if (typeof response === Object) {
-      message = JSON.parse(JSON.parse(response._server_messages)[0]).message
+    if (xhr) {
+      const chunk = file.upload.chunks?.find((chunk) => !chunk.status)
+      if (chunk) {
+        chunk.retryCount = chunk.retryCount || 0
+
+        if (xhr.status === 500 && chunk.retryCount < 5) {
+          chunk.retryCount++
+          message = "Server error, retrying..."
+          setTimeout(() => dropzone.value.processFile(file), 1000)
+        } else if (stopCode.includes(xhr.status)) {
+          try {
+            message = JSON.parse(
+              JSON.parse(response._server_messages)[0]
+            ).message
+          } catch (e) {}
+          message =
+            message || response || "File validation failed, upload rejected."
+          dropzone.value.cancelUpload(file)
+        } else {
+          // Handling other server errors
+          message = `Upload failed with status ${xhr.status}`
+        }
+      } else {
+        // An error occurred after the file upload was completed (non-chunk related)
+        if (stopCode.includes(xhr.status)) {
+          try {
+            message = JSON.parse(
+              JSON.parse(response._server_messages)[0]
+            ).message
+          } catch (e) {}
+          message =
+            message || response || "File validation failed, upload rejected."
+
+          dropzone.value.cancelUpload(file) // stop uploadload
+        } else {
+          message = `Upload failed with status ${xhr.status}`
+        }
+      }
+    } else {
+      // Handling client errors (xhr does not exist)
+      if (typeof response === "string") {
+        message = response || "Client-side upload error"
+      } else {
+        try {
+          message = response.message || "Upload failed"
+        } catch (e) {
+          message = "Unknown client-side error occurred"
+        }
+      }
     }
-    message = message || response || "Upload failed"
+
     store.commit("updateUpload", {
       uuid: file.upload.uuid,
       error: message,
     })
   })
+
   dropzone.value.on("success", function (file, response) {
     uploadResponse.value = response.message
     store.commit("updateUpload", {
@@ -206,20 +257,50 @@ onMounted(() => {
       response: response.message,
     })
   })
+
+  // If the upload is complete, it is validated by the server, and if it fails, the upload is canceled
   dropzone.value.on("complete", function (file) {
-    store.commit("updateUpload", {
-      uuid: file.upload.uuid,
-      completed: true,
-    })
-    capture("new_file_uploaded")
+    let xhr = file.xhr
+    let message
+
+    // Check the status code returned by the server in the complete event
+    if (xhr && stopCode.includes(xhr.status)) {
+      // if statuscode is in stopCode, then cancel upload
+      try {
+        message = JSON.parse(JSON.parse(response._server_messages)[0]).message
+      } catch (e) {}
+      message =
+        message || response || "File validation failed, upload rejected."
+      dropzone.value.cancelUpload(file)
+      store.commit("updateUpload", {
+        uuid: file.upload.uuid,
+        error: message,
+      })
+    } else if (xhr && xhr.status === 200) {
+      // if statuscode is 200, success
+      message = "File upload successful."
+      store.commit("updateUpload", {
+        uuid: file.upload.uuid,
+        completed: true,
+      })
+      capture("new_file_uploaded")
+    } else {
+      // Handling other errors
+      message = `File upload failed with status ${xhr?.status || "unknown"}`
+      store.commit("updateUpload", {
+        uuid: file.upload.uuid,
+        error: message,
+      })
+    }
   })
+
   /*   emitter.on("directUpload", (file) => {
     dropzone.value.addFile(file)
     return directUplodEntityName.value
   }); */
   emitter.on("uploadFile", () => {
     if (dropzone.value.hiddenFileInput) {
-      dropzone.value.hiddenFileInput.removeAttribute("webkitdirectory")
+      dropzone.value.hiddenFileInput.removeAttribute("webkitdirectory") // By removing the webkitdirectory attribute, ensure that users can select only one file at a time
       dropzone.value.hiddenFileInput.click()
     }
   })
