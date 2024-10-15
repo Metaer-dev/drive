@@ -97,7 +97,7 @@ def create_uploads_directory(user=None):
     user_directory_uploads_path = Path(
         frappe.get_site_path("private/files"), user_directory_name, "uploads"
     )
-    user_directory_uploads_path.mkdir(exist_ok=True)
+    user_directory_uploads_path.mkdir(parents=True, exist_ok=True)
     return user_directory_uploads_path
 
 

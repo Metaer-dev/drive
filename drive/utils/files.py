@@ -24,7 +24,7 @@ def create_user_directory():
         raise frappe.PermissionError("You do not have access to Frappe Drive")
     user_directory_name = _get_user_directory_name()
     user_directory_path = Path(frappe.get_site_path("private/files"), user_directory_name)
-    user_directory_path.mkdir(exist_ok=True)
+    user_directory_path.mkdir(parents=True, exist_ok=True)
 
     full_name = frappe.get_value("User", frappe.session.user, "full_name")
     user_directory = frappe.get_doc(
@@ -117,7 +117,7 @@ def create_user_thumbnails_directory():
     user_directory_thumnails_path = Path(
         frappe.get_site_path("private/files"), user_directory_name, "thumbnails"
     )
-    user_directory_thumnails_path.mkdir(exist_ok=True)
+    user_directory_thumnails_path.mkdir(parents=True, exist_ok=True)
     return user_directory_thumnails_path
 
 
