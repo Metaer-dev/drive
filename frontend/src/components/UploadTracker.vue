@@ -143,23 +143,26 @@
         </div>
       </div>
     </div>
-    <Dialog
-      v-if="showErrorDialog"
-      v-model="showErrorDialog"
-      :options="{
-        title: 'Upload Failed',
-        message: selectedUpload.error,
-        size: 'sm',
-        actions: [
-          {
-            label: 'Confirm',
-            onClick: () => {
-              showErrorDialog = false
-            },
-          },
-        ],
-      }"
-    />
+    <Dialog v-model="showErrorDialog">
+      <template #body-title>
+        <p v-if="typeof selectedUpload.error === 'string'">
+          <b>Upload Failed!</b>
+        </p>
+        <p v-else-if="Array.isArray(selectedUpload.error)">
+          <b>The following data rules did not pass</b>
+        </p>
+      </template>
+      <template #body-content>
+        <div v-if="typeof selectedUpload.error === 'string'">
+          {{ selectedUpload.error }}
+        </div>
+        <div v-else-if="Array.isArray(selectedUpload.error)">
+          <ul>
+            <li v-for="one in selectedUpload.error"><u v-html="one"></u></li>
+          </ul>
+        </div>
+      </template>
+    </Dialog>
     <Dialog
       v-if="showCancelDialog"
       v-model="showCancelDialog"
