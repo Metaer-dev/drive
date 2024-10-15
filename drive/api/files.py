@@ -11,6 +11,8 @@ import uuid
 import mimetypes
 import hashlib
 import json
+import pandas as pd
+
 from drive.utils.files import (
     get_user_directory,
     create_user_directory,
@@ -176,6 +178,16 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
         else:
             os.rename(temp_path, save_path)
         mime_type, _ = mimetypes.guess_type(temp_path)
+
+        file_name, file_ext = os.path.splitext(title)
+        from rentals.gx_library.api import gx_valide
+        from rentals.util import get_original_doc_name
+        file_name = get_original_doc_name(file_name)
+        try:
+            data = pd.read_excel(file)
+            res = gx_valide(file_name, data)
+        except:
+            pass
 
         if mime_type is None:
             # Read the first 2KB of the binary stream to determine the file type if string checking failed
