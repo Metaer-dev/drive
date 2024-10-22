@@ -33,6 +33,7 @@
       @open-entity="(entity) => openEntity(entity)"
       @fetch-folder-contents="() => $resources.folderContents.fetch()"
       @update-offset="fetchNextPage"
+      @showEntityContext="toggleEntityContext"
     />
     <ListView
       v-else-if="folderItems && $store.state.view === 'list'"
@@ -43,6 +44,7 @@
       @open-entity="(entity) => openEntity(entity)"
       @fetch-folder-contents="() => $resources.folderContents.fetch()"
       @update-offset="fetchNextPage"
+      @showEntityContext="toggleEntityContext"
     />
     <EntityContextMenu
       v-if="showEntityContext"
