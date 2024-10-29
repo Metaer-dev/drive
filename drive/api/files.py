@@ -6,7 +6,7 @@ import json
 from pypika import Order, Case, functions as fn
 from pathlib import Path
 from werkzeug.wrappers import Response
-from werkzeug.utils import secure_filename, send_file
+from werkzeug.utils import send_file
 import uuid
 import mimetypes
 import hashlib
@@ -116,6 +116,76 @@ def get_user_uploads_directory(user=None):
     return user_directory_uploads_path
 
 
+def secure_filename(filename: str) -> str:
+    import unicodedata
+
+    if not filename:
+        return ""
+
+    filename = unicodedata.normalize("NFKD", filename)
+    filename = filename.encode("utf-8", "ignore").decode("utf-8")
+
+    allowed_chars = (
+        r"A-Za-z0-9"
+        r"\u4e00-\u9fff"
+        r"\u3000-\u303f"
+        r"\u2e80-\u2eff"
+        r"\u3000-\u303f"
+        r"\u31c0-\u31ef"
+        r"\u3200-\u32ff"
+        r"\u3300-\u33ff"
+        r"\u3400-\u4dbf"
+        r"_.-"
+    )
+
+    _filename_strip_re = re.compile(f"[^{allowed_chars}]")
+
+    for sep in os.sep, os.path.altsep:
+        if sep:
+            filename = filename.replace(sep, " ")
+
+    filename = str(_filename_strip_re.sub("", "_".join(filename.split()))).strip("._")
+
+    _windows_device_files = {
+        "CON",
+        "AUX",
+        "COM1",
+        "COM2",
+        "COM3",
+        "COM4",
+        "LPT1",
+        "LPT2",
+        "LPT3",
+        "PRN",
+        "NUL",
+        *(f"COM{i}" for i in range(10)),
+        *(f"LPT{i}" for i in range(10)),
+    }
+
+    if os.name == "nt" and filename and filename.split(".")[0].upper() in _windows_device_files:
+        filename = f"_{filename}"
+
+    return filename
+
+
+validated = False
+imported = False
+
+
+def get_status(validated, imported):
+    if not validated and not imported:
+        return "Not Validated Not Imported"
+
+    if not validated and imported:
+        return "Imported Not Validated"
+
+    if validated and not imported:
+        return "Validated Not Imported"
+
+    if validated and imported:
+        return "Validated And Imported"
+
+
 @frappe.whitelist()
 def upload_file(fullpath=None, parent=None, last_modified=None):
     """
@@ -179,17 +249,6 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
             os.rename(temp_path, save_path)
         mime_type, _ = mimetypes.guess_type(temp_path)
 
-        file_name, file_ext = os.path.splitext(title)
-        from rentals.gx_library.api import gx_valide
-        from rentals.util import get_original_doc_name
-
-        file_name = get_original_doc_name(file_name)
-        try:
-            data = pd.read_excel(file)
-            res = gx_valide(file_name, data)
-        except:
-            pass
-
         if mime_type is None:
             # Read the first 2KB of the binary stream to determine the file type if string checking failed
             # Do a rejection workflow to reject undesired mime types
@@ -200,8 +259,9 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
         path = save_path.parent / f"{name}{save_path.suffix}"
         save_path.rename(path)
 
+        status = get_status(validated, imported)
         drive_entity = create_drive_entity(
-            name, title, parent, path, file_size, file_ext, mime_type, last_modified
+            name, status, title, parent, path, file_size, file_ext, mime_type, last_modified
         )
 
         if mime_type.startswith(("image", "video")):
@@ -219,11 +279,463 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
         return drive_entity
 
 
-def create_drive_entity(name, title, parent, path, file_size, file_ext, mime_type, last_modified):
+@frappe.whitelist()
+def upload_file_and_validate_file(fullpath=None, parent=None, last_modified=None):
+    """
+    Accept chunked file contents via a multipart upload, store the file on
+    disk, and insert a corresponding DriveEntity doc.
+
+    :param fullpath: Full path of the uploaded file
+    :param parent: Document-name of the parent folder. Defaults to the user directory
+    :raises PermissionError: If the user does not have write access to the specified parent folder
+    :raises FileExistsError: If a file with the same name already exists in the specified parent folder
+    :raises ValueError: If the size of the stored file does not match the specified filesize
+    :return: DriveEntity doc once the entire file has been uploaded
+    """
+    try:
+        user_directory = get_user_directory()
+    except FileNotFoundError:
+        user_directory = create_user_directory()
+
+    parent = frappe.form_dict.parent or user_directory.name
+
+    if fullpath:
+        dirname = os.path.dirname(fullpath).split("/")
+        for i in dirname:
+            parent = if_folder_exists(i, parent)
+
+    if not frappe.has_permission(
+        doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
+    ):
+        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+
+    file = frappe.request.files["file"]
+    upload_session = frappe.form_dict.uuid
+    title = get_new_title(file.filename, parent)
+
+    current_chunk = int(frappe.form_dict.chunk_index)
+    total_chunks = int(frappe.form_dict.total_chunk_count)
+
+    save_path = Path(user_directory.path) / f"{parent}_{secure_filename(title)}"
+    temp_path = (
+        Path(get_user_uploads_directory(user=frappe.session.user))
+        / f"{upload_session}_{secure_filename(title)}"
+    )
+
+    if get_storage_allowed() < int(frappe.form_dict.total_file_size):
+        frappe.throw("Out of allocated storage", ValueError)
+
+    with temp_path.open("ab") as f:
+        f.seek(int(frappe.form_dict.chunk_byte_offset))
+        f.write(file.stream.read())
+        if not f.tell() >= int(frappe.form_dict.total_file_size):
+            return
+        else:
+            pass
+
+    if current_chunk + 1 == total_chunks:
+        file_size = temp_path.stat().st_size
+        if file_size != int(frappe.form_dict.total_file_size):
+            temp_path.unlink()
+            frappe.throw("Size on disk does not match specified filesize", ValueError)
+        else:
+            os.rename(temp_path, save_path)
+        mime_type, _ = mimetypes.guess_type(temp_path)
+
+        if mime_type is None:
+            # Read the first 2KB of the binary stream to determine the file type if string checking failed
+            # Do a rejection workflow to reject undesired mime types
+            mime_type = magic.from_buffer(open(save_path, "rb").read(2048), mime=True)
+
+        file_name, file_ext = os.path.splitext(title)
+        name = uuid.uuid4().hex
+        path = save_path.parent / f"{name}{save_path.suffix}"
+        save_path.rename(path)
+
+        # valide start
+        if file_ext in (".csv", ".xlsx", ".xls"):
+            from rentals.util import get_original_doc_name
+            from .importer import get_importer
+
+            doctype = get_original_doc_name(file_name)
+            relative_path = str(path)
+            (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
+            payloads = importer.import_file.get_payloads_for_import()
+            valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
+            from rentals.gx_library.api import gx_valide
+
+            validation_results, df = gx_valide(doctype, valide_data, True)
+            validated = True
+            imported = False
+        # valide end
+        status = get_status(validated, imported)
+        drive_entity = create_drive_entity(
+            name, status, title, parent, path, file_size, file_ext, mime_type, last_modified
+        )
+
+        if mime_type.startswith(("image", "video")):
+            frappe.enqueue(
+                create_thumbnail,
+                queue="default",
+                timeout=None,
+                now=True,
+                at_front=True,
+                # will set to false once reactivity in new UI is solved
+                entity_name=name,
+                path=path,
+                mime_type=mime_type,
+            )
+        return drive_entity
+
+
+@frappe.whitelist()
+def upload_file_and_insert_doctype(fullpath=None, parent=None, last_modified=None):
+    """
+        Accept chunked file contents via a multipart upload, store the file on
+        disk, and insert a corresponding DriveEntity doc, then it generates doctype records based on the data in the file by appending.
+    .
+
+        :param fullpath: Full path of the uploaded file
+        :param parent: Document-name of the parent folder. Defaults to the user directory
+        :raises PermissionError: If the user does not have write access to the specified parent folder
+        :raises FileExistsError: If a file with the same name already exists in the specified parent folder
+        :raises ValueError: If the size of the stored file does not match the specified filesize
+        :return: DriveEntity doc once the entire file has been uploaded
+    """
+    try:
+        user_directory = get_user_directory()
+    except FileNotFoundError:
+        user_directory = create_user_directory()
+
+    parent = frappe.form_dict.parent or user_directory.name
+
+    if fullpath:
+        dirname = os.path.dirname(fullpath).split("/")
+        for i in dirname:
+            parent = if_folder_exists(i, parent)
+
+    if not frappe.has_permission(
+        doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
+    ):
+        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+
+    file = frappe.request.files["file"]
+    upload_session = frappe.form_dict.uuid
+    title = get_new_title(file.filename, parent)
+
+    current_chunk = int(frappe.form_dict.chunk_index)
+    total_chunks = int(frappe.form_dict.total_chunk_count)
+
+    save_path = Path(user_directory.path) / f"{parent}_{secure_filename(title)}"
+    temp_path = (
+        Path(get_user_uploads_directory(user=frappe.session.user))
+        / f"{upload_session}_{secure_filename(title)}"
+    )
+
+    if get_storage_allowed() < int(frappe.form_dict.total_file_size):
+        frappe.throw("Out of allocated storage", ValueError)
+
+    with temp_path.open("ab") as f:
+        f.seek(int(frappe.form_dict.chunk_byte_offset))
+        f.write(file.stream.read())
+        if not f.tell() >= int(frappe.form_dict.total_file_size):
+            return
+        else:
+            pass
+
+    if current_chunk + 1 == total_chunks:
+        file_size = temp_path.stat().st_size
+        if file_size != int(frappe.form_dict.total_file_size):
+            temp_path.unlink()
+            frappe.throw("Size on disk does not match specified filesize", ValueError)
+        else:
+            os.rename(temp_path, save_path)
+        mime_type, _ = mimetypes.guess_type(temp_path)
+
+        if mime_type is None:
+            # Read the first 2KB of the binary stream to determine the file type if string checking failed
+            # Do a rejection workflow to reject undesired mime types
+            mime_type = magic.from_buffer(open(save_path, "rb").read(2048), mime=True)
+
+        file_name, file_ext = os.path.splitext(title)
+        name = uuid.uuid4().hex
+        path = save_path.parent / f"{name}{save_path.suffix}"
+        save_path.rename(path)
+
+        # valide with insert start
+        if file_ext in (".csv", ".xlsx", ".xls"):
+            from rentals.util import get_original_doc_name
+            from .importer import get_importer
+
+            doctype = get_original_doc_name(file_name)
+            relative_path = str(path)
+
+            (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
+            payloads = importer.import_file.get_payloads_for_import()
+            valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
+            from rentals.gx_library.api import gx_valide
+
+            validation_results, df = gx_valide(doctype, valide_data, True)
+            if validation_results:
+                validated = True
+                importer.import_data()
+                imported = True
+
+        # valide with insert end
+        status = get_status(validated, imported)
+        drive_entity = create_drive_entity(
+            name, status, title, parent, path, file_size, file_ext, mime_type, last_modified
+        )
+
+        if mime_type.startswith(("image", "video")):
+            frappe.enqueue(
+                create_thumbnail,
+                queue="default",
+                timeout=None,
+                now=True,
+                at_front=True,
+                # will set to false once reactivity in new UI is solved
+                entity_name=name,
+                path=path,
+                mime_type=mime_type,
+            )
+        return drive_entity
+
+
+@frappe.whitelist()
+def upload_file_and_update_doctype(fullpath=None, parent=None, last_modified=None):
+    """
+    Accept chunked file contents via a multipart upload, store the file on
+    disk, and insert a corresponding DriveEntity doc, , then it generates doctype records based on the data in the file by updating.
+
+    :param fullpath: Full path of the uploaded file
+    :param parent: Document-name of the parent folder. Defaults to the user directory
+    :raises PermissionError: If the user does not have write access to the specified parent folder
+    :raises FileExistsError: If a file with the same name already exists in the specified parent folder
+    :raises ValueError: If the size of the stored file does not match the specified filesize
+    :return: DriveEntity doc once the entire file has been uploaded
+    """
+    try:
+        user_directory = get_user_directory()
+    except FileNotFoundError:
+        user_directory = create_user_directory()
+
+    parent = frappe.form_dict.parent or user_directory.name
+
+    if fullpath:
+        dirname = os.path.dirname(fullpath).split("/")
+        for i in dirname:
+            parent = if_folder_exists(i, parent)
+
+    if not frappe.has_permission(
+        doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
+    ):
+        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+
+    file = frappe.request.files["file"]
+    upload_session = frappe.form_dict.uuid
+    title = get_new_title(file.filename, parent)
+
+    current_chunk = int(frappe.form_dict.chunk_index)
+    total_chunks = int(frappe.form_dict.total_chunk_count)
+
+    save_path = Path(user_directory.path) / f"{parent}_{secure_filename(title)}"
+    temp_path = (
+        Path(get_user_uploads_directory(user=frappe.session.user))
+        / f"{upload_session}_{secure_filename(title)}"
+    )
+
+    if get_storage_allowed() < int(frappe.form_dict.total_file_size):
+        frappe.throw("Out of allocated storage", ValueError)
+
+    with temp_path.open("ab") as f:
+        f.seek(int(frappe.form_dict.chunk_byte_offset))
+        f.write(file.stream.read())
+        if not f.tell() >= int(frappe.form_dict.total_file_size):
+            return
+        else:
+            pass
+
+    if current_chunk + 1 == total_chunks:
+        file_size = temp_path.stat().st_size
+        if file_size != int(frappe.form_dict.total_file_size):
+            temp_path.unlink()
+            frappe.throw("Size on disk does not match specified filesize", ValueError)
+        else:
+            os.rename(temp_path, save_path)
+        mime_type, _ = mimetypes.guess_type(temp_path)
+
+        if mime_type is None:
+            # Read the first 2KB of the binary stream to determine the file type if string checking failed
+            # Do a rejection workflow to reject undesired mime types
+            mime_type = magic.from_buffer(open(save_path, "rb").read(2048), mime=True)
+
+        file_name, file_ext = os.path.splitext(title)
+        name = uuid.uuid4().hex
+        path = save_path.parent / f"{name}{save_path.suffix}"
+        save_path.rename(path)
+
+        # valide with insert start
+        if file_ext in (".csv", ".xlsx", ".xls"):
+            from rentals.util import get_original_doc_name
+            from .importer import get_importer
+
+            doctype = get_original_doc_name(file_name)
+            relative_path = str(path)
+            (importer, drive_data_import) = get_importer(doctype, relative_path, "Update")
+            payloads = importer.import_file.get_payloads_for_import()
+            valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
+            from rentals.gx_library.api import gx_valide
+
+            validation_results, df = gx_valide(doctype, valide_data, True)
+            if validation_results:
+                validated = True
+                importer.import_data()
+                imported = True
+        # valide with insert end
+        status = get_status(validated, imported)
+        drive_entity = create_drive_entity(
+            name, status, title, parent, path, file_size, file_ext, mime_type, last_modified
+        )
+
+        if mime_type.startswith(("image", "video")):
+            frappe.enqueue(
+                create_thumbnail,
+                queue="default",
+                timeout=None,
+                now=True,
+                at_front=True,
+                # will set to false once reactivity in new UI is solved
+                entity_name=name,
+                path=path,
+                mime_type=mime_type,
+            )
+        return drive_entity
+
+
+@frappe.whitelist()
+def upload_file_and_cover_doctype(fullpath=None, parent=None, last_modified=None):
+    """
+    Accept chunked file contents via a multipart upload, store the file on
+    disk, and insert a corresponding DriveEntity doc, , then it generates doctype records based on the data in the file by updating.
+
+    :param fullpath: Full path of the uploaded file
+    :param parent: Document-name of the parent folder. Defaults to the user directory
+    :raises PermissionError: If the user does not have write access to the specified parent folder
+    :raises FileExistsError: If a file with the same name already exists in the specified parent folder
+    :raises ValueError: If the size of the stored file does not match the specified filesize
+    :return: DriveEntity doc once the entire file has been uploaded
+    """
+    try:
+        user_directory = get_user_directory()
+    except FileNotFoundError:
+        user_directory = create_user_directory()
+
+    parent = frappe.form_dict.parent or user_directory.name
+
+    if fullpath:
+        dirname = os.path.dirname(fullpath).split("/")
+        for i in dirname:
+            parent = if_folder_exists(i, parent)
+
+    if not frappe.has_permission(
+        doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
+    ):
+        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+
+    file = frappe.request.files["file"]
+    upload_session = frappe.form_dict.uuid
+    title = get_new_title(file.filename, parent)
+
+    current_chunk = int(frappe.form_dict.chunk_index)
+    total_chunks = int(frappe.form_dict.total_chunk_count)
+
+    save_path = Path(user_directory.path) / f"{parent}_{secure_filename(title)}"
+    temp_path = (
+        Path(get_user_uploads_directory(user=frappe.session.user))
+        / f"{upload_session}_{secure_filename(title)}"
+    )
+
+    if get_storage_allowed() < int(frappe.form_dict.total_file_size):
+        frappe.throw("Out of allocated storage", ValueError)
+
+    with temp_path.open("ab") as f:
+        f.seek(int(frappe.form_dict.chunk_byte_offset))
+        f.write(file.stream.read())
+        if not f.tell() >= int(frappe.form_dict.total_file_size):
+            return
+        else:
+            pass
+
+    if current_chunk + 1 == total_chunks:
+        file_size = temp_path.stat().st_size
+        if file_size != int(frappe.form_dict.total_file_size):
+            temp_path.unlink()
+            frappe.throw("Size on disk does not match specified filesize", ValueError)
+        else:
+            os.rename(temp_path, save_path)
+        mime_type, _ = mimetypes.guess_type(temp_path)
+
+        if mime_type is None:
+            # Read the first 2KB of the binary stream to determine the file type if string checking failed
+            # Do a rejection workflow to reject undesired mime types
+            mime_type = magic.from_buffer(open(save_path, "rb").read(2048), mime=True)
+
+        file_name, file_ext = os.path.splitext(title)
+        name = uuid.uuid4().hex
+        path = save_path.parent / f"{name}{save_path.suffix}"
+        save_path.rename(path)
+
+        # valide with insert start
+        if file_ext in (".csv", ".xlsx", ".xls"):
+            from rentals.util import get_original_doc_name
+            from .importer import get_importer
+
+            doctype = get_original_doc_name(file_name)
+            relative_path = str(path)
+            (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
+            payloads = importer.import_file.get_payloads_for_import()
+            valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
+            from rentals.gx_library.api import gx_valide
+
+            validation_results, df = gx_valide(doctype, valide_data, True)
+            if validation_results:
+                validated = True
+                frappe.db.delete(doctype)
+                importer.import_data()
+                drive_data_import.db_set("import_type", "Cover All Records")
+                imported = True
+
+        # valide with insert end
+        status = get_status(validated, imported)
+        drive_entity = create_drive_entity(
+            name, status, title, parent, path, file_size, file_ext, mime_type, last_modified
+        )
+
+        if mime_type.startswith(("image", "video")):
+            frappe.enqueue(
+                create_thumbnail,
+                queue="default",
+                timeout=None,
+                now=True,
+                at_front=True,
+                # will set to false once reactivity in new UI is solved
+                entity_name=name,
+                path=path,
+                mime_type=mime_type,
+            )
+        return drive_entity
+
+
+# def create_drive_entity(name, title, parent, path, file_size, file_ext, mime_type, last_modified):
+def create_drive_entity(
+    name, status, title, parent, path, file_size, file_ext, mime_type, last_modified
+):
     drive_entity = frappe.get_doc(
         {
             "doctype": "Drive Entity",
             "name": name,
+            "status": status,
             "title": title,
             "parent_drive_entity": parent,
             "path": str(path),
