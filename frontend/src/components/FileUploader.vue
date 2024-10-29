@@ -11,7 +11,7 @@ import { capture } from "@/telemetry"
 const store = useStore()
 const route = useRoute()
 
-const stopCode = [417, 404] // Set to immediately stop retrying uploads if this error code is encountered
+const stopCode = [417, 404, 403] // Set to immediately stop retrying uploads if this error code is encountered
 
 const dropzone = ref()
 const computedFullPath = ref("")
@@ -298,7 +298,27 @@ onMounted(() => {
     dropzone.value.addFile(file)
     return directUplodEntityName.value
   }); */
-  emitter.on("uploadFile", () => {
+  emitter.on("uploadFile", (extraData) => {
+    if (typeof extraData !== "undefined" && extraData?.validate) {
+      // upload and validate file
+      dropzone.value.options.url =
+        "/api/method/drive.api.files.upload_file_and_validate_file"
+    }
+    if (typeof extraData !== "undefined" && extraData?.insert) {
+      // insert records to doctype
+      dropzone.value.options.url =
+        "/api/method/drive.api.files.upload_file_and_insert_doctype"
+    }
+    if (typeof extraData !== "undefined" && extraData?.update) {
+      // update records in doctype
+      dropzone.value.options.url =
+        "/api/method/drive.api.files.upload_file_and_update_doctype"
+    }
+    if (typeof extraData !== "undefined" && extraData?.cover) {
+      // cover records in doctype
+      dropzone.value.options.url =
+        "/api/method/drive.api.files.upload_file_and_cover_doctype"
+    }
     if (dropzone.value.hiddenFileInput) {
       dropzone.value.hiddenFileInput.removeAttribute("webkitdirectory") // By removing the webkitdirectory attribute, ensure that users can select only one file at a time
       dropzone.value.hiddenFileInput.click()

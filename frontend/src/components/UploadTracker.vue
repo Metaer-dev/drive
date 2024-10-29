@@ -236,7 +236,7 @@ export default {
       }
     },
     openFile(upload) {
-      this.selectedUpload = upload
+      this.selectedUpload = upload // upload is a computed property, set in computed{}
       if (upload.error) {
         console.log(upload.response)
         this.showErrorDialog = true
