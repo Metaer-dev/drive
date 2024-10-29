@@ -7,6 +7,7 @@
   "editable_grid": 1,
   "engine": "InnoDB",
   "field_order": [
+    "status",
     "title",
     "lft",
     "rgt",
@@ -28,6 +29,15 @@
     "document"
   ],
   "fields": [
+    {
+      "default": "Not Validated Not Imported",
+      "fieldname": "status",
+      "fieldtype": "Select",
+      "hidden": 1,
+      "in_list_view": 1,
+      "label": "Status",
+      "options": "Not Validated Not Imported\nImported Not Validated\nValidated Not Imported\nValidated And Imported"
+    },
     {
       "fieldname": "lft",
       "fieldtype": "Int",
