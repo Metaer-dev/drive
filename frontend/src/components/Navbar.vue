@@ -200,8 +200,35 @@ export default {
       showRenameDialog: false,
       newEntityOptions: [
         {
+          group: "New Doctype",
+          items: [
+            {
+              // label: this.$t('Upload And Insert'),
+              label: "Insert",
+              icon: FileUpload,
+              onClick: () => this.emitter.emit("uploadFile", { insert: true }),
+            },
+            {
+              label: "Update",
+              icon: FileUpload,
+              onClick: () => this.emitter.emit("uploadFile", { update: true }),
+            },
+            {
+              label: "Cover",
+              icon: FileUpload,
+              onClick: () => this.emitter.emit("uploadFile", { cover: true }),
+            },
+          ],
+        },
+        {
           group: "Upload",
           items: [
+            {
+              label: "Validate File",
+              icon: FileUpload,
+              onClick: () =>
+                this.emitter.emit("uploadFile", { validate: true }),
+            },
             {
               label: "Upload File",
               icon: FileUpload,
