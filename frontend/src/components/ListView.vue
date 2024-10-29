@@ -8,6 +8,7 @@
       <div class="flex w-full items-center justify-start text-sm text-gray-600">
         Owner
       </div>
+      <div class="flex w-full items-center text-sm text-gray-600">Status</div>
       <div
         v-if="$route.name === 'Recents'"
         class="flex w-full items-center justify-end text-sm text-gray-600"
@@ -108,6 +109,19 @@
               size="sm"
             />
             {{ entity.owner }}
+          </div>
+          <div
+            class="hidden sm:flex items-center justify-start text-gray-700 text-base truncate"
+          >
+            <FeatherIcon
+              class="h-4 text-gray-600"
+              v-if="entity.validated"
+              name="check-square"
+            /><FeatherIcon
+              class="h-4 text-gray-600 ml-1"
+              v-if="entity.imported"
+              name="database"
+            />
           </div>
           <div
             :title="entity.modified"
@@ -213,7 +227,8 @@ export default {
     tableColumnsGridWidth() {
       return window.innerWidth < 640
         ? "2fr 1fr 40px"
-        : "2fr 1fr 150px 150px 40px"
+        : // : "2fr 1fr 150px 150px 40px"
+          "2fr 1fr 150px 150px 150px 40px"
     },
     isEmpty() {
       return !this.$store.state.currentViewEntites?.length

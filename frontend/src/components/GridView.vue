@@ -30,6 +30,18 @@
             handleEntityContext(file, $event, displayOrderedEntities)
           "
         >
+          <div v-if="!file.is_group">
+            <FeatherIcon
+              class="h-4 absolute top-3 left-3 text-gray-600"
+              v-if="file.validated"
+              name="check-square"
+            /><FeatherIcon
+              class="h-4 absolute top-3 left-8 text-gray-600"
+              v-if="file.imported"
+              name="database"
+            />
+          </div>
+
           <Button
             :variant="'subtle'"
             :model-value="selectedEntities.includes(file)"

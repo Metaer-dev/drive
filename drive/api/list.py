@@ -56,6 +56,7 @@ def files(
 ):
     selectedFields = [
         DriveEntity.name,
+        DriveEntity.status,
         DriveEntity.title,
         DriveEntity.is_group,
         DriveEntity.owner,

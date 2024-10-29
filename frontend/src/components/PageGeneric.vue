@@ -1083,6 +1083,7 @@ export default {
       }
     },
     folderContents() {
+      // url: drive.api.list.files
       return {
         method: "GET",
         url: this.url,
@@ -1113,6 +1114,18 @@ export default {
                 entity.file_size = ""
               }
             } else {
+              entity.validated = [
+                "Validated Not Imported",
+                "Validated And Imported",
+              ].includes(entity.status)
+                ? true
+                : false
+              entity.imported = [
+                "Imported Not Validated",
+                "Validated And Imported",
+              ].includes(entity.status)
+                ? true
+                : false
               entity.file_size = formatSize(entity.file_size)
             }
             entity.relativeModified = useTimeAgo(entity.modified)
