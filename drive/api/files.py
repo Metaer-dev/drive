@@ -167,10 +167,6 @@ def secure_filename(filename: str) -> str:
     return filename
 
 
-validated = False
-imported = False
-
-
 def get_status(validated, imported):
     if not validated and not imported:
         return "Not Validated Not Imported"
@@ -198,6 +194,8 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
     :raises ValueError: If the size of the stored file does not match the specified filesize
     :return: DriveEntity doc once the entire file has been uploaded
     """
+    validated = False
+    imported = False
     try:
         user_directory = get_user_directory()
     except FileNotFoundError:
@@ -291,6 +289,8 @@ def upload_file_and_validate_file(fullpath=None, parent=None, last_modified=None
     :raises ValueError: If the size of the stored file does not match the specified filesize
     :return: DriveEntity doc once the entire file has been uploaded
     """
+    validated = False
+    imported = False
     try:
         user_directory = get_user_directory()
     except FileNotFoundError:
@@ -401,6 +401,8 @@ def upload_file_and_insert_doctype(fullpath=None, parent=None, last_modified=Non
         :raises ValueError: If the size of the stored file does not match the specified filesize
         :return: DriveEntity doc once the entire file has been uploaded
     """
+    validated = False
+    imported = False
     try:
         user_directory = get_user_directory()
     except FileNotFoundError:
@@ -514,6 +516,8 @@ def upload_file_and_update_doctype(fullpath=None, parent=None, last_modified=Non
     :raises ValueError: If the size of the stored file does not match the specified filesize
     :return: DriveEntity doc once the entire file has been uploaded
     """
+    validated = False
+    imported = False
     try:
         user_directory = get_user_directory()
     except FileNotFoundError:
@@ -625,6 +629,8 @@ def upload_file_and_cover_doctype(fullpath=None, parent=None, last_modified=None
     :raises ValueError: If the size of the stored file does not match the specified filesize
     :return: DriveEntity doc once the entire file has been uploaded
     """
+    validated = False
+    imported = False
     try:
         user_directory = get_user_directory()
     except FileNotFoundError:
