@@ -112,7 +112,7 @@ export const ResizableMedia = Node.create<MediaOptions>({
     } else if (mediaType === "video") {
       return [
         "video",
-        { controls: "true", style: "width: 100%", ...HTMLAttributes },
+        { controls: "true", ...HTMLAttributes },
         ["source", HTMLAttributes],
       ]
     }
