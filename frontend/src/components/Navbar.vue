@@ -19,7 +19,7 @@
           v-if="$store.state.entityInfo"
           :options="actionItems"
           placement="right"
-          class="basis-5/12 lg:basis-auto"
+          class="lg:basis-auto"
         >
           <Button
             v-if="
@@ -47,7 +47,7 @@
             <template #prefix>
               <Share class="w-4" />
             </template>
-            Share
+            {{ $t("share") }}
           </Button>
           <Button
             v-else-if="$route.name === 'Recents'"
@@ -62,7 +62,7 @@
             <template #prefix>
               <FeatherIcon name="trash-2" class="w-4" />
             </template>
-            Clear Recents
+            {{ $t("clear-recents") }}
           </Button>
           <Button
             v-else-if="$route.name === 'Favourites'"
@@ -77,7 +77,7 @@
             <template #prefix>
               <FeatherIcon name="trash-2" class="w-4" />
             </template>
-            Clear Favourites
+            {{ $t("clear-favourites") }}
           </Button>
           <Button
             v-else-if="$route.name === 'Trash'"
@@ -92,14 +92,14 @@
             <template #prefix>
               <FeatherIcon name="trash-2" class="w-4" />
             </template>
-            Empty Trash
+            {{ $t("empty-trash") }}
           </Button>
 
           <Dropdown
             v-else
             :options="newEntityOptions"
             placement="left"
-            class="basis-5/12 lg:basis-auto"
+            class="lg:basis-auto"
           >
             <Button
               variant="solid"
@@ -108,7 +108,7 @@
               <template #prefix>
                 <FeatherIcon name="upload" class="w-4" />
               </template>
-              New
+              {{ $t("new") }}
               <template #suffix>
                 <FeatherIcon name="chevron-down" class="w-4" />
               </template>
@@ -120,7 +120,7 @@
           class="ml-auto"
         >
           <Button variant="solid" @click="$router.push({ name: 'Login' })">
-            Sign In
+            {{ $t("sign-in") }}
           </Button>
         </div>
       </div>
@@ -203,42 +203,41 @@ export default {
       showRenameDialog: false,
       newEntityOptions: [
         {
-          group: "New Doctype",
+          group: this.$t("new-doctype"),
           items: [
             {
-              // label: this.$t('Upload And Insert'),
-              label: "Insert",
+              label: this.$t("insert"),
               icon: FileUpload,
               onClick: () => this.emitter.emit("uploadFile", { insert: true }),
             },
             {
-              label: "Update",
+              label: this.$t("update"),
               icon: FileUpload,
               onClick: () => this.emitter.emit("uploadFile", { update: true }),
             },
             {
-              label: "Cover",
+              label: this.$t("cover"),
               icon: FileUpload,
               onClick: () => this.emitter.emit("uploadFile", { cover: true }),
             },
           ],
         },
         {
-          group: "Upload",
+          group: this.$t("upload"),
           items: [
             {
-              label: "Validate File",
+              label: this.$t("validate-file"),
               icon: FileUpload,
               onClick: () =>
                 this.emitter.emit("uploadFile", { validate: true }),
             },
             {
-              label: "Upload File",
+              label: this.$t("upload-file"),
               icon: FileUpload,
               onClick: () => this.emitter.emit("uploadFile"),
             },
             {
-              label: "Upload Folder",
+              label: this.$t("upload-folder"),
               icon: FolderUpload,
               onClick: () => this.emitter.emit("uploadFolder"),
               isEnabled: () => this.selectedEntities.length === 0,
@@ -246,19 +245,19 @@ export default {
           ],
         },
         {
-          group: "New",
+          group: this.$t("new-file"),
           items: [
             {
-              label: "New Folder",
+              label: this.$t("new-folder"),
               icon: NewFolder,
               onClick: () => (this.showNewFolderDialog = true),
             },
             {
-              label: "New Document",
+              label: this.$t("new-document"),
               icon: NewFile,
               onClick: async () => {
                 await this.$resources.createDocument.submit({
-                  title: "Untitled Document",
+                  title: this.$t("untitled-document"),
                   content: null,
                   parent: this.$store.state.currentFolderID,
                 })
@@ -304,7 +303,7 @@ export default {
     actionItems() {
       return [
         {
-          label: "Download",
+          label: this.$t("download"),
           icon: Download,
           onClick: () => {
             window.location.href = `/api/method/drive.api.files.get_file_content?entity_name=${this.selectedEntities[0].name}&trigger_download=1`
@@ -325,7 +324,7 @@ export default {
           },
         },
         {
-          label: "Print",
+          label: this.$t("print"),
           icon: Printer,
           onClick: () => {
             this.emitter.emit("printFile")
@@ -343,7 +342,7 @@ export default {
           },
         },
         {
-          label: "Download",
+          label: this.$t("download"),
           icon: Download,
           onClick: () => {
             if (this.selectedEntities.length > 1) {
@@ -371,7 +370,7 @@ export default {
           },
         },
         {
-          label: "Share",
+          label: this.$t("share"),
           icon: Share,
           onClick: () => {
             this.emitter.emit("showShareDialog")
@@ -384,7 +383,7 @@ export default {
           },
         },
         {
-          label: "Get Link",
+          label: this.$t("get-link"),
           icon: Link,
           onClick: () => {
             getLink(this.selectedEntities[0])
@@ -394,7 +393,7 @@ export default {
           },
         },
         {
-          label: "Rename",
+          label: this.$t("rename"),
           icon: Rename,
           onClick: () => {
             this.showRenameDialog = true
@@ -408,7 +407,7 @@ export default {
           },
         },
         {
-          label: "Favourite",
+          label: this.$t("favourite"),
           icon: Star,
           onClick: () => {
             this.$resources.toggleFavourite.submit()
@@ -422,7 +421,7 @@ export default {
           },
         },
         {
-          label: "Unfavourite",
+          label: this.$t("unfavourite"),
           icon: Star,
           onClick: () => {
             this.$resources.toggleFavourite.submit()
