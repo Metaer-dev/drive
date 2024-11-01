@@ -19,7 +19,7 @@
           v-if="$store.state.entityInfo"
           :options="actionItems"
           placement="right"
-          class="basis-5/12 lg:basis-auto"
+          class="lg:basis-auto"
         >
           <Button
             v-if="
@@ -99,7 +99,7 @@
             v-else
             :options="newEntityOptions"
             placement="left"
-            class="basis-5/12 lg:basis-auto"
+            class="lg:basis-auto"
           >
             <Button
               variant="solid"

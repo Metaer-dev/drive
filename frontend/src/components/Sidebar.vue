@@ -25,7 +25,7 @@
         </template>
         <template #right>
           <div
-            class="flex items-center justify-start w-full duration-300 ease-in-out"
+            class="flex items-center justify-start duration-300 ease-in-out"
             :class="
               isExpanded ? 'ml-2 opacity-100' : 'ml-0 overflow-hidden opacity-0'
             "
@@ -53,7 +53,7 @@
       >
         <template #right>
           <div
-            class="flex items-center justify-start w-full duration-300 ease-in-out"
+            class="flex items-center justify-start duration-300 ease-in-out"
             :class="
               isExpanded
                 ? 'ml-2 opacity-100'
