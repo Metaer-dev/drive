@@ -213,6 +213,7 @@ import Rename from "./EspressoIcons/Rename.vue"
 import Move from "./EspressoIcons/Move.vue"
 import Info from "./EspressoIcons/Info.vue"
 import Star from "./EspressoIcons/Star.vue"
+import Unstar from "./EspressoIcons/Unstar.vue"
 import Preview from "./EspressoIcons/Preview.vue"
 import Trash from "./EspressoIcons/Trash.vue"
 import NewFile from "./EspressoIcons/NewFile.vue"
@@ -649,7 +650,7 @@ export default {
           },
           {
             label: "Unfavourite",
-            icon: Star,
+            icon: Unstar,
             onClick: () => {
               this.$resources.toggleFavourite.submit()
             },
