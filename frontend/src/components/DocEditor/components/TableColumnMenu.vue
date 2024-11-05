@@ -117,7 +117,10 @@ function onDeleteColumn() {
         <template #icon> <TableCellsSplit class="w-4 stroke-[1.5]" /> </template
         >Split Cells
       </Button>
-      <Button variant="ghost" @click="() => emits('onHeaderCell')"
+      <Button
+        variant="ghost"
+        title="Toggle Header"
+        @click="() => emits('onHeaderCell')"
         ><template #icon>
           <ToggleHeaderCell class="w-4 stroke-[1.5]" /> </template
       ></Button>
