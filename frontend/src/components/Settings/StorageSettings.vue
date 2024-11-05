@@ -9,7 +9,7 @@
     <template #control>
       <div
         v-if="storageQuotaEnabled"
-        class="bg-gray-100 rounded-[10px] space-x-0.5 h-7 w-28 flex items-center px-0.5 py-1"
+        class="bg-gray-100 rounded-[10px] space-x-0.5 h-7 flex items-center px-0.5 py-1"
       >
         <Button
           variant="ghost"
@@ -47,7 +47,7 @@
     <template #control>
       <div
         v-if="storageQuotaEnabled"
-        class="bg-gray-100 rounded-[10px] space-x-0.5 h-7 w-28 flex items-center px-0.5 py-1"
+        class="bg-gray-100 rounded-[10px] space-x-0.5 h-7 flex items-center px-0.5 py-1"
       >
         <Button
           variant="ghost"

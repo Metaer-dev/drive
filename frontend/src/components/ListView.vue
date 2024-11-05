@@ -108,7 +108,7 @@
               class="-relative mr-2"
               size="sm"
             />
-            {{ entity.owner }}
+            {{ entity.owner ? entity.owner : "Admin" }}
           </div>
           <div
             class="hidden sm:flex items-center justify-start text-gray-700 text-base truncate"
