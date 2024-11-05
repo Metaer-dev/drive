@@ -276,6 +276,7 @@
           class="flex flex-row w-full bg-gray-100 justify-stretch items-stretch rounded p-0.5 space-x-0.5 h-8 mb-2"
         >
           <Button
+            title="Bold"
             class="w-full"
             :class="
               editor.isActive('bold') ? 'bg-white border' : 'bg-transparent'
@@ -285,6 +286,7 @@
             <Bold class="w-4 stroke-2" />
           </Button>
           <Button
+            title="Italic"
             class="w-full"
             :class="
               editor.isActive('italic')
@@ -296,6 +298,7 @@
             <FeatherIcon name="italic" class="w-4 stroke-2" />
           </Button>
           <Button
+            title="Underline"
             class="w-full"
             :class="
               editor.isActive('underline')
@@ -307,6 +310,7 @@
             <Underline class="w-4 stroke-2" />
           </Button>
           <Button
+            title="Strikethrough"
             class="w-full"
             :class="
               editor.isActive('strike')
@@ -318,6 +322,7 @@
             <Strikethrough class="w-4 stroke-2" />
           </Button>
           <Button
+            title="Code"
             class="w-full"
             :class="
               editor.isActive('code') ? 'bg-white shadow-sm' : 'bg-transparent'
@@ -331,6 +336,7 @@
           class="flex flex-row w-full bg-gray-100 justify-stretch items-stretch rounded p-0.5 space-x-0.5 h-8 mb-2"
         >
           <Button
+            title="BulletList"
             class="w-full"
             :class="
               editor.isActive('bulletList')
@@ -361,6 +367,7 @@
               </template>
             </Button> -->
           <Button
+            title="OrderedList"
             class="w-full"
             :class="
               editor.isActive('orderedList')
@@ -374,6 +381,7 @@
             </template>
           </Button>
           <Button
+            title="TaskList"
             class="w-full"
             :class="
               editor.isActive('taskList')
@@ -392,12 +400,14 @@
             class="flex flex-row bg-gray-100 justify-stretch items-stretch rounded p-0.5 space-x-0.5 h-8"
           >
             <Button
+              title="Indent"
               :variant="'subtle'"
               @click="editor.chain().focus().indent().run()"
             >
               <Indent class="h-4" />
             </Button>
             <Button
+              title="Outdent"
               :variant="'subtle'"
               @click="editor.chain().focus().outdent().run()"
             >
@@ -408,6 +418,7 @@
             class="flex flex-row w-full bg-gray-100 justify-stretch items-stretch rounded p-0.5 space-x-0.5 h-8"
           >
             <Button
+              title="LeftAlign"
               class="w-full"
               :class="
                 editor.isActive({ textAlign: 'left' })
@@ -419,6 +430,7 @@
               <alignLeft class="w-4" />
             </Button>
             <Button
+              title="CenterAlign"
               class="w-full"
               :class="
                 editor.isActive({ textAlign: 'center' })
@@ -430,6 +442,7 @@
               <alignCenter class="w-4" />
             </Button>
             <Button
+              title="RightAlign"
               class="w-full"
               :class="
                 editor.isActive({ textAlign: 'right' })
@@ -441,6 +454,7 @@
               <alignRight class="w-4" />
             </Button>
             <Button
+              title="JustifyAlign"
               class="w-full"
               :class="
                 editor.isActive({ textAlign: 'justify' })
