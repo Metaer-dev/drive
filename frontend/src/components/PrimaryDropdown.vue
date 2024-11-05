@@ -101,7 +101,7 @@ export default {
             },
             {
               icon: Docs,
-              label: "Documentation",
+              label: this.$t("documentation"),
               onClick: () =>
                 window.open("https://docs.frappe.io/drive", "_blank"),
             },
@@ -118,12 +118,12 @@ export default {
           items: [
             {
               icon: "settings",
-              label: "Settings",
+              label: this.$t("settings"),
               onClick: () => (this.showSettings = true),
             },
             {
               icon: "log-out",
-              label: "Log out",
+              label: this.$t("log-out"),
               onClick: () => this.logout(),
             },
           ],

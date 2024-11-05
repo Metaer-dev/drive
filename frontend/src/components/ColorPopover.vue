@@ -13,7 +13,7 @@
         @click="togglePopover()"
       >
         <Palette class="h-4 w-auto mr-2 text-gray-800" />
-        <div class="text-gray-800">Color</div>
+        <div class="text-gray-800">{{ $t("color") }}</div>
         <FeatherIcon
           :name="'chevron-right'"
           class="h-3.5 text-gray-900 ml-auto"

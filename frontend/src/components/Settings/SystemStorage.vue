@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-center w-full mb-2 justify-between">
       <span class="text-base font-medium text-gray-900"
-        >Used {{ formatSize(usedSpace) }} out of
+        >{{ $t("used") }} {{ formatSize(usedSpace) }} {{ $t("out-of") }}
         {{ base2BlockSize(planSizeLimit) }}</span
       >
       <slot name="control"></slot>
@@ -28,7 +28,7 @@
     class="h-full w-full flex flex-col items-center justify-center my-auto"
   >
     <Cloud class="h-7 stroke-1 text-gray-600" />
-    <span class="text-gray-800 text-sm mt-2">No Storage Used</span>
+    <span class="text-gray-800 text-sm mt-2">{{ $t("no-storage-used") }}</span>
   </div>
   <div
     class="flex flex-col items-start justify-start w-full rounded full px-1.5 overflow-y-auto"
@@ -45,7 +45,7 @@
           backgroundColor: i.color,
         }"
       ></div>
-      <span class="text-gray-800 text-sm">{{ i.file_kind }}</span>
+      <span class="text-gray-800 text-sm">{{ $t(i.file_kind) }}</span>
       <span class="text-gray-800 text-sm ml-auto">{{ i.h_size }}</span>
     </div>
   </div>

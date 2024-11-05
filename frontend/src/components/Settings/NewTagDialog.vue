@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model="open" :options="{ title: 'New Tag', size: 'sm' }">
+  <Dialog v-model="open" :options="{ title: $t('new-tag'), size: 'sm' }">
     <template #body-content>
       <div class="flex flex-col items-stretch justify- gap-y-4">
         <TagColorInput
@@ -12,15 +12,15 @@
           v-model="tagTitle"
           type="text"
           clas="w-full"
-          :placeholder="placeholder"
-          label="Title"
+          :placeholder="$t(placeholder)"
+          :label="$t('title')"
           @keyup.enter="submitTag"
         />
       </div>
     </template>
     <template #actions>
       <Button variant="solid" class="w-full" @click="submitTag">
-        Confirm
+        {{ $t("confirm") }}
       </Button>
     </template>
   </Dialog>

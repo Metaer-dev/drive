@@ -1,13 +1,13 @@
 <template>
   <div class="flex items-center mb-6">
-    <h1 class="font-semibold">Tags</h1>
+    <h1 class="font-semibold">{{ $t("Tags") }}</h1>
     <Button
       variant="solid"
       icon-left="plus"
       class="ml-auto"
       @click="showNewTagDialog = true"
     >
-      New
+      {{ $t("new") }}
     </Button>
   </div>
   <div class="flex flex-col items-stretch justify-start overflow-y-auto">
@@ -39,14 +39,14 @@
           placement="right"
           :options="[
             {
-              label: 'Edit',
+              label: $t('edit'),
               icon: 'edit-2',
               onClick: () => {
                 showEditDialog = true
               },
             },
             {
-              label: 'Delete',
+              label: $t('delete'),
               theme: 'red',
               icon: 'trash-2',
               onClick: () => {
@@ -70,7 +70,7 @@
       class="h-full w-full flex flex-col items-center justify-center my-auto"
     >
       <Tag class="h-7 stroke-1 text-gray-600" />
-      <span class="text-gray-800 text-sm mt-2">No Tags</span>
+      <span class="text-gray-800 text-sm mt-2">{{ $t("no-tags") }}</span>
     </div>
   </div>
   <NewTagDialog
@@ -88,12 +88,12 @@
     v-if="showDeleteDialog"
     v-model="showDeleteDialog"
     :options="{
-      title: 'Delete Tag',
-      message: `Are you sure you want to delete the tag ${selectedTag.title}? This action cannot be undone`,
+      title: $t('delete-tag'),
+      message: $t('sure-delete-the-tag', { title: selectedTag.title }),
       size: 'sm',
       actions: [
         {
-          label: 'Confirm',
+          label: $t('confirm'),
           variant: 'subtle',
           theme: 'red',
           onClick: () => {
@@ -131,7 +131,9 @@ export default {
   },
   computed: {
     deleteMessage() {
-      return `Are you sure you want to delete the tag "blog"? This action cannot be undone. All files with this tag will also lose it.`
+      return this.$t(
+        "are-you-sure-you-want-to-delete-the-tag-blog-this-action-cannot-be-undone-all-files-with-this-tag-will-also-lose-it"
+      )
     },
   },
   resources: {

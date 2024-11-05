@@ -1,12 +1,16 @@
 <template>
-  <Dialog v-model="open" :options="{ title: 'New Group', size: 'lg' }">
+  <Dialog v-model="open" :options="{ title: $t('new-group'), size: 'lg' }">
     <template #body-content>
-      <label class="block text-sm text-gray-600 mb-2">Group Name</label>
-      <Input v-model="roleName" placeholder="Group Name" type="text" />
+      <label class="block text-sm text-gray-600 mb-2">{{
+        $t("group-name")
+      }}</label>
+      <Input v-model="roleName" :placeholder="$t('group-name')" type="text" />
       <ErrorMessage class="text-sm mt-2" :message="groupNameError" />
-      <label class="block text-sm text-gray-600 mt-4 mb-1">Add User</label>
+      <label class="block text-sm text-gray-600 mt-4 mb-1">{{
+        $t("add-user")
+      }}</label>
       <UserSearch
-        button-text="Add"
+        :button-text="$t('add')"
         :search-groups="false"
         :active-users="uniqueUsers"
         :active-groups="[]"
@@ -14,7 +18,7 @@
       />
       <ErrorMessage class="text-sm mt-2" :message="memberError" />
       <label v-if="UsersInRole.length" class="block text-sm text-gray-600 mt-6">
-        Users in this Group
+        {{ $t("users-in-this-group") }}
       </label>
       <div
         v-for="(user, index) in uniqueUsers"
@@ -30,9 +34,9 @@
             {{ user.user_name }}
           </p>
         </div>
-        <Button class="ml-auto" @click="UsersInRole.splice(index, 1)"
-          >Remove</Button
-        >
+        <Button class="ml-auto" @click="UsersInRole.splice(index, 1)">{{
+          $t("remove-group")
+        }}</Button>
       </div>
       <div class="flex mt-6">
         <Button
@@ -40,7 +44,7 @@
           class="w-full"
           @click="$resources.createUserGroup.submit"
         >
-          Create
+          {{ $t("create") }}
         </Button>
       </div>
     </template>

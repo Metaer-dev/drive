@@ -5,7 +5,7 @@
       class="px-5 pb-2 gap-x-2"
     >
       <span class="text-base text-gray-600 font-medium leading-6">
-        {{ i }}
+        {{ $t(i) }}
       </span>
       <div
         v-for="activity in group"
@@ -70,9 +70,11 @@ import { ArrowRight } from "lucide-vue-next"
 import { formatDate } from "../utils/format"
 import ActivityTreeItem from "./ActivityTreeItem.vue"
 import ActivityTreeShare from "./ActivityTreeShare.vue"
+import { useI18n } from "vue-i18n"
 import GeneralAccess from "./GeneralAccess.vue"
 
 const store = useStore()
+const { t } = useI18n()
 
 const entity = computed(() => {
   if (store.state.entityInfo && store.state.entityInfo.length > 1) {
@@ -134,31 +136,36 @@ watch([entity, showInfoSidebar], ([newEntity, newShowInfoSidebar]) => {
 })
 
 function generateMessage(activity) {
-  const user = activity.full_name ? activity.full_name : activity.owner
+  const user = activity.full_name
+    ? activity.full_name === "You"
+      ? t("Me")
+      : activity.full_name
+    : t(activity.owner)
+  const fileType = t(entityText.value)
   const creationText =
     entity.value.is_group || entity.value.document
-      ? "created this"
-      : "uploaded this"
+      ? t("created-this")
+      : t("uploaded-this")
 
   switch (activity.action_type) {
     case "create":
-      return `${user} ${creationText} ${entityText.value}`
+      return t("activity-create", { user, creationText, entityText: fileType })
     case "rename":
-      return `${user} renamed this ${entityText.value}`
+      return t("activity-rename", { user, entityText: fileType })
     case "edit":
-      return `${user} edited this ${entityText.value}`
+      return t("activity-edit", { user, entityText: fileType })
     case "delete":
-      return `${user} deleted this ${entityText.value}`
+      return t("activity-delete", { user, entityText: fileType })
     case "share_add":
-      return `${user} shared this ${entityText.value}`
+      return t("activity-share-add", { user, entityText: fileType })
     case "share_edit":
-      return `${user} updated permissions on this ${entityText.value}`
+      return t("activity-share-edit", { user, entityText: fileType })
     case "share_remove":
-      return `${user} restricted this ${entityText.value}`
+      return t("activity-share-remove", { user, entityText: fileType })
     case "move":
-      return `${user} moved this ${entityText.value}`
+      return t("activity-move", { user, entityText: fileType })
     default:
-      return `Unknown action type: ${activity.action_type}`
+      return t("activity-unknown", { actionType: activity.action_type })
   }
 }
 

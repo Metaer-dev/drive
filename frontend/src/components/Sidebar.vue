@@ -13,7 +13,7 @@
     >
       <SidebarItem
         v-if="!isDriveGuest"
-        :label="'Search'"
+        :label="$t('Search')"
         class="mb-0.5"
         :is-collapsed="!isExpanded"
         @click="() => emitter.emit('showSearchPopup', true)"
@@ -25,7 +25,7 @@
         </template>
         <template #right>
           <div
-            class="flex items-center justify-start w-full duration-300 ease-in-out"
+            class="flex items-center justify-start duration-300 ease-in-out"
             :class="
               isExpanded ? 'ml-2 opacity-100' : 'ml-0 overflow-hidden opacity-0'
             "
@@ -45,7 +45,7 @@
       </SidebarItem>
       <SidebarItem
         v-if="!isDriveGuest"
-        :label="'Notifications'"
+        :label="$t('notifications')"
         icon="inbox"
         class="mb-0.5"
         :is-collapsed="!isExpanded"
@@ -53,7 +53,7 @@
       >
         <template #right>
           <div
-            class="flex items-center justify-start w-full duration-300 ease-in-out"
+            class="flex items-center justify-start duration-300 ease-in-out"
             :class="
               isExpanded
                 ? 'ml-2 opacity-100'
@@ -78,7 +78,7 @@
         v-for="item in sidebarItems"
         :key="item.label"
         :icon="item.icon"
-        :label="item.label"
+        :label="$t(item.label)"
         :to="item.route"
         :is-collapsed="!isExpanded"
         class="mb-0.5"

@@ -6,7 +6,7 @@
           class="flex items-start w-full justify-between gap-x-15 mb-8 px-4 sm:px-6"
         >
           <span class="font-semibold text-2xl truncate"
-            >Sharing "{{ entity?.title }}"</span
+            >{{ $t("sharing") }} "{{ entity?.title }}"</span
           >
           <Button
             class="ml-auto"
@@ -25,17 +25,20 @@
         >
           <div class="flex flex-col space-y-4">
             <div>
-              <span class="mb-0.5 block text-sm leading-4 text-gray-700"
-                >Preferences</span
-              >
-              <Switch v-model="allowComments" label="Allow Comments" />
-              <Switch v-model="allowDownload" label="Allow Downloading" />
+              <span class="mb-0.5 block text-sm leading-4 text-gray-700">{{
+                $t("preferences")
+              }}</span>
+              <Switch v-model="allowComments" :label="$t('allow-comments')" />
+              <Switch
+                v-model="allowDownload"
+                :label="$t('allow-downloading')"
+              />
             </div>
             <div>
               <DatePicker
                 v-model="invalidAfter"
                 variant="subtle"
-                label="Access Until"
+                :label="$t('access-until')"
               ></DatePicker>
               <span
                 v-if="invalidateAfterError"
@@ -47,14 +50,14 @@
                 v-else-if="invalidAfter"
                 class="block text-xs leading-4 text-gray-700 px-0.5 py-1.5"
               >
-                Selected documents will remain shared until
+                {{ $t("selected-documents-will-remain-shared-until") }}
                 {{ useDateFormat(invalidAfter, "YY-MM-DD") }}
               </span>
               <span
                 v-else
                 class="block text-xs leading-4 text-gray-700 px-0.5 py-1.5"
               >
-                Selected documents will remain shared indefinitely
+                {{ $t("selected-documents-will-remain-shared-indefinitely") }}
               </span>
             </div>
           </div>
@@ -83,10 +86,10 @@
               >
                 {{
                   generalAccess.public
-                    ? "Public"
+                    ? $t("public")
                     : generalAccess.everyone
-                    ? "Organization"
-                    : "Restricted"
+                    ? $t("organization")
+                    : $t("restricted")
                 }}
                 <FeatherIcon
                   :class="{ '[transform:rotateX(180deg)]': open }"
@@ -106,7 +109,7 @@
                         updateGeneralAccess()
                     "
                   >
-                    Organization
+                    {{ $t("organization") }}
                     <Check v-if="generalAccess.everyone" class="h-3" />
                   </li>
                   <li
@@ -118,7 +121,7 @@
                         updateGeneralAccess()
                     "
                   >
-                    Public
+                    {{ $t("public") }}
                     <Check v-if="generalAccess.public" class="h-3" />
                   </li>
                   <li
@@ -132,7 +135,7 @@
                         updateGeneralAccess()
                     "
                   >
-                    Restricted
+                    {{ $t("restricted") }}
                     <Check
                       v-if="!generalAccess.public && !generalAccess.everyone"
                       class="h-3"
@@ -148,7 +151,7 @@
               <PopoverButton
                 class="flex gap-1 px-2 focus:outline-none bg-gray-100 rounded h-7 items-center text-base justify-self-end"
               >
-                {{ generalAccess.write ? "Can Edit" : "Can View" }}
+                {{ generalAccess.write ? $t("can-edit") : $t("can-view") }}
                 <FeatherIcon
                   :class="{ '[transform:rotateX(180deg)]': open }"
                   name="chevron-down"
@@ -167,7 +170,7 @@
                         updateGeneralAccess()
                     "
                   >
-                    Can View
+                    {{ $t("can-view") }}
                     <Check
                       v-if="
                         generalAccess.read === 1 && generalAccess.write === 0
@@ -184,7 +187,7 @@
                         updateGeneralAccess()
                     "
                   >
-                    Can Edit
+                    {{ $t("can-edit") }}
                     <Check
                       v-if="
                         generalAccess.read === 1 && generalAccess.write === 1
@@ -214,7 +217,9 @@
               v-if="!$resources.sharedWith.loading"
               class="text-base space-y-4 mb-5"
             >
-              <span class="text-gray-600 font-medium text-base">Users</span>
+              <span class="text-gray-600 font-medium text-base">{{
+                $t("users")
+              }}</span>
               <!-- Owner -->
               <div class="flex items-center gap-x-3">
                 <Avatar
@@ -231,7 +236,7 @@
                   }}</span>
                 </div>
                 <span class="ml-auto flex items-center gap-1 text-gray-600">
-                  Owner
+                  {{ $t("owner") }}
                   <Diamond class="h-3.5" />
                 </span>
               </div>
@@ -288,7 +293,7 @@
               <span
                 v-if="$resources.sharedWithUserGroup.data?.length"
                 class="text-gray-600 font-medium text-base"
-                >Groups</span
+                >{{ $t("groups") }}</span
               >
               <div
                 v-for="(group, index) in $resources.sharedWithUserGroup.data"
@@ -338,7 +343,7 @@
             <template #prefix>
               <Link />
             </template>
-            Copy Link
+            {{ $t("copy-link") }}
           </Button>
           <Button
             class="ml-auto"
@@ -346,7 +351,7 @@
             :icon-left="showSettings ? 'arrow-left' : 'settings'"
             @click="showSettings = !showSettings"
           >
-            {{ showSettings ? "Back" : "Settings" }}
+            {{ showSettings ? $t("back") : $t("settings") }}
           </Button>
         </div>
       </div>
@@ -429,15 +434,16 @@ export default {
     accessMessage() {
       if (this.generalAccess.public) {
         return this.generalAccess.write
-          ? "Anyone with a link to this file can edit"
-          : "Anyone with a link to this file can view"
+          ? this.$t("anyone-with-a-link-to-this-file-can-edit")
+          : this.$t("anyone-with-a-link-to-this-file-can-view")
       }
       if (this.generalAccess.everyone) {
+        const orgName = this.$resources.getOrgName.data?.org_name
         return this.generalAccess.write
-          ? `Members of ${this.$resources.getOrgName.data?.org_name} can edit`
-          : `Members of ${this.$resources.getOrgName.data?.org_name} can view`
+          ? this.$t("members_of_org_can_edit", { org: orgName })
+          : this.$t("members_of_org_can_view", { org: orgName })
       } else {
-        return "Only users with access can view or edit"
+        return this.$t("only-users-with-access-can-view-or-edit")
       }
     },
     openDialog: {

@@ -1,7 +1,9 @@
 <template>
   <Dialog v-model="open" :options="{ title: roleName, size: 'lg' }">
     <template #body-content>
-      <label class="block text-base text-gray-600 my-2">Add User</label>
+      <label class="block text-base text-gray-600 my-2">{{
+        $t("add-user")
+      }}</label>
       <UserSearch
         :button-variant="'solid'"
         :search-groups="false"
@@ -13,7 +15,7 @@
         v-if="UsersInRole.length"
         class="block text-base text-gray-600 mt-6 mb-2"
       >
-        Users in this Group
+        {{ $t("users-in-this-group") }}
       </label>
       <div
         v-for="(user, index) in uniqueUsers"
@@ -29,7 +31,9 @@
             {{ user.user_name }}
           </p>
         </div>
-        <Button class="ml-auto" @click="removeUser(user)">Remove</Button>
+        <Button class="ml-auto" @click="removeUser(user)">{{
+          $t("remove-group")
+        }}</Button>
       </div>
       <ErrorMessage class="mt-2" :message="errorMessage" />
     </template>

@@ -213,6 +213,7 @@ import Rename from "./EspressoIcons/Rename.vue"
 import Move from "./EspressoIcons/Move.vue"
 import Info from "./EspressoIcons/Info.vue"
 import Star from "./EspressoIcons/Star.vue"
+import Unstar from "./EspressoIcons/Unstar.vue"
 import Preview from "./EspressoIcons/Preview.vue"
 import Trash from "./EspressoIcons/Trash.vue"
 import NewFile from "./EspressoIcons/NewFile.vue"
@@ -372,27 +373,27 @@ export default {
     columnHeaders() {
       return [
         {
-          label: "Name",
+          label: this.$t("name"),
           field: "title",
           sortable: true,
         },
         {
-          label: "Owner",
+          label: this.$t("owner"),
           field: "owner",
           sortable: true,
         },
         {
-          label: "Modified",
+          label: this.$t("modified"),
           field: "modified",
           sortable: true,
         },
         {
-          label: "Size",
+          label: this.$t("size"),
           field: "file_size",
           sortable: true,
         },
         {
-          label: "Type",
+          label: this.$t("type"),
           field: "mime_type",
           sortable: true,
         },
@@ -401,25 +402,25 @@ export default {
     emptyActionItems() {
       return [
         {
-          label: "Upload File",
+          label: this.$t("upload-file-in-search"),
           icon: FileUpload,
           handler: () => this.emitter.emit("uploadFile"),
           isEnabled: () => this.selectedEntities.length === 0,
         },
         {
-          label: "Upload Folder",
+          label: this.$t("upload-folder"),
           icon: FolderUpload,
           handler: () => this.emitter.emit("uploadFolder"),
           isEnabled: () => this.selectedEntities.length === 0,
         },
         {
-          label: "New Folder",
+          label: this.$t("new-folder"),
           icon: NewFolder,
           handler: () => (this.showNewFolderDialog = true),
           isEnabled: () => this.selectedEntities.length === 0,
         },
         {
-          label: "New Document",
+          label: this.$t("new-document"),
           icon: NewFile,
           handler: () => this.newDocument(),
           isEnabled: () => this.selectedEntities.length === 0,
@@ -438,7 +439,7 @@ export default {
       if (this.$route.name === "Trash") {
         return [
           {
-            label: "Restore",
+            label: this.$t("restore"),
             icon: RotateCcw,
             onClick: () => {
               this.showRestoreDialog = true
@@ -448,7 +449,7 @@ export default {
             },
           },
           {
-            label: "Delete forever",
+            label: this.$t("delete-forever"),
             icon: Trash,
             danger: true,
             onClick: () => {
@@ -464,7 +465,7 @@ export default {
       } else {
         return [
           {
-            label: "Preview",
+            label: this.$t("preview"),
             icon: Preview,
             onClick: () => {
               console.log(this.selectedEntities[0].is_group)
@@ -477,7 +478,7 @@ export default {
             },
           },
           {
-            label: "Download",
+            label: this.$t("download"),
             icon: Download,
             onClick: () => {
               window.location.href = `/api/method/drive.api.files.get_file_content?entity_name=${this.selectedEntities[0].name}&trigger_download=1`
@@ -499,7 +500,7 @@ export default {
           },
           /* Folder Download */
           {
-            label: "Download",
+            label: this.$t("download"),
             icon: Download,
             onClick: () => {
               if (this.selectedEntities.length > 1) {
@@ -528,7 +529,7 @@ export default {
           },
 
           {
-            label: "Share",
+            label: this.$t("share"),
             icon: Share,
             onClick: () => {
               this.showShareDialog = true
@@ -542,7 +543,7 @@ export default {
             },
           },
           {
-            label: "Get Link",
+            label: this.$t("get-link"),
             icon: Link,
             onClick: () => {
               getLink(this.selectedEntities[0])
@@ -552,7 +553,7 @@ export default {
             },
           },
           {
-            label: "Rename",
+            label: this.$t("rename"),
             icon: Rename,
             onClick: () => {
               this.showRenameDialog = true
@@ -566,7 +567,7 @@ export default {
             },
           },
           {
-            label: "Move",
+            label: this.$t("move"),
             icon: Move,
             onClick: () => {
               this.showMoveDialog = true
@@ -596,7 +597,7 @@ export default {
             },
           }, */
           {
-            label: "Show Info",
+            label: this.$t("show-info"),
             icon: Info,
             onClick: () => {
               this.$store.commit("setShowInfo", true)
@@ -609,7 +610,7 @@ export default {
             },
           },
           {
-            label: "Hide Info",
+            label: this.$t("hide-info"),
             icon: Info,
             onClick: () => {
               this.$store.commit("setShowInfo", false)
@@ -635,7 +636,7 @@ export default {
             },
           },*/
           {
-            label: "Favourite",
+            label: this.$t("favourite"),
             icon: Star,
             onClick: () => {
               this.$resources.toggleFavourite.submit()
@@ -648,8 +649,8 @@ export default {
             },
           },
           {
-            label: "Unfavourite",
-            icon: Star,
+            label: this.$t("unfavourite"),
+            icon: Unstar,
             onClick: () => {
               this.$resources.toggleFavourite.submit()
             },
@@ -672,7 +673,7 @@ export default {
             },
           },
           {
-            label: "Remove from Recents",
+            label: this.$t("remove-from-recents"),
             icon: Trash,
             danger: true,
             onClick: () => {
@@ -685,7 +686,7 @@ export default {
             },
           },
           {
-            label: "Unshare",
+            label: this.$t("unshare"),
             danger: true,
             icon: "trash-2",
             onClick: () => {
@@ -705,7 +706,7 @@ export default {
             },
           },
           {
-            label: "Move to Trash",
+            label: this.$t("move-to-trash-context"),
             icon: Trash,
             danger: true,
             onClick: () => {
@@ -1158,19 +1159,21 @@ export default {
         },
         onSuccess() {
           // Toggled OFF
+          const items =
+            this.selectedEntities.length === 1
+              ? this.$t("singleItem", { count: this.selectedEntities.length })
+              : this.$t("multipleItems", {
+                  count: this.selectedEntities.length,
+                })
           if (this.selectedEntities[0].is_favourite) {
             toast({
-              title: `${this.selectedEntities.length} ${
-                this.selectedEntities.length > 1 ? " items" : " item"
-              } removed from Favourites`,
+              title: this.$t("removed-items-from-Favourites", { items }),
               position: "bottom-right",
               timeout: 2,
             })
           } else {
             toast({
-              title: `${this.selectedEntities.length} ${
-                this.selectedEntities.length > 1 ? " items" : " item"
-              } added to Favourites`,
+              title: this.$t("add-items-from-favourites", { items }),
               position: "bottom-right",
               timeout: 2,
             })
@@ -1191,10 +1194,14 @@ export default {
           ),
         },
         onSuccess() {
+          const items =
+            this.selectedEntities.length === 1
+              ? this.$t("singleItem", { count: this.selectedEntities.length })
+              : this.$t("multipleItems", {
+                  count: this.selectedEntities.length,
+                })
           toast({
-            title: `Cleared  ${this.selectedEntities.length} ${
-              this.selectedEntities.length > 1 ? " items" : " item"
-            } from Recents`,
+            title: this.$t("cleared-items-from-recents", { items }),
             position: "bottom-right",
             timeout: 2,
           })

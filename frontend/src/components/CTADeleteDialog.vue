@@ -67,24 +67,26 @@ export default {
   methods: {
     evalDialog() {
       if (this.$route.name === "Recents") {
-        this.title = "Clear Recents?"
-        this.message = "All your recently viewed files will be cleared"
-        this.buttonText = "Clear"
+        this.title = this.$t("clear-recents-cta")
+        this.message = this.$t("all-your-recently-viewed-files-will-be-cleared")
+        this.buttonText = this.$t("clear")
         this.url = "drive.api.files.remove_recents"
       }
       if (this.$route.name === "Favourites") {
-        this.title = "Clear Favourites?"
-        this.message =
-          "All your favourited items will be marked as unfavourite."
-        this.buttonText = "Unfavourite"
+        this.title = this.$t("clear-favourites-cta")
+        this.message = this.$t(
+          "all-your-favourited-items-will-be-marked-as-unfavourite"
+        )
+        this.buttonText = this.$t("unfavourite")
         this.url = "drive.api.files.add_or_remove_favourites"
       }
       if (this.$route.name === "Trash") {
-        this.title = "Delete Forever?"
-        this.message =
-          "All items in your Trash will be deleted forever. This is an irreversible process."
+        this.title = this.$t("delete-forever-cta")
+        this.message = this.$t(
+          "all-items-in-your-trash-will-be-deleted-forever-this-is-an-irreversible-process"
+        )
         this.buttonVariant = "solid"
-        this.buttonText = "Delete"
+        this.buttonText = this.$t("delete")
         this.url = "drive.api.files.delete_entities"
       }
     },

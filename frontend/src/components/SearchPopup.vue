@@ -8,7 +8,7 @@
           icon-left="search"
           type="text"
           class="appearance-none forced-colors:hidden w-full border-none bg-transparent py-3 pl-11.5 pr-4.5 text-base text-gray-800 placeholder-gray-500 focus:ring-0"
-          placeholder="Search"
+          :placeholder="$t('search')"
         />
       </div>
       <div
@@ -16,7 +16,7 @@
         class="flex flex-col py-4 px-2.5 overflow-y-auto overflow-x-auto max-h-[50vh]"
       >
         <span class="mb-1 pl-2 text-base text-gray-600"
-          >Search results for <strong>"{{ search }}"</strong></span
+          >{{ $t("search-results-for") }} <strong>"{{ search }}"</strong></span
         >
         <div
           v-for="entity in $resources.entities.data"
@@ -72,14 +72,16 @@
         class="flex flex-col py-4 px-2.5"
       >
         <span class="mb-1 pl-2 text-base text-gray-600"
-          >No results for <strong>"{{ search }}"</strong></span
+          >{{ $t("no-results-for") }} <strong>"{{ search }}"</strong></span
         >
       </div>
       <div
         v-if="!$resources.entities.data?.length && !search.length"
         class="flex flex-col mb-2 mt-4 first:mt-3"
       >
-        <span class="mb-1 px-4.5 text-base text-gray-600">Jump to</span>
+        <span class="mb-1 px-4.5 text-base text-gray-600">{{
+          $t("jump-to")
+        }}</span>
         <div class="px-2.5">
           <div
             class="flex w-full min-w-0 items-center rounded px-2 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
@@ -89,7 +91,7 @@
             "
           >
             <Home class="mr-2 h-4 w-4 text-gray-700" />
-            Home
+            {{ $t("home") }}
           </div>
           <div
             class="flex w-full min-w-0 items-center rounded px-2 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
@@ -99,7 +101,7 @@
             "
           >
             <Recent class="mr-2 h-4 w-4 text-gray-700" />
-            Recents
+            {{ $t("recents") }}
           </div>
           <div
             class="flex w-full min-w-0 items-center rounded px-2 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
@@ -109,10 +111,12 @@
             "
           >
             <Star class="mr-2 h-4 w-4 text-gray-700" />
-            Favourites
+            {{ $t("favourites") }}
           </div>
         </div>
-        <span class="mt-3 mb-1 px-4.5 text-base text-gray-600">Actions</span>
+        <span class="mt-3 mb-1 px-4.5 text-base text-gray-600">{{
+          $t("actions")
+        }}</span>
         <div class="px-2.5">
           <div
             class="flex w-full min-w-0 items-center rounded px-2 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
@@ -121,7 +125,7 @@
             "
           >
             <FileUpload class="stroke-[1.35] mr-2 h-4 w-4 text-gray-700" />
-            Upload File
+            {{ $t("upload-file-in-search") }}
           </div>
           <div
             class="flex w-full min-w-0 items-center rounded px-2 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
@@ -131,7 +135,7 @@
             "
           >
             <FolderUpload class="stroke-[1.35] mr-2 h-4 w-4 text-gray-700" />
-            Upload Folder
+            {{ $t("upload-folder") }}
           </div>
           <!--       <div class="flex w-full min-w-0 items-center rounded px-2 py-2 text-base font-medium text-gray-700 hover:bg-gray-100">
         <FeatherIcon name="folder-plus" class="mr-2 h-4 w-4 text-gray-700"/>

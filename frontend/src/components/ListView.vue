@@ -4,25 +4,29 @@
       class="hidden sm:grid items-center rounded bg-gray-100 min-h-7 p-2 overflow-hidden mb-2"
       :style="{ gridTemplateColumns: tableColumnsGridWidth }"
     >
-      <div class="flex w-full items-center text-sm text-gray-600">Name</div>
-      <div class="flex w-full items-center justify-start text-sm text-gray-600">
-        Owner
+      <div class="flex w-full items-center text-sm text-gray-600">
+        {{ $t("name") }}
       </div>
-      <div class="flex w-full items-center text-sm text-gray-600">Status</div>
+      <div class="flex w-full items-center justify-start text-sm text-gray-600">
+        {{ $t("owner") }}
+      </div>
+      <div class="flex w-full items-center text-sm text-gray-600">
+        {{ $t("status") }}
+      </div>
       <div
         v-if="$route.name === 'Recents'"
         class="flex w-full items-center justify-end text-sm text-gray-600"
       >
-        Last Accessed
+        {{ $t("last-accessed") }}
       </div>
       <div
         v-else
         class="flex w-full items-center justify-end text-sm text-gray-600"
       >
-        Last Modified
+        {{ $t("last-modified") }}
       </div>
       <div class="flex w-full items-center justify-end text-sm text-gray-600">
-        Size
+        {{ $t("size") }}
       </div>
       <div />
     </div>
@@ -108,7 +112,14 @@
               class="-relative mr-2"
               size="sm"
             />
-            {{ entity.owner }}
+            <!-- {{ entity.owner }} -->
+            {{
+              entity.owner
+                ? entity.owner === "You"
+                  ? $t("Me")
+                  : entity.owner
+                : $t("Admin")
+            }}
           </div>
           <div
             class="hidden sm:flex items-center justify-start text-gray-700 text-base truncate"

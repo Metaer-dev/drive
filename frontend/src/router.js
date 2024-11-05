@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import store from "./store"
+import { t } from "./i18n"
 
 function redir404(to, from, next) {
   console.log(to)
@@ -23,7 +24,7 @@ function clearStore(to, from) {
 
 function setRootBreadCrumb(to) {
   if (store.getters.isLoggedIn) {
-    document.title = to.name
+    document.title = t(to.name)
     store.commit("setCurrentBreadcrumbs", [{ label: to.name, route: to.path }])
   }
 }

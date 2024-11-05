@@ -27,10 +27,10 @@
       <span class="text-gray-600">
         {{
           activity.meta_value === "1"
-            ? "View"
+            ? $t("view")
             : activity.meta_value === "2"
-            ? "Edit"
-            : "Share"
+            ? $t("edit")
+            : $t("share")
         }}</span
       >
     </span>
@@ -53,15 +53,17 @@
     />
     <span class="flex gap-x-0.5 items-center justify-start">
       <span>{{
-        activity.document_field === "everyone" ? "Organization" : "Public"
+        activity.document_field === "everyone"
+          ? $t("organization")
+          : $t("public")
       }}</span>
       <span>∙</span>
       <span class="text-gray-600">{{
         activity.meta_value === "1"
-          ? "View"
+          ? $t("view")
           : activity.meta_value === "2"
-          ? "Edit"
-          : "Full Access"
+          ? $t("edit")
+          : $t("full-access")
       }}</span>
     </span>
   </div>

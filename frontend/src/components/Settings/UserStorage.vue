@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-between w-full mb-2">
     <span class="text-base font-medium text-gray-900"
-      >You have used {{ formatSize(usedSpace) }} out of
+      >{{ $t("you-have-used") }} {{ formatSize(usedSpace) }} {{ $t("out-of") }}
       {{ base2BlockSize(planSizeLimit) }}</span
     >
     <slot name="control"></slot>

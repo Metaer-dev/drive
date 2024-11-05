@@ -1,5 +1,5 @@
 <template>
-  <h1 class="font-semibold mb-4">Storage</h1>
+  <h1 class="font-semibold mb-4">{{ $t("Storage") }}</h1>
   <UserStorage
     v-if="showFileStorage"
     :used-space="fileUsedSpace"
@@ -9,7 +9,7 @@
     <template #control>
       <div
         v-if="storageQuotaEnabled"
-        class="bg-gray-100 rounded-[10px] space-x-0.5 h-7 w-28 flex items-center px-0.5 py-1"
+        class="bg-gray-100 rounded-[10px] space-x-0.5 h-7 flex items-center px-0.5 py-1"
       >
         <Button
           variant="ghost"
@@ -21,7 +21,7 @@
           ]"
           @click="showFileStorage = false"
         >
-          System
+          {{ $t("system") }}
         </Button>
         <Button
           variant="ghost"
@@ -33,7 +33,7 @@
           ]"
           @click="showFileStorage = true"
         >
-          You
+          {{ $t("you") }}
         </Button>
       </div>
     </template>
@@ -47,7 +47,7 @@
     <template #control>
       <div
         v-if="storageQuotaEnabled"
-        class="bg-gray-100 rounded-[10px] space-x-0.5 h-7 w-28 flex items-center px-0.5 py-1"
+        class="bg-gray-100 rounded-[10px] space-x-0.5 h-7 flex items-center px-0.5 py-1"
       >
         <Button
           variant="ghost"
@@ -59,7 +59,7 @@
           ]"
           @click="showFileStorage = false"
         >
-          System
+          {{ $t("system") }}
         </Button>
         <Button
           variant="ghost"
@@ -71,7 +71,7 @@
           ]"
           @click="showFileStorage = true"
         >
-          You
+          {{ $t("you") }}
         </Button>
       </div>
     </template>

@@ -25,7 +25,7 @@
               <template v-if="index > 0">, </template>
               {{ user.full_name }}
             </span>
-            <span v-if="!newUsers.length" class="">Add users</span>
+            <span v-if="!newUsers.length" class="">{{ $t("add-users") }}</span>
           </PopoverButton>
           <PopoverPanel
             class="z-10 bg-white px-1.5 pt-1.5 shadow-2xl rounded-lg max-w-96 w-full"
@@ -33,7 +33,7 @@
             <Input
               v-model="searchUserText"
               class="bg-white pb-1.5"
-              placeholder="Search users"
+              :placeholder="$t('search-users')"
               type="text"
               @input="searchUserText = $event"
             />
@@ -109,7 +109,7 @@
           (newUsers = [])
       "
     >
-      {{ buttonText }}
+      {{ $t(buttonText) }}
     </Button>
   </div>
 </template>

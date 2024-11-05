@@ -1,23 +1,23 @@
 <template>
-  <h1 class="font-semibold mb-8">Profile</h1>
+  <h1 class="font-semibold mb-8">{{ $t("profile-detail") }}</h1>
   <div class="flex justify-start w-full items-center gap-x-4">
     <Avatar :image="imageURL" size="3xl" :label="fullName" class="w-20 h-20" />
     <div class="flex flex-col">
       <span class="text-xl font-semibold">{{ fullName }}</span>
       <span class="text-base text-gray-700">{{ currentUserEmail }}</span>
     </div>
-    <Button class="ml-auto" @click="editProfileDialog = true"
-      >Edit profile</Button
-    >
+    <Button class="ml-auto" @click="editProfileDialog = true">{{
+      $t("edit-profile")
+    }}</Button>
   </div>
   <Dialog
     v-model="editProfileDialog"
     :options="{
-      title: 'Edit Profile',
+      title: $t('edit-profile'),
       size: 'md',
       actions: [
         {
-          label: 'Confirm',
+          label: $t('confirm'),
           variant: 'solid',
           onClick: submit,
         },
@@ -26,7 +26,7 @@
   >
     <template #body-content>
       <div class="flex flex-col items-start justify-start gap-y-2">
-        <span class="text-base text-gray-600">Profile Photo</span>
+        <span class="text-base text-gray-600">{{ $t("profile-photo") }}</span>
         <div class="flex items-center justify-between w-full">
           <Avatar
             :image="newImageUrl"
@@ -62,14 +62,14 @@
             <template
               #default="{ file, progress, uploading, openFileSelector }"
             >
-              <Button @click="openFileSelector"> Add Image </Button>
+              <Button @click="openFileSelector"> {{ $t("add-image") }} </Button>
             </template>
           </FileUploader>
         </div>
         <div class="w-full flex flex-col gap-y-2 my-2">
-          <span class="text-base text-gray-600">First Name</span>
+          <span class="text-base text-gray-600">{{ $t("first-name") }}</span>
           <Input v-model="newFirstName"></Input>
-          <span class="text-base text-gray-600">Last Name</span>
+          <span class="text-base text-gray-600">{{ $t("last-name") }}</span>
           <Input v-model="newLastName"></Input>
         </div>
       </div>
@@ -80,11 +80,14 @@
       />
     </template>
   </Dialog>
-  <h1 class="font-semibold mt-12 mb-4">Preferences</h1>
-  <Switch v-model="foldersBefore" label="Group folders before files"></Switch>
+  <h1 class="font-semibold mt-12 mb-4">{{ $t("preferences-settings") }}</h1>
+  <Switch
+    v-model="foldersBefore"
+    :label="$t('group-folders-before-files')"
+  ></Switch>
   <Switch
     v-model="singleClick"
-    label="Single click to open files and folders"
+    :label="$t('single-click-to-open-files-and-folders')"
   ></Switch>
 </template>
 <script>

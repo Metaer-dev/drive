@@ -58,45 +58,54 @@ export default {
 
   computed: {
     dialogData() {
+      // const items =
+      //   this.entities.length === 1
+      //     ? `${this.entities.length} item`
+      //     : `${this.entities.length} items`
       const items =
         this.entities.length === 1
-          ? `${this.entities.length} item`
-          : `${this.entities.length} items`
+          ? this.$t("singleItem", { count: this.entities.length })
+          : this.$t("multipleItems", { count: this.entities.length })
+
       switch (this.for) {
         case "unshare":
           return {
-            title: "Unshare",
-            message:
-              "Selected items will not be shared with you anymore and you will lose access to them.",
-            buttonMessage: "Remove",
+            title: this.$t("unshare-dialog"),
+            message: this.$t(
+              "selected-items-will-not-be-shared-with-you-anymore-and-you-will-lose-access-to-them"
+            ),
+            buttonMessage: this.$t("remove-unshare-dialog"),
             theme: "red",
             buttonIcon: "trash-2",
             methodName: "drive.api.files.unshare_entities",
-            toastMessage: `Unshared ${items}`,
+            toastMessage: this.$t("unshared-toast", { items }),
           }
         case "restore":
           return {
-            title: "Restore Items",
-            message:
-              "Selected items will be restored to their original locations.",
-            buttonMessage: "Restore",
+            title: this.$t("restore"),
+            message: this.$t(
+              "selected-items-will-be-restored-to-their-original-locations"
+            ),
+            buttonMessage: this.$t("restore"),
             variant: "solid",
             buttonIcon: "refresh-ccw",
             methodName: "drive.api.files.remove_or_restore",
-            toastMessage: `Restored ${items}`,
+            toastMessage: this.$t("restored-toast", { items }),
           }
         case "remove":
           return {
-            title: "Move to Trash",
+            title: this.$t("move-to-trash"),
             message:
               items +
-              " will be moved to Trash. Items in trash are deleted forever after 30 days. Other users will lose access to this.",
-            buttonMessage: "Move to Trash",
+              this.$t(
+                "will-be-moved-to-trash-items-in-trash-are-deleted-forever-after-30-days-other-users-will-lose-access-to-this"
+              ),
+            buttonMessage: this.$t("move-to-trash-dialog"),
             theme: "red",
             variant: "subtle",
             buttonIcon: "trash-2",
             methodName: "drive.api.files.remove_or_restore",
-            toastMessage: `Moved ${items} to Trash`,
+            toastMessage: this.$t("moved-to-trash-toast", { items }),
           }
         default:
           return {}

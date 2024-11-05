@@ -19,7 +19,7 @@
           ]"
           @click="$store.commit('toggleShareView', 'with')"
         >
-          Shared with You
+          {{ $t("shared-with-you") }}
         </Button>
         <Button
           variant="ghost"
@@ -31,12 +31,12 @@
           ]"
           @click="$store.commit('toggleShareView', 'by')"
         >
-          Shared by You
+          {{ $t("shared-by-you") }}
         </Button>
       </div>
       <Dropdown :options="filterItems" placement="left">
         <Button
-          >Filter
+          >{{ $t("filter") }}
           <template #prefix>
             <Filter />
           </template>
@@ -241,28 +241,28 @@ export default {
     filterItems() {
       return [
         {
-          label: "Folder",
+          label: this.$t("folder"),
           icon: Folder,
           onClick: () => {
             this.$store.state.activeFilters.push("Folder")
           },
         },
         {
-          label: "Image",
+          label: this.$t("image"),
           icon: Image,
           onClick: () => {
             this.$store.state.activeFilters.push("Image")
           },
         },
         {
-          label: "Audio",
+          label: this.$t("audio"),
           icon: Audio,
           onClick: () => {
             this.$store.state.activeFilters.push("Audio")
           },
         },
         {
-          label: "Video",
+          label: this.$t("video"),
           icon: Video,
           onClick: () => {
             this.$store.state.activeFilters.push("Video")
@@ -276,35 +276,35 @@ export default {
           },
         },
         {
-          label: "Document",
+          label: this.$t("document"),
           icon: Document,
           onClick: () => {
             this.$store.state.activeFilters.push("Document")
           },
         },
         {
-          label: "Spreadsheet",
+          label: this.$t("spreadsheet"),
           icon: Spreadsheet,
           onClick: () => {
             this.$store.state.activeFilters.push("Spreadsheet")
           },
         },
         {
-          label: "Archive",
+          label: this.$t("archive"),
           icon: Archive,
           onClick: () => {
             this.$store.state.activeFilters.push("Archive")
           },
         },
         {
-          label: "Presentation",
+          label: this.$t("presentation"),
           icon: Presentation,
           onClick: () => {
             this.$store.state.activeFilters.push("Presentation")
           },
         },
         {
-          label: "Unknown",
+          label: this.$t("unknown"),
           icon: Unknown,
           onClick: () => {
             this.$store.state.activeFilters.push("Unknown")

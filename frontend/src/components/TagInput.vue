@@ -20,9 +20,11 @@
               v-if="!$resources.entityTags.data?.length"
               class="text-gray-700 text-base"
             >
-              This file has no tags
+              {{ $t("this-file-has-no-tags") }}
             </span>
-            <Button class="ml-auto" @click="togglePopover()">Manage</Button>
+            <Button class="ml-auto" @click="togglePopover()">{{
+              $t("manage")
+            }}</Button>
           </div>
         </slot>
       </template>
@@ -37,7 +39,7 @@
               v-focus
               v-on-outside-click="closeInput"
               class="bg-white py-1.5"
-              placeholder="Search"
+              :placeholder="$t('Search')"
               type="text"
               @input="tagInputText = $event"
               @keydown.enter="
@@ -92,7 +94,7 @@
             <span
               v-else
               class="rounded-md px-2.5 py-1.5 text-base text-gray-600"
-              >No tags found</span
+              >{{ $t("no-tags-found") }}</span
             >
           </div>
           <div class="flex items-center justify-end border-t p-1">
@@ -113,7 +115,7 @@
               class="px-2 py-1.5 hover:bg-gray-100 rounded cursor-pointer"
               @click="$resources.removeTag.submit()"
             >
-              Clear all
+              {{ $t("clear-all") }}
             </Button>
           </div>
         </div>
