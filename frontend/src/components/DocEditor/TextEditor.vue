@@ -308,6 +308,20 @@ export default {
         ymap.set("lastsaved", newVal)
       }
     },
+    "settings.docSize": {
+      handler(newVal) {
+        this.editor?.setOptions({
+          editorProps: {
+            attributes: {
+              class: normalizeClass([
+                "espresso-prose",
+                newVal ? "!text-[15px]" : "!text-[17px]",
+              ]),
+            },
+          },
+        })
+      },
+    },
     settings(newVal) {
       switch (newVal.toLowerCase()) {
         case "sans":
@@ -395,7 +409,10 @@ export default {
       autofocus: "start",
       editorProps: {
         attributes: {
-          class: normalizeClass([`espresso-prose`]),
+          class: normalizeClass([
+            `espresso-prose`,
+            this.settings.docSize ? "!text-[15px]" : "!text-[17px]",
+          ]),
         },
         clipboardTextParser: (text, $context) => {
           if (!detectMarkdown(text)) return
