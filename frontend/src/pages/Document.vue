@@ -50,6 +50,7 @@ const ShareDialog = defineAsyncComponent(() =>
 const store = useStore()
 const router = useRouter()
 const emitter = inject("emitter")
+const errorMessage = ref("")
 
 const props = defineProps({
   entityName: {
@@ -241,9 +242,9 @@ let fetchAllUsers = createResource({
   },
   onError(error) {
     if (error.messages) {
-      this.errorMessage = error.messages.join("\n")
+      errorMessage.value = error.messages.join("\n")
     } else {
-      this.errorMessage = error.message
+      errorMessage.value = error.message
     }
   },
 })

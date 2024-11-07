@@ -1,5 +1,9 @@
 <template>
-  <Dialog v-model="open" :options="{ title: 'Add Image' }" @after-leave="reset">
+  <Dialog
+    v-model="open"
+    :options="{ title: $t('doc-editor-add-image') }"
+    @after-leave="reset"
+  >
     <template #body-content>
       <FileUploader
         file-types="image/*"
@@ -10,10 +14,10 @@
             <Button @click="openFileSelector">
               {{
                 uploading
-                  ? `Uploading ${progress}%`
+                  ? $t("uploading-progress", { progress })
                   : addImageDialog.url
-                  ? "Change Image"
-                  : "Upload Image"
+                  ? $t("change-image")
+                  : $t("upload-image")
               }}
             </Button>
             <Button
@@ -25,7 +29,7 @@
                 }
               "
             >
-              Remove
+              {{ $t("remove") }}
             </Button>
           </div>
         </template>
@@ -42,9 +46,9 @@
         variant="solid"
         @click="addImage(addImageDialog.url)"
       >
-        Insert Image
+        {{ $t("doc-editor-insert-image") }}
       </Button>
-      <Button @click="reset">Cancel</Button>
+      <Button @click="reset">{{ $t("cancel") }}</Button>
     </template>
   </Dialog>
 </template>

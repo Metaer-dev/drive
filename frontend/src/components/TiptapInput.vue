@@ -64,7 +64,7 @@ export default {
         Paragraph,
         Text,
         Placeholder.configure({
-          placeholder: "Ctrl + Enter to post",
+          placeholder: this.$t("ctrl-enter-to-post"),
         }),
       ],
       editorProps: {

@@ -89,27 +89,27 @@ function onDeleteRow() {
       class="flex flex-col h-full leading-none bg-white gap-0.5 p-0.5 rounded shadow-sm border border-border"
     >
       <Button
-        title="Add Row Above"
+        :title="$t('add-row-above')"
         variant="ghost"
         icon="arrow-up"
         @click="onAddRowBefore"
       />
 
       <Button
-        title="Add Row Below"
+        :title="$t('add-row-below')"
         variant="ghost"
         icon="arrow-down"
         @click="onAddRowAfter"
       />
       <Button
-        title="Merge Cells"
+        :title="$t('merge-cells')"
         variant="ghost"
         v-if="Selection?.cellCount! > 1"
         @click="() => emits('onMergeCell')"
         ><template #icon><TableCellsMerge class="w-4 stroke-[1.5]" /></template
       ></Button>
       <Button
-        title="Split Cells"
+        :title="$t('split-cells')"
         variant="ghost"
         v-if="Selection?.mergedCellCount! > 0"
         @click="() => emits('onSplitCell')"
@@ -117,13 +117,18 @@ function onDeleteRow() {
           <TableCellsSplit class="w-4 stroke-[1.5]" /> </template
       ></Button>
       <Button
-        title="Delete Row"
+        :title="$t('toggle-header')"
         variant="ghost"
         @click="() => emits('onHeaderCell')"
         ><template #icon>
           <ToggleHeaderCell class="w-4 stroke-[1.5]" /> </template
       ></Button>
-      <Button variant="ghost" icon="trash-2" @click="onDeleteRow" />
+      <Button
+        :title="$t('delete-row')"
+        variant="ghost"
+        icon="trash-2"
+        @click="onDeleteRow"
+      />
     </div>
   </BubbleMenu>
 </template>

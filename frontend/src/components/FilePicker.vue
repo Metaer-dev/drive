@@ -2,7 +2,7 @@
   <Dialog v-model="open" :options="{ title: 'Open a file', size: '5xl' }">
     <template #body>
       <h3 class="text-2xl font-semibold leading-6 text-gray-900 px-6 pt-5">
-        Open a file
+        {{ $t("open-a-file") }}
       </h3>
       <div class="px-2 pt-2">
         <div class="flex items-center justify-start px-4 my-2">
@@ -63,7 +63,7 @@
                 @click="emitter.emit('uploadFile')"
               >
                 <template #prefix><Upload class="w-4 stroke-1.5" /></template>
-                Upload
+                {{ $t("upload") }}
               </Button>
               <!-- <span class="text-gray-700 text-base mt-2" >Or drag a file here to upload</span> -->
             </div>
@@ -182,10 +182,12 @@ import Home from "./EspressoIcons/Home.vue"
 import Recent from "./EspressoIcons/Recent.vue"
 import Star from "./EspressoIcons/Star.vue"
 import Users from "./EspressoIcons/Users.vue"
+import { useI18n } from "vue-i18n"
 
 import { formatSize, formatDate } from "@/utils/format"
 import { useStore } from "vuex"
 
+const { t } = useI18n()
 const props = defineProps({
   title: {
     type: String,
@@ -203,7 +205,7 @@ const emit = defineEmits(["update:modelValue", "success"])
 const tabIndex = ref(props.suggestedTabIndex)
 const folderContents = ref()
 const folderStack = ref([""])
-const breadcrumbs = ref([{ name: store.state.homeFolderID, title: "Home" }])
+const breadcrumbs = ref([{ name: store.state.homeFolderID, title: t("home") }])
 
 const isEmpty = computed(() => {
   return folderContents.value && folderContents.value.length === 0
@@ -233,24 +235,24 @@ const open = computed({
 
 const tabs = [
   {
-    label: "Home",
+    label: t("home"),
     icon: h(Home, { class: "w-4 h-4" }),
     component: NoFilesSection,
   },
   {
-    label: "Recents",
+    label: t("recents"),
     icon: h(Recent, { class: "w-4 h-4" }),
   },
   {
-    label: "Favourite",
+    label: t("favourites"),
     icon: h(Star, { class: "w-4 h-4" }),
   },
   {
-    label: "Shared",
+    label: t("shared"),
     icon: h(Users, { class: "w-4 h-4" }),
   },
   {
-    label: "Upload",
+    label: t("upload"),
     icon: h(Plus, { class: "w-4 h-4 stroke-[1.5]" }),
   },
 ]
@@ -258,7 +260,7 @@ const tabs = [
 watch(tabIndex, (newValue) => {
   switch (newValue) {
     case 0:
-      breadcrumbs.value = [{ name: store.state.homeFolderID, title: "Home" }]
+      breadcrumbs.value = [{ name: store.state.homeFolderID, title: t("home") }]
       currentFolder.value = store.state.homeFolderID
       fetchFolderContents.fetch({
         entity_name: currentFolder.value,
@@ -271,7 +273,7 @@ watch(tabIndex, (newValue) => {
       })
       break
     case 1:
-      breadcrumbs.value = [{ name: "", title: "Recents" }]
+      breadcrumbs.value = [{ name: "", title: t("recents") }]
       currentFolder.value = null
       fetchFolderContents.fetch({
         entity_name: "",
@@ -284,7 +286,7 @@ watch(tabIndex, (newValue) => {
       })
       break
     case 2:
-      breadcrumbs.value = [{ name: "", title: "Favourites" }]
+      breadcrumbs.value = [{ name: "", title: t("favourites") }]
       currentFolder.value = null
       fetchFolderContents.fetch({
         is_active: 1,
@@ -296,7 +298,7 @@ watch(tabIndex, (newValue) => {
       })
       break
     case 3:
-      breadcrumbs.value = [{ name: "", title: "Shared" }]
+      breadcrumbs.value = [{ name: "", title: t("shared") }]
       currentFolder.value = null
       sharedWithMe.fetch({
         is_active: 1,

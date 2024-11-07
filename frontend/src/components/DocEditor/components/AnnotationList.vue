@@ -4,14 +4,15 @@
       <span
         class="inline-flex items-center gap-2.5 text-gray-800 font-medium text-lg w-full"
       >
-        Annotations
+        {{ $t("annotations") }}
       </span>
       <Dropdown :options="filterItems" placement="left">
         <Button>
           <template #prefix>
             <Filter />
           </template>
-          {{ currentFilterLabel }}
+          <!-- {{ currentFilterLabel }} -->
+          <span class="whitespace-nowrap">{{ currentFilterLabel }}</span>
         </Button>
       </Dropdown>
     </div>
@@ -48,7 +49,11 @@
             </div>
             <span class="text-sm text-gray-700">
               {{ comment.get("replies").length }}
-              {{ comment.get("replies").length === 1 ? " reply" : "replies" }}
+              {{
+                comment.get("replies").length === 1
+                  ? $t("reply")
+                  : $t("replies")
+              }}
             </span>
           </div>
 
@@ -138,7 +143,7 @@
       </div>
 
       <div v-else class="text-gray-600 text-sm my-5">
-        There are annotations for the current document or category
+        {{ $t("there-are-annotations-for-the-current-document-or-category") }}
       </div>
     </div>
   </div>
@@ -158,11 +163,14 @@ import {
 } from "vue"
 import { Avatar, Button, Dropdown, createResource } from "frappe-ui"
 import { v4 as uuidv4, v4 } from "uuid"
-import { useTimeAgo } from "@vueuse/core"
+// import { useTimeAgo } from "@vueuse/core"
+import { useTimeAgo } from "@/i18n.js"
 import * as Y from "yjs"
 import Filter from "@/components/EspressoIcons/Filter.vue"
 import TiptapInput from "@/components/TiptapInput.vue"
+import { useI18n } from "vue-i18n"
 
+const { t } = useI18n()
 const store = useStore()
 
 const emit = defineEmits([
@@ -214,13 +222,13 @@ const allResolvedAnnotations = computed(() => {
 const currentFilter = computed(() => {
   switch (currentFilterState.value) {
     case 0:
-      currentFilterLabel.value = "Open"
+      currentFilterLabel.value = t("open")
       return openAndAnchoredAnnotations.value
     case 1:
-      currentFilterLabel.value = "Unanchored"
+      currentFilterLabel.value = t("unanchored")
       return openAnnotations.value
     case 2:
-      currentFilterLabel.value = "Resolved"
+      currentFilterLabel.value = t("resolved")
       return allResolvedAnnotations.value
     default:
       return openAndAnchoredAnnotations.value
@@ -230,19 +238,19 @@ const currentFilter = computed(() => {
 const filterItems = computed(() => {
   return [
     {
-      label: "Open",
+      label: t("open"),
       onClick: () => {
         currentFilterState.value = 0
       },
     },
     {
-      label: "Unanchored",
+      label: t("unanchored"),
       onClick: () => {
         currentFilterState.value = 1
       },
     },
     {
-      label: "Resolved",
+      label: t("resolved"),
       onClick: () => {
         currentFilterState.value = 2
       },
@@ -308,7 +316,7 @@ const commentOptions = computed(() =>
       },
     }, */
     {
-      label: "Mark as Resolved",
+      label: t("mark-as-resolved"),
       onClick: () => {
         allAnnotations.forEach((yMap) => {
           if (yMap.get("id") === currentActiveAnnotation.value.get("id")) {
@@ -330,7 +338,7 @@ const commentOptions = computed(() =>
       },
     },
     {
-      label: "Mark as Open",
+      label: t("mark-as-open"),
       onClick: () => {
         allAnnotations.forEach((yMap) => {
           if (yMap.get("id") === currentActiveAnnotation.value.get("id")) {
@@ -353,7 +361,7 @@ const commentOptions = computed(() =>
     },
 
     {
-      label: "Delete",
+      label: t("delete"),
       onClick: () => {
         editor.value
           .chain()
@@ -381,7 +389,7 @@ const replyOptions = computed(() =>
       },
     }, */
     {
-      label: "Delete",
+      label: t("delete"),
       onClick: () => {
         let yarray = allAnnotations
         let targetId = currentActiveAnnotation.value.get("id")

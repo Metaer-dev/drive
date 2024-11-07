@@ -22,7 +22,7 @@ def user_has_permission(doc, ptype, user):
             as_dict=1,
         )
         if user_access:
-            if ptype == "share" and user_access["share"]:
+            if ptype == "share" and user_access["read"]:
                 return True
             if ptype == "write" and user_access["write"]:
                 return True

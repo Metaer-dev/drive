@@ -1,5 +1,9 @@
 <template>
-  <Dialog v-model="open" :options="{ title: 'Add Video' }" @after-leave="reset">
+  <Dialog
+    v-model="open"
+    :options="{ title: $t('add-video') }"
+    @after-leave="reset"
+  >
     <template #body-content>
       <FileUploader
         file-types="video/*"
@@ -10,10 +14,11 @@
             <Button @click="openFileSelector">
               {{
                 uploading
-                  ? `Uploading ${progress}%`
+                  ? // ? `Uploading ${progress}%`
+                    $t("uploading-progress", { progress })
                   : addVideoDialog.url
-                  ? "Change Video"
-                  : "Upload Video"
+                  ? $t("change-video")
+                  : $t("upload-video")
               }}
             </Button>
             <Button
@@ -25,7 +30,7 @@
                 }
               "
             >
-              Remove
+              {{ $t("remove") }}
             </Button>
           </div>
         </template>
@@ -43,9 +48,9 @@
         class="mr-2"
         @click="addVideo(addVideoDialog.url)"
       >
-        Insert Video
+        {{ $t("insert-video") }}
       </Button>
-      <Button @click="reset">Cancel</Button>
+      <Button @click="reset">{{ $t("cancel") }}</Button>
     </template>
   </Dialog>
 </template>

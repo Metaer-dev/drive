@@ -20,11 +20,11 @@
         <span
           class="inline-flex items-center gap-2.5 mb-5 text-gray-800 font-medium text-lg w-full"
         >
-          Information
+          {{ $t("information") }}
         </span>
         <div class="space-y-6.5 h-full flex-auto flex flex-col z-0">
           <div v-if="entity.owner === 'You'">
-            <div class="text-base font-medium mb-4">Access</div>
+            <div class="text-base font-medium mb-4">{{ $t("access") }}</div>
             <div class="flex items-center justify-start">
               <Avatar
                 size="md"
@@ -67,42 +67,46 @@
           <div
             v-if="$resources.entityTags.data?.length || entity.owner === 'You'"
           >
-            <div class="text-base font-medium mb-4">Tags</div>
+            <div class="text-base font-medium mb-4">{{ $t("Tags") }}</div>
             <TagInput class="min-w-full" :entity="entity" />
           </div>
           <div>
-            <div class="text-base font-medium mb-4">Properties</div>
+            <div class="text-base font-medium mb-4">{{ $t("properties") }}</div>
             <div class="text-base grid grid-flow-row grid-cols-2 gap-y-3">
-              <span class="col-span-1 text-gray-600">Type</span>
+              <span class="col-span-1 text-gray-600">{{ $t("type") }}</span>
               <span class="col-span-1">{{ formattedMimeType }}</span>
-              <span class="col-span-1 text-gray-600">Size</span>
+              <span class="col-span-1 text-gray-600">{{ $t("size") }}</span>
               <span class="col-span-1">{{ entity.file_size }}</span>
-              <span class="col-span-1 text-gray-600">Modified</span>
+              <span class="col-span-1 text-gray-600">{{ $t("modified") }}</span>
               <span class="col-span-1">{{ entity.modified }}</span>
-              <span class="col-span-1 text-gray-600">Created</span>
+              <span class="col-span-1 text-gray-600">{{ $t("created") }}</span>
               <span class="col-span-1">{{ entity.creation }}</span>
-              <span class="col-span-1 text-gray-600">Owner</span>
+              <span class="col-span-1 text-gray-600">{{ $t("owner") }}</span>
               <span class="col-span-1">{{ entity.full_name }}</span>
             </div>
           </div>
           <div>
-            <div class="text-base font-medium mb-4">Stats</div>
+            <div class="text-base font-medium mb-4">{{ $t("stats") }}</div>
             <div class="text-base grid grid-flow-row grid-cols-2 gap-y-3">
-              <span class="col-span-1 text-gray-600">Words</span>
+              <span class="col-span-1 text-gray-600">{{ $t("words") }}</span>
               <span class="col-span-1">
                 {{ editor.storage.characterCount.words() }}
               </span>
-              <span class="col-span-1 text-gray-600">Characters</span>
+              <span class="col-span-1 text-gray-600">{{
+                $t("characters")
+              }}</span>
               <span class="col-span-1">
                 {{ editor.storage.characterCount.characters() }}
               </span>
-              <span class="col-span-1 text-gray-600">Reading Time</span>
+              <span class="col-span-1 text-gray-600">{{
+                $t("reading-time")
+              }}</span>
               <span class="col-span-1">
                 {{ Math.ceil(editor.storage.characterCount.words() / 200) }}
                 {{
                   Math.ceil(editor.storage.characterCount.words() / 200) > 1
-                    ? "mins"
-                    : "min"
+                    ? $t("mins")
+                    : $t("min")
                 }}
               </span>
             </div>
@@ -126,8 +130,10 @@
         <span
           class="px-3 inline-flex items-center gap-2.5 text-gray-800 font-medium text-lg w-full"
         >
-          Versions
-          <Button class="ml-auto" @click="generateSnapshot">New</Button>
+          {{ $t("versions") }}
+          <Button class="ml-auto" @click="generateSnapshot">{{
+            $t("new")
+          }}</Button>
         </span>
         <div
           v-if="
@@ -153,7 +159,7 @@
           </div>
         </div>
         <div v-else class="text-gray-600 text-sm my-5 px-3">
-          No previous versions available for the current document
+          {{ $t("no-previous-versions-available-for-the-current-document") }}
         </div>
       </div>
 
@@ -165,7 +171,7 @@
         <span
           class="inline-flex items-center gap-2.5 px-5 mb-5 text-gray-800 font-medium text-lg w-full"
         >
-          Activity
+          {{ $t("activity") }}
         </span>
         <ActivityTree v-if="showActivity" />
       </div>
@@ -175,9 +181,11 @@
         <span
           class="inline-flex items-center gap-2.5 mb-5 text-gray-800 font-medium text-lg w-full"
         >
-          Style
+          {{ $t("style") }}
         </span>
-        <span class="font-medium text-gray-600 text-xs my-2">TITLE</span>
+        <span class="font-medium text-gray-600 text-xs my-2">{{
+          $t("title")
+        }}</span>
         <div class="w-full flex justify-between gap-x-1.5 mb-6">
           <Button
             class="w-1/3 font-semibold"
@@ -191,7 +199,7 @@
                 .run()
             "
           >
-            Title
+            {{ $t("text-editor-title") }}
           </Button>
           <Button
             class="w-1/3 font-medium"
@@ -205,7 +213,7 @@
                 .run()
             "
           >
-            Subtitle
+            {{ $t("subtitle") }}
           </Button>
           <Button
             class="w-1/3"
@@ -219,11 +227,13 @@
                 .run()
             "
           >
-            Heading
+            {{ $t("heading") }}
           </Button>
         </div>
 
-        <span class="font-medium text-gray-600 text-xs my-2">CONTENT</span>
+        <span class="font-medium text-gray-600 text-xs my-2">{{
+          $t("content")
+        }}</span>
         <div class="w-full flex justify-between gap-x-1.5 mb-6">
           <Button
             class="w-1/3 font-bold"
@@ -238,7 +248,7 @@
                 .run()
             "
           >
-            Strong
+            {{ $t("strong") }}
           </Button>
           <Button
             class="w-1/3"
@@ -252,7 +262,7 @@
                 .run()
             "
           >
-            Body
+            {{ $t("body") }}
           </Button>
           <Button
             class="w-1/3"
@@ -268,14 +278,17 @@
                 .run()
             "
           >
-            Caption
+            {{ $t("caption") }}
           </Button>
         </div>
-        <span class="font-medium text-gray-600 text-xs my-2">GROUPS</span>
+        <span class="font-medium text-gray-600 text-xs my-2">{{
+          $t("text-editor-groups")
+        }}</span>
         <div
           class="flex flex-row w-full bg-gray-100 justify-stretch items-stretch rounded p-0.5 space-x-0.5 h-8 mb-2"
         >
           <Button
+            :title="$t('bold')"
             class="w-full"
             :class="
               editor.isActive('bold') ? 'bg-white border' : 'bg-transparent'
@@ -285,6 +298,7 @@
             <Bold class="w-4 stroke-2" />
           </Button>
           <Button
+            :title="$t('italic')"
             class="w-full"
             :class="
               editor.isActive('italic')
@@ -296,6 +310,7 @@
             <FeatherIcon name="italic" class="w-4 stroke-2" />
           </Button>
           <Button
+            :title="$t('underline')"
             class="w-full"
             :class="
               editor.isActive('underline')
@@ -307,6 +322,7 @@
             <Underline class="w-4 stroke-2" />
           </Button>
           <Button
+            :title="$t('strikethrough')"
             class="w-full"
             :class="
               editor.isActive('strike')
@@ -318,6 +334,7 @@
             <Strikethrough class="w-4 stroke-2" />
           </Button>
           <Button
+            :title="$t('code')"
             class="w-full"
             :class="
               editor.isActive('code') ? 'bg-white shadow-sm' : 'bg-transparent'
@@ -331,6 +348,7 @@
           class="flex flex-row w-full bg-gray-100 justify-stretch items-stretch rounded p-0.5 space-x-0.5 h-8 mb-2"
         >
           <Button
+            :title="$t('bulletlist')"
             class="w-full"
             :class="
               editor.isActive('bulletList')
@@ -361,6 +379,7 @@
               </template>
             </Button> -->
           <Button
+            :title="$t('orderedlist')"
             class="w-full"
             :class="
               editor.isActive('orderedList')
@@ -374,6 +393,7 @@
             </template>
           </Button>
           <Button
+            :title="$t('tasklist')"
             class="w-full"
             :class="
               editor.isActive('taskList')
@@ -392,12 +412,14 @@
             class="flex flex-row bg-gray-100 justify-stretch items-stretch rounded p-0.5 space-x-0.5 h-8"
           >
             <Button
+              :title="$t('indent')"
               :variant="'subtle'"
               @click="editor.chain().focus().indent().run()"
             >
               <Indent class="h-4" />
             </Button>
             <Button
+              :title="$t('outdent')"
               :variant="'subtle'"
               @click="editor.chain().focus().outdent().run()"
             >
@@ -408,6 +430,7 @@
             class="flex flex-row w-full bg-gray-100 justify-stretch items-stretch rounded p-0.5 space-x-0.5 h-8"
           >
             <Button
+              :title="$t('leftalign')"
               class="w-full"
               :class="
                 editor.isActive({ textAlign: 'left' })
@@ -419,6 +442,7 @@
               <alignLeft class="w-4" />
             </Button>
             <Button
+              :title="$t('centeralign')"
               class="w-full"
               :class="
                 editor.isActive({ textAlign: 'center' })
@@ -430,6 +454,7 @@
               <alignCenter class="w-4" />
             </Button>
             <Button
+              :title="$t('rightalign')"
               class="w-full"
               :class="
                 editor.isActive({ textAlign: 'right' })
@@ -441,6 +466,7 @@
               <alignRight class="w-4" />
             </Button>
             <Button
+              :title="$t('justifyalign')"
               class="w-full"
               :class="
                 editor.isActive({ textAlign: 'justify' })
@@ -455,7 +481,7 @@
         </div>
 
         <span class="font-medium text-gray-600 text-xs my-2">
-          DECORATIONS
+          {{ $t("decorations") }}
         </span>
         <div class="w-full flex justify-between gap-x-1.5 mb-6">
           <Button
@@ -465,7 +491,7 @@
             <template #prefix>
               <Codeblock name="code" class="w-4" />
             </template>
-            Block
+            {{ $t("block") }}
           </Button>
           <Button
             class="w-full"
@@ -474,12 +500,12 @@
             <template #prefix>
               <BlockQuote name="quote" class="w-4" />
             </template>
-            Focus
+            {{ $t("focus") }}
           </Button>
         </div>
 
         <span class="font-medium text-gray-600 text-xs mt-2 mb-1">
-          TEXT COLOR
+          {{ $t("text-color") }}
         </span>
         <ColorInput
           class="mt-0.5 mb-1"
@@ -487,7 +513,7 @@
           @change="(value) => editor.chain().focus().setColor(value).run()"
         />
         <span class="font-medium text-gray-600 text-xs mt-2 mb-1">
-          BACKGROUND COLOR
+          {{ $t("background-color") }}
         </span>
         <ColorInput
           class="mt-0.5 mb-6"
@@ -496,7 +522,9 @@
             (value) => editor.chain().focus().toggleHighlight(value).run()
           "
         />
-        <span class="font-medium text-gray-600 text-xs my-2">FONT</span>
+        <span class="font-medium text-gray-600 text-xs my-2">{{
+          $t("font")
+        }}</span>
         <div class="w-full flex justify-between gap-x-1.5">
           <Button
             class="w-1/3"
@@ -551,27 +579,31 @@
         <span
           class="inline-flex items-center gap-2.5 mb-5 text-gray-800 font-medium text-lg w-full"
         >
-          Insert
+          {{ $t("text-editor-insert") }}
         </span>
         <div>
-          <span class="font-medium text-gray-600 text-base mb-1">Media</span>
+          <span class="font-medium text-gray-600 text-base mb-1">{{
+            $t("media")
+          }}</span>
           <div class="w-full flex justify-between gap-x-1.5 mb-6">
             <Button class="w-full justify-start" @click="addImageDialog = true">
               <template #prefix>
                 <Image class="text-gray-700 w-4" />
-                Image
+                {{ $t("image") }}
               </template>
             </Button>
 
             <Button class="w-full justify-start" @click="addVideoDialog = true">
               <template #prefix>
                 <Video class="text-gray-700 w-4" />
-                Video
+                {{ $t("video") }}
               </template>
             </Button>
           </div>
         </div>
-        <span class="font-medium text-gray-600 text-base mb-1">Break</span>
+        <span class="font-medium text-gray-600 text-base mb-1">{{
+          $t("break")
+        }}</span>
         <div class="w-full flex justify-between gap-x-1.5 mb-6">
           <Button
             class="w-full px-2"
@@ -580,7 +612,7 @@
             <template #prefix>
               <Minus class="stroke-[1] text-gray-700" />
             </template>
-            Rule
+            {{ $t("rule") }}
           </Button>
 
           <Button
@@ -626,10 +658,12 @@
                 />
               </svg>
             </template>
-            Page Break
+            {{ $t("page-break") }}
           </Button>
         </div>
-        <span class="font-medium text-gray-600 text-base">Table</span>
+        <span class="font-medium text-gray-600 text-base">{{
+          $t("table")
+        }}</span>
         <div class="flex space-x-2 my-2">
           <Button
             :disabled="editor.isActive('table')"
@@ -664,7 +698,7 @@
                 <path d="M16 19h6"></path>
                 <path d="M19 16v6"></path>
               </svg>
-              New Table
+              {{ $t("new-table") }}
             </template>
           </Button>
         </div>
@@ -675,14 +709,14 @@
         <span
           class="inline-flex items-center gap-2.5 mb-5 text-gray-800 font-medium text-lg w-full px-2"
         >
-          Settings
+          {{ $t("settings") }}
         </span>
-        <Switch v-model="settings.docSize" label="Small Text" />
-        <Switch v-model="settings.docSpellcheck" label="Spellcheck" />
+        <Switch v-model="settings.docSize" :label="$t('small-text')" />
+        <Switch v-model="settings.docSpellcheck" :label="$t('spellcheck')" />
         <!-- <Switch v-model="settings.docSize" label="Highlight Check" /> -->
-        <Switch v-model="settings.docWidth" label="Full Width" />
+        <Switch v-model="settings.docWidth" :label="$t('full-width')" />
         <span class="font-medium text-gray-700 text-base my-2.5 px-2.5">
-          Default Font
+          {{ $t("default-font") }}
         </span>
         <div class="w-full flex justify-between gap-1 px-3">
           <Button
@@ -738,14 +772,14 @@
         <span
           class="inline-flex items-center gap-2.5 mb-5 text-gray-800 font-medium text-lg w-full"
         >
-          Transform
+          {{ $t("transform") }}
         </span>
         <div>
           <span
             v-if="$route.meta.documentPage && $store.state.hasWriteAccess"
             class="font-medium text-gray-700 text-base"
           >
-            Import
+            {{ $t("import") }}
           </span>
           <Button
             v-if="$route.meta.documentPage && $store.state.hasWriteAccess"
@@ -754,17 +788,19 @@
           >
             <template #prefix>
               <FileUp class="text-gray-700 w-4 stroke-[1.5]" />
-              Import DOCX
+              {{ $t("import-docx") }}
             </template>
           </Button>
-          <span class="font-medium text-gray-700 text-base">Export</span>
+          <span class="font-medium text-gray-700 text-base">{{
+            $t("export")
+          }}</span>
           <Button
             class="w-full justify-start"
             @click="() => emitter.emit('printFile')"
           >
             <template #prefix>
               <FileDown class="text-gray-700 w-4 stroke-[1.5]" />
-              Export PDF
+              {{ $t("export-pdf") }}
             </template>
           </Button>
           <!-- <Button class="w-full justify-start">
@@ -890,7 +926,8 @@ import BlockQuote from "../icons/BlockQuote.vue"
 import Style from "../icons/Style.vue"
 import Image from "../icons/Image.vue"
 import Video from "../icons/Video.vue"
-import { useTimeAgo } from "@vueuse/core"
+// import { useTimeAgo } from '../../../i18n.js'
+import { useTimeAgo } from "@/i18n.js"
 import * as Y from "yjs"
 import { TiptapTransformer } from "@hocuspocus/transformer"
 import { fromUint8Array, toUint8Array } from "js-base64"

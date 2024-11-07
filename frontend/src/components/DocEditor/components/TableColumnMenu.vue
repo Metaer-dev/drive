@@ -90,39 +90,42 @@ function onDeleteColumn() {
       class="min-w-32 flex flex-row h-full leading-none gap-0.5 p-0.5 bg-white rounded shadow-sm border"
     >
       <Button
-        title="Insert Row Left"
+        :title="$t('insert-row-left')"
         variant="ghost"
         icon="arrow-left"
         @click="onAddColumnBefore"
       />
       <Button
-        title="Insert Row Right"
+        :title="$t('insert-row-right')"
         variant="ghost"
         icon="arrow-right"
         @click="onAddColumnAfter"
       />
       <Button
         variant="ghost"
-        title="Merge Cells"
+        :title="$t('merge-cells')"
         v-if="Selection?.cellCount! > 1"
         @click="emits('onMergeCell')"
         ><template #icon><TableCellsMerge class="w-4 stroke-[1.5]" /></template
       ></Button>
       <Button
         variant="ghost"
-        title="Split Cells"
+        :title="$t('split-cells')"
         v-if="Selection?.mergedCellCount! > 0"
         @click="emits('onSplitCell')"
       >
         <template #icon> <TableCellsSplit class="w-4 stroke-[1.5]" /> </template
         >Split Cells
       </Button>
-      <Button variant="ghost" @click="() => emits('onHeaderCell')"
+      <Button
+        variant="ghost"
+        :title="$t('toggle-header')"
+        @click="() => emits('onHeaderCell')"
         ><template #icon>
           <ToggleHeaderCell class="w-4 stroke-[1.5]" /> </template
       ></Button>
       <Button
-        title="Delete Column"
+        :title="$t('delete-column')"
         variant="ghost"
         icon="trash-2"
         @click="onDeleteColumn"

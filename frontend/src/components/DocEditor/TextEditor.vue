@@ -308,6 +308,20 @@ export default {
         ymap.set("lastsaved", newVal)
       }
     },
+    "settings.docSize": {
+      handler(newVal) {
+        this.editor?.setOptions({
+          editorProps: {
+            attributes: {
+              class: normalizeClass([
+                "espresso-prose",
+                newVal ? "!text-[15px]" : "!text-[17px]",
+              ]),
+            },
+          },
+        })
+      },
+    },
     settings(newVal) {
       switch (newVal.toLowerCase()) {
         case "sans":
@@ -395,7 +409,10 @@ export default {
       autofocus: "start",
       editorProps: {
         attributes: {
-          class: normalizeClass([`espresso-prose`]),
+          class: normalizeClass([
+            `espresso-prose`,
+            this.settings.docSize ? "!text-[15px]" : "!text-[17px]",
+          ]),
         },
         clipboardTextParser: (text, $context) => {
           if (!detectMarkdown(text)) return
@@ -527,7 +544,7 @@ export default {
           openOnClick: false,
         }),
         Placeholder.configure({
-          placeholder: "Press / for commands",
+          placeholder: this.$t("press-for-commands"),
         }),
         Highlight.configure({
           multicolor: true,
@@ -598,14 +615,14 @@ export default {
       const { doctype, document, author, author_image, author_id } = data
       if (author_id === this.$realtime.socket.id) {
         toast({
-          title: "You changed the document version",
+          title: this.$t("you-changed-the-document-version"),
           position: "bottom-right",
           timeout: 2,
         })
         return
       }
       toast({
-        title: `Document version changed`,
+        title: this.$t("document-version-changed"),
         position: "bottom-right",
         avatarURL: author_image,
         avatarLabel: author,
@@ -695,7 +712,7 @@ export default {
         }
       } else {
         toast({
-          title: "Not a valid DOCX file!",
+          title: this.$t("not-a-valid-docx-file"),
           position: "bottom-right",
           icon: "alert-triangle",
           iconClasses: "text-red-500",
@@ -715,7 +732,7 @@ export default {
         this.$emit("saveDocument")
       }
       toast({
-        title: "Document saved",
+        title: this.$t("document-saved"),
         position: "bottom-right",
         timeout: 2,
       })

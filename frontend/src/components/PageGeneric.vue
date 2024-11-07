@@ -197,7 +197,7 @@ import EntityContextMenu from "@/components/EntityContextMenu.vue"
 import EmptyEntityContextMenu from "@/components/EmptyEntityContextMenu.vue"
 import { formatSize, formatDate } from "@/utils/format"
 import { getLink } from "@/utils/getLink"
-import { useTimeAgo } from "@vueuse/core"
+import { useTimeAgo } from "@/i18n.js"
 import {
   folderDownload,
   selectedEntitiesDownload,

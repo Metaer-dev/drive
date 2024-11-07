@@ -3,7 +3,7 @@
     <slot v-bind="{ onClick: openDialog }"></slot>
     <Dialog
       v-model="showNewCommentDialog"
-      :options="{ title: 'New Annotation', size: 'sm' }"
+      :options="{ title: $t('new-annotation'), size: 'sm' }"
       @after-leave="reset"
     >
       <template #body-content>
@@ -21,7 +21,7 @@
           class="w-full mt-6"
           @click="setComment(commentText)"
         >
-          Post
+          {{ $t("post") }}
         </Button>
       </template>
       <!-- //https://github.com/ueberdosis/tiptap/issues/369 -->

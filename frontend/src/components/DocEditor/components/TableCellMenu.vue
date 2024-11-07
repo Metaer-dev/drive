@@ -78,12 +78,14 @@ const Selection = computed(() => {
     >
       <Button
         variant="ghost"
+        :title="$t('merge-cells')"
         v-if="Selection?.cellCount! > 1"
         @click="() => emits('onMergeCell')"
         ><template #icon><TableCellsMerge class="w-4 stroke-[1.5]" /></template
       ></Button>
       <Button
         variant="ghost"
+        :title="$t('split-cells')"
         v-if="Selection?.mergedCellCount! > 0"
         @click="() => emits('onSplitCell')"
         ><template #icon>
@@ -91,17 +93,14 @@ const Selection = computed(() => {
       ></Button>
       <Button
         variant="ghost"
-        v-if="Selection?.mergedCellCount! > 0"
-        @click="() => emits('onSplitCell')"
-        ><template #icon>
-          <TableCellsSplit class="w-4 stroke-[1.5]" /> </template
-      ></Button>
-      <Button variant="ghost" @click="() => emits('onHeaderCell')"
+        :title="$t('toggle-header')"
+        @click="() => emits('onHeaderCell')"
         ><template #icon>
           <ToggleHeaderCell class="w-4 stroke-[1.5]" /> </template
       ></Button>
       <Button
         v-if="isTableSelected(props.editor.state.selection)"
+        :title="$t('delete-table')"
         icon="trash-2"
         @click="() => emits('onDeleteTable')"
       />

@@ -1,10 +1,12 @@
 <template>
-  <Dialog v-model="open" :options="{ title: 'New Version', size: 'sm' }">
+  <Dialog v-model="open" :options="{ title: $t('new-version'), size: 'sm' }">
     <template #body-content>
-      <Input v-model="snapshotMessage" label="Message" />
+      <Input v-model="snapshotMessage" :label="$t('version-message')" />
     </template>
     <template #actions>
-      <Button :variant="'solid'" class="w-full" @click="save">Create</Button>
+      <Button :variant="'solid'" class="w-full" @click="save">{{
+        $t("create")
+      }}</Button>
     </template>
   </Dialog>
 </template>

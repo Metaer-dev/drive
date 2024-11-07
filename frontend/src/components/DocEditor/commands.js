@@ -8,40 +8,41 @@ import { default as NewCommentIcon } from "../EspressoIcons/Comment.vue"
 import { default as NewLink } from "../EspressoIcons/Link.vue"
 import { TableCellsSplit, TableCellsMerge } from "lucide-vue-next"
 import ToggleHeaderCell from "./icons/ToggleHeaderCell.vue"
+import { t } from "../../i18n"
 
 export default {
   Bold: {
-    label: "Bold",
+    label: t("bold"),
     icon: Bold,
     action: (editor) => editor.chain().focus().toggleBold().run(),
     isActive: (editor) => editor.isActive("bold"),
   },
   Italic: {
-    label: "Italic",
+    label: t("italic"),
     icon: Italic,
     action: (editor) => editor.chain().focus().toggleItalic().run(),
     isActive: (editor) => editor.isActive("italic"),
   },
   Underline: {
-    label: "Underline",
+    label: t("underline"),
     icon: Underline,
     action: (editor) => editor.chain().focus().toggleUnderline().run(),
     isActive: (editor) => editor.isActive("underline"),
   },
   Strikethrough: {
-    label: "Strikethrough",
+    label: t("strikethrough"),
     icon: Strikethrough,
     action: (editor) => editor.chain().focus().toggleStrike().run(),
     isActive: (editor) => editor.isActive("strike"),
   },
   Code: {
-    label: "Code",
+    label: t("code"),
     icon: Code,
     action: (editor) => editor.chain().focus().toggleCode().run(),
     isActive: (editor) => editor.isActive("code"),
   },
   Link: {
-    label: "New Link",
+    label: t("new-link"),
     icon: NewLink,
     isActive: (editor) => editor.isActive("link"),
     component: defineAsyncComponent(() =>
@@ -52,7 +53,7 @@ export default {
     type: "separator",
   },
   NewAnnotation: {
-    label: "New Annotation",
+    label: t("new-annotation"),
     icon: NewCommentIcon,
     isActive: (editor) => editor.isActive("comment"),
     component: defineAsyncComponent(() =>
@@ -60,7 +61,7 @@ export default {
     ),
   },
   Comment: {
-    label: "New Comment",
+    label: t("new-comment"),
     icon: NewLink,
     isActive: (editor) => editor.isActive("comment"),
     component: defineAsyncComponent(() =>
@@ -68,19 +69,19 @@ export default {
     ),
   },
   MergeCells: {
-    label: "Merge Cells",
+    label: t("merge-cells"),
     icon: TableCellsMerge,
     isActive: () => false,
     action: (editor) => editor.chain().focus().mergeCells().run(),
   },
   SplitCells: {
-    label: "Split Cells",
+    label: t("split-cells"),
     icon: TableCellsSplit,
     isActive: () => false,
     action: (editor) => editor.chain().focus().splitCell().run(),
   },
   ToggleHeaderCell: {
-    label: "Toggle Header",
+    label: t("toggle-header"),
     icon: ToggleHeaderCell,
     isActive: () => false,
     action: (editor) => editor.chain().focus().toggleHeaderCell().run(),
