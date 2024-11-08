@@ -11,7 +11,6 @@
           <template #prefix>
             <Filter />
           </template>
-          <!-- {{ currentFilterLabel }} -->
           <span class="whitespace-nowrap">{{ currentFilterLabel }}</span>
         </Button>
       </Dropdown>

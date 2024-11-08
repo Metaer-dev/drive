@@ -5,6 +5,7 @@
         $t("add-user")
       }}</label>
       <UserSearch
+        button-text="Add"
         :button-variant="'solid'"
         :search-groups="false"
         :active-users="uniqueUsers"

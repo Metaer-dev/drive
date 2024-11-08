@@ -52,6 +52,10 @@ def get_home_folder_id(user=None):
     """Returns user directory name from user's unique id"""
     if not user:
         user = frappe.session.user
+        if 'Administrator' in frappe.get_roles(user):
+            return get_user_directory(user).name
+        if 'Drive Guest' in frappe.get_roles(user):
+            frappe.throw("Access forbidden: You do not have permission to access this resource.", frappe.PermissionError)
         return get_user_directory(user).name
 
 
@@ -1832,35 +1836,39 @@ def search(query, home_dir):
     text = frappe.db.escape(query + "*")
     user = frappe.db.escape(frappe.session.user)
     omit = frappe.db.escape(home_dir)
-    result = frappe.db.sql(
-        f"""
-    SELECT  `tabDrive Entity`.name,
-            `tabDrive Entity`.title, 
-            `tabDrive Entity`.owner,
-            `tabDrive Entity`.mime_type,
-            `tabDrive Entity`.is_group,
-            `tabDrive Entity`.document,
-            `tabDrive Entity`.color,
-            `tabUser`.user_image,
-            `tabUser`.full_name
-    FROM `tabDrive Entity`
-    LEFT JOIN `tabDrive DocShare`
-    ON `tabDrive DocShare`.`share_name` = `tabDrive Entity`.`name`
-    LEFT JOIN `tabUser Group Member`
-    ON `tabUser Group Member`.`parent` = `tabDrive DocShare`.`user_name`
-    LEFT JOIN `tabUser` ON `tabDrive Entity`.`owner` = `tabUser`.`email`
-    WHERE (`tabUser Group Member`.`user` = {user} 
-            OR `tabDrive DocShare`.`user_name` = {user} 
-            OR `tabDrive DocShare`.`everyone` = 1 
-            OR `tabDrive Entity`.`owner` = {user})
-        AND `tabDrive Entity`.`is_active` = 1
-        AND MATCH(title) AGAINST ({text} IN BOOLEAN MODE)
-        AND NOT `tabDrive Entity`.`name` LIKE {omit}
-    GROUP  BY `tabDrive Entity`.`name` 
-    """,
-        as_dict=1,
-    )
-    return result
+    try:
+        result = frappe.db.sql(
+            f"""
+        SELECT  `tabDrive Entity`.name,
+                `tabDrive Entity`.title, 
+                `tabDrive Entity`.owner,
+                `tabDrive Entity`.mime_type,
+                `tabDrive Entity`.is_group,
+                `tabDrive Entity`.document,
+                `tabDrive Entity`.color,
+                `tabUser`.user_image,
+                `tabUser`.full_name
+        FROM `tabDrive Entity`
+        LEFT JOIN `tabDrive DocShare`
+        ON `tabDrive DocShare`.`share_name` = `tabDrive Entity`.`name`
+        LEFT JOIN `tabUser Group Member`
+        ON `tabUser Group Member`.`parent` = `tabDrive DocShare`.`user_name`
+        LEFT JOIN `tabUser` ON `tabDrive Entity`.`owner` = `tabUser`.`email`
+        WHERE (`tabUser Group Member`.`user` = {user} 
+                OR `tabDrive DocShare`.`user_name` = {user} 
+                OR `tabDrive DocShare`.`everyone` = 1 
+                OR `tabDrive Entity`.`owner` = {user})
+            AND `tabDrive Entity`.`is_active` = 1
+            AND MATCH(title) AGAINST ({text} IN BOOLEAN MODE)
+            AND NOT `tabDrive Entity`.`name` LIKE {omit}
+        GROUP  BY `tabDrive Entity`.`name` 
+        """,
+            as_dict=1,
+        )
+        return result
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), 'Frappe Drive Search Error')
+        return {"error": str(e)}
 
 
 @frappe.whitelist()

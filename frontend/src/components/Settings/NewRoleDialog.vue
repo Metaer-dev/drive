@@ -11,6 +11,7 @@
       }}</label>
       <UserSearch
         :button-text="$t('add')"
+        :show-button="false"
         :search-groups="false"
         :active-users="uniqueUsers"
         :active-groups="[]"
@@ -116,6 +117,7 @@ export default {
   },
   methods: {
     addUser(data) {
+      console.log(data)
       data.forEach((user) => {
         this.memberError = ""
         this.UsersInRole.push(user)
