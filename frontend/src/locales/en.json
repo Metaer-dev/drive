@@ -2,6 +2,7 @@
   "insert": "insert",
   "update": "Update",
   "share": "Share",
+  "Share": "Share",
   "clear-recents": "Clear Recents",
   "clear-favourites": "Clear Favourites",
   "empty-trash": "Empty Trash",
@@ -148,6 +149,7 @@
   "create": "Create",
   "new-group": "New Group",
   "add": "Add",
+  "Add": "Add",
   "add-user": "Add User",
   "group-name": "Group Name",
   "users-in-this-group": "Users in this Group",
@@ -323,5 +325,6 @@
   "upload-video": "Upload Video",
   "insert-video": "Insert Video",
   "post": "Post",
-  "ctrl-enter-to-post": "Ctrl + Enter to post"
+  "ctrl-enter-to-post": "Ctrl + Enter to post",
+  "no-users-found": "No users found"
 }

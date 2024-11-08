@@ -2,6 +2,7 @@
   "insert": "新增",
   "update": "更新",
   "share": "共享",
+  "Share": "共享",
   "clear-recents": "清空记录",
   "clear-favourites": "清空收藏夹",
   "empty-trash": "清空回收站",
@@ -149,6 +150,7 @@
   "create": "创建",
   "new-group": "新建群组",
   "add": "添加",
+  "Add": "添加",
   "add-user": "添加用户",
   "group-name": "群组名",
   "users-in-this-group": "该群组用户",
@@ -326,5 +328,6 @@
   "upload-video": "上传视频",
   "insert-video": "插入",
   "post": "提交",
-  "ctrl-enter-to-post": "Ctrl + Enter 提交"
+  "ctrl-enter-to-post": "Ctrl + Enter 提交",
+  "no-users-found": "未找到用户"
 }

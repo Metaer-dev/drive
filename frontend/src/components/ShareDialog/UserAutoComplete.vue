@@ -3,7 +3,7 @@
     <Input
       v-model="searchUserText"
       class="bg-white pb-1.5"
-      placeholder="Search users"
+      :placeholder="$t('search')"
       type="text"
       @input="searchUserText = $event"
     />
@@ -26,15 +26,15 @@
         <span class="text-base text-gray-700">{{ user.full_name }}</span>
       </li>
     </ul>
-    <span v-else class="rounded-md px-2.5 py-1.5 text-base text-gray-600"
-      >No users found</span
-    >
+    <span v-else class="rounded-md px-2.5 py-1.5 text-base text-gray-600">{{
+      $t("no-users-found")
+    }}</span>
     <div class="flex items-center justify-end border-t py-1 mt-1">
       <Button
         class="px-2 py-1.5 hover:bg-gray-100 rounded cursor-pointer"
         @click="resetAll"
       >
-        Clear all
+        {{ $t("clear-all") }}
       </Button>
     </div>
   </div>

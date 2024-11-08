@@ -67,7 +67,7 @@
         class="text-gray-700 relative flex-shrink-0 col-span-4 ml-auto border-l border-gray-600"
       >
         <PopoverButton class="flex gap-1 px-2 focus:outline-none">
-          {{ newUserAccess.write ? "Can Edit" : "Can View" }}
+          {{ newUserAccess.write ? $t("can-edit") : $t("can-view") }}
           <ChevronDown
             :class="{ '[transform:rotateX(180deg)]': open }"
             class="w-4"
@@ -80,7 +80,7 @@
               class="flex items-center p-1 hover:bg-gray-100 w-full rounded-[6px] cursor-pointer"
               @click="newUserAccess = { read: 1, write: 0 }"
             >
-              <span class="line-clamp-1">Can View</span>
+              <span class="line-clamp-1">{{ $t("can-view") }}</span>
               <Check
                 v-if="newUserAccess.read === 1 && newUserAccess.write === 0"
                 class="h-3 pl-1"
@@ -90,7 +90,7 @@
               class="flex items-center p-1 hover:bg-gray-100 w-full rounded-[6px] cursor-pointer"
               @click="newUserAccess = { read: 1, write: 1 }"
             >
-              Can Edit
+              {{ $t("can-edit") }}
               <Check v-if="newUserAccess.write === 1" class="h-3 pl-1" />
             </li></ul
         ></PopoverPanel>
