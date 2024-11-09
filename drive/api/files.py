@@ -52,10 +52,13 @@ def get_home_folder_id(user=None):
     """Returns user directory name from user's unique id"""
     if not user:
         user = frappe.session.user
-        if 'Administrator' in frappe.get_roles(user):
+        if "Administrator" in frappe.get_roles(user):
             return get_user_directory(user).name
-        if 'Drive Guest' in frappe.get_roles(user):
-            frappe.throw("Access forbidden: You do not have permission to access this resource.", frappe.PermissionError)
+        if "Drive Guest" in frappe.get_roles(user):
+            frappe.throw(
+                "Access forbidden: You do not have permission to access this resource.",
+                frappe.PermissionError,
+            )
         return get_user_directory(user).name
 
 
@@ -365,9 +368,9 @@ def upload_file_and_validate_file(fullpath=None, parent=None, last_modified=None
             (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
             payloads = importer.import_file.get_payloads_for_import()
             valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
-            from rentals.gx_library.api import gx_valide
+            from dataq.data_quality_management.api import gx_validate
 
-            validation_results, df = gx_valide(doctype, valide_data, True)
+            validation_results, df = gx_validate(doctype, valide_data, True)
             validated = True
             imported = False
         # valide end
@@ -478,9 +481,9 @@ def upload_file_and_insert_doctype(fullpath=None, parent=None, last_modified=Non
             (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
             payloads = importer.import_file.get_payloads_for_import()
             valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
-            from rentals.gx_library.api import gx_valide
+            from dataq.data_quality_management.api import gx_validate
 
-            validation_results, df = gx_valide(doctype, valide_data, True)
+            validation_results, df = gx_validate(doctype, valide_data, True)
             if validation_results:
                 validated = True
                 importer.import_data()
@@ -592,9 +595,9 @@ def upload_file_and_update_doctype(fullpath=None, parent=None, last_modified=Non
             (importer, drive_data_import) = get_importer(doctype, relative_path, "Update")
             payloads = importer.import_file.get_payloads_for_import()
             valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
-            from rentals.gx_library.api import gx_valide
+            from dataq.data_quality_management.api import gx_validate
 
-            validation_results, df = gx_valide(doctype, valide_data, True)
+            validation_results, df = gx_validate(doctype, valide_data, True)
             if validation_results:
                 validated = True
                 importer.import_data()
@@ -705,9 +708,9 @@ def upload_file_and_cover_doctype(fullpath=None, parent=None, last_modified=None
             (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
             payloads = importer.import_file.get_payloads_for_import()
             valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
-            from rentals.gx_library.api import gx_valide
+            from dataq.data_quality_management.api import gx_validate
 
-            validation_results, df = gx_valide(doctype, valide_data, True)
+            validation_results, df = gx_validate(doctype, valide_data, True)
             if validation_results:
                 validated = True
                 frappe.db.delete(doctype)
@@ -1867,7 +1870,7 @@ def search(query, home_dir):
         )
         return result
     except Exception as e:
-        frappe.log_error(frappe.get_traceback(), 'Frappe Drive Search Error')
+        frappe.log_error(frappe.get_traceback(), "Frappe Drive Search Error")
         return {"error": str(e)}
 
 
