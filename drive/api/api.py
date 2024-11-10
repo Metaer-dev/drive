@@ -43,3 +43,11 @@ def oauth_providers():
 @frappe.whitelist(allow_guest=True)
 def get_server_timezone():
     return frappe.db.get_single_value("System Settings", "time_zone")
+
+
+@frappe.whitelist()
+def get_lang():
+    system_lang = frappe.db.get_single_value("System Settings", "language")
+    user_lang = frappe.get_value("User", frappe.session.user, "language")
+    lang = user_lang if user_lang else system_lang
+    return lang

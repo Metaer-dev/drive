@@ -2,6 +2,25 @@ import { createI18n } from "vue-i18n"
 import enLang from "./locales/en.json"
 import zhLang from "./locales/zh.json"
 import { useTimeAgo as vueUseTimeAgo } from "@vueuse/core"
+import { frappeRequest } from "frappe-ui"
+
+const getLanguage = async () => {
+  try {
+    const response = await frappeRequest({
+      method: "GET",
+      url: "drive.api.api.get_lang",
+    })
+    return response
+  } catch (error) {
+    console.error("failed get lang:", error)
+  }
+}
+let language = "en"
+try {
+  language = await getLanguage()
+} catch (error) {
+  language = "en"
+}
 
 const messages = {
   en: {
@@ -13,7 +32,7 @@ const messages = {
 }
 
 export const i18n = createI18n({
-  locale: "zh",
+  locale: language,
   fallbackLocale: "en",
   messages,
 })

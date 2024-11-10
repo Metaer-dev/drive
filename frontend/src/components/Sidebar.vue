@@ -88,7 +88,7 @@
       <StorageBar v-if="!isDriveGuest" />
       <!-- <span>{{ $resources.getRootFolderSize.data }}</span> -->
       <SidebarItem
-        :label="!isExpanded ? 'Expand' : 'Collapse'"
+        :label="!isExpanded ? $t('expand') : $t('collapse')"
         :is-collapsed="!isExpanded"
         class="mt-auto"
         @click="toggleExpanded"

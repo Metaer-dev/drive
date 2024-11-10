@@ -36,6 +36,7 @@
   "jump-to": "Jump to",
   "actions": "Actions",
   "search": "Search",
+  "Search": "Search",
   "shared-with-you": "Shared with You",
   "shared-by-you": "Shared by You",
   "filter": "Filter",
@@ -326,5 +327,15 @@
   "insert-video": "Insert Video",
   "post": "Post",
   "ctrl-enter-to-post": "Ctrl + Enter to post",
-  "no-users-found": "No users found"
+  "no-users-found": "No users found",
+  "copied-link": "Copied link",
+  "unread": "Unread",
+  "all": "All",
+  "mark-all-as-read": "Mark all as Read",
+  "no-notifications": "No Notifications",
+  "subject": "Subject",
+  "message": "Message",
+  "used-out-of": "used out of",
+  "expand": "Expand",
+  "collapse": "Collapse"
 }

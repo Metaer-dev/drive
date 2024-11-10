@@ -5,7 +5,7 @@
     @click="emitter.emit('showSettings', 3)"
   >
     <SidebarItem
-      :label="isExpanded ? 'Storage' : '3.5GB used out of 50GB'"
+      :label="isExpanded ? $t('Storage') : formatedString"
       :is-collapsed="!isExpanded"
     >
       <template #icon>
@@ -43,6 +43,8 @@ import { createResource } from "frappe-ui"
 import SidebarItem from "./SidebarItem.vue"
 import Cloud from "./EspressoIcons/Cloud.vue"
 import { formatSize, base2BlockSize } from "@/utils/format"
+import { useI18n } from "vue-i18n"
+const { t } = useI18n()
 const emitter = inject("emitter")
 const usedStorage = ref(0)
 const storageMax = ref(5368709120)
@@ -55,7 +57,7 @@ const isExpanded = computed(() => {
 const formatedString = computed(() => {
   return (
     formatSize(usedStorage.value) +
-    " used out of " +
+    t("used-out-of") +
     base2BlockSize(storageMax.value)
   )
 })

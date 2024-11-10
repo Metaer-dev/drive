@@ -1,4 +1,5 @@
 import { toast } from "../utils/toasts.js"
+import { t } from "@/i18n.js"
 
 export async function getLink(entity) {
   const link = entity.is_group
@@ -10,7 +11,7 @@ export async function getLink(entity) {
   try {
     await copyToClipboard(link)
     toast({
-      title: "Copied link",
+      title: t("copied-link"),
       position: "bottom-right",
       timeout: 2,
     })
