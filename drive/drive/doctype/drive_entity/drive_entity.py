@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from frappe.model.document import Document
 from pathlib import Path
 import shutil
@@ -173,7 +174,7 @@ class DriveEntity(Document):
         for child in self.get_children():
             if child.name == self.name or child.name == new_parent:
                 frappe.throw(
-                    "Cannot move into itself",
+                    _("Cannot move into itself"),
                     frappe.PermissionError,
                 )
                 return
@@ -218,13 +219,13 @@ class DriveEntity(Document):
                 user=frappe.session.user,
             ):
                 frappe.throw(
-                    "Cannot paste to this folder due to insufficient permissions",
+                    _("Cannot paste to this folder due to insufficient permissions"),
                     frappe.PermissionError,
                 )
             if self.name == new_parent or self.name in get_ancestors_of(
                 "Drive Entity", new_parent
             ):
-                frappe.throw("You cannot copy a folder into itself")
+                frappe.throw(_("You cannot copy a folder into itself"))
 
             title = get_new_title(title, new_parent)
 
@@ -269,7 +270,7 @@ class DriveEntity(Document):
         else:
             save_path = Path(parent_user_directory.path) / f"{new_parent}_{title}"
             if save_path.exists():
-                frappe.throw(f"File '{title}' already exists", FileExistsError)
+                frappe.throw(_("File '{0}' already exists").format(title), FileExistsError)
 
             shutil.copy(self.path, save_path)
 
@@ -334,10 +335,20 @@ class DriveEntity(Document):
             suggested_name = get_new_title(
                 new_title, self.parent_drive_entity, document=self.document, folder=self.is_group
             )
-            frappe.throw(
-                f"{'Folder' if self.is_group else 'File'} '{new_title}' already exists\n Try '{suggested_name}' ",
-                FileExistsError,
-            )
+            if self.is_group:
+                frappe.throw(
+                    _("'Folder' '{0}' already exists\n Try '{1}' ").format(
+                        new_title, suggested_name
+                    ),
+                    FileExistsError,
+                )
+            else:
+                frappe.throw(
+                    _("'File' '{0}' already exists\n Try '{1}' ").format(
+                        new_title, suggested_name
+                    ),
+                    FileExistsError,
+                )
             return suggested_name
         full_name = frappe.db.get_value("User", {"name": frappe.session.user}, ["full_name"])
         message = f"{full_name} renamed {self.title} to {new_title}"
@@ -451,7 +462,7 @@ class DriveEntity(Document):
                     ):
                         continue
                     else:
-                        frappe.throw("Not permitted to share", frappe.PermissionError)
+                        frappe.throw(_("Not permitted to share"), frappe.PermissionError)
                         break
         if user:
             share_name = frappe.db.get_value(
@@ -563,7 +574,7 @@ class DriveEntity(Document):
             absolute_path = generate_upward_path(self.name)
             for i in absolute_path:
                 if i.owner == user:
-                    frappe.throw("User owns parent folder", frappe.PermissionError)
+                    frappe.throw(_("User owns parent folder"), frappe.PermissionError)
 
             share_name = frappe.db.get_value(
                 "Drive DocShare",

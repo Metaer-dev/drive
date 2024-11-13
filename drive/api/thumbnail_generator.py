@@ -1,5 +1,6 @@
 import frappe
 import os
+from frappe import _
 from pathlib import Path
 from PIL import Image, ImageOps
 from io import BytesIO
@@ -32,7 +33,7 @@ def create_image_thumbnail(entity_name):
     if not frappe.has_permission(
         doctype="Drive Entity", doc=drive_entity.name, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+        frappe.throw(_("Cannot upload due to insufficient permissions"), frappe.PermissionError)
     with DistributedLock(drive_entity.path, exclusive=False):
         if frappe.cache().exists(entity_name):
             cached_thumbnbail = frappe.cache().get_value(entity_name)
@@ -70,7 +71,7 @@ def create_video_thumbnail(entity_name):
     if not frappe.has_permission(
         doctype="Drive Entity", doc=drive_entity.name, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+        frappe.throw(_("Cannot upload due to insufficient permissions"), frappe.PermissionError)
     with DistributedLock(drive_entity.path, exclusive=False):
         if frappe.cache().exists(entity_name):
             cached_thumbnbail = frappe.cache().get_value(entity_name)

@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe import _
 from frappe.model.document import Document
 from frappe.model.document import Document
 from frappe.utils import (
@@ -57,13 +58,13 @@ class DriveUserInvitation(Document):
     def accept(self):
         if self.has_expired():
             self.db_set("status", "Expired", commit=True)
-            frappe.throw("Invalid or expired key")
+            frappe.throw(_("Invalid or expired key"))
 
         if self.status == "Expired":
-            frappe.throw("Invalid or expired key")
+            frappe.throw(_("Invalid or expired key"))
 
         if self.status == "Accepted":
-            frappe.throw("Invitation already accepted")
+            frappe.throw(_("Invitation already accepted"))
 
         user = self.create_user_if_not_exists()
         user.append_roles(self.role)

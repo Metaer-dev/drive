@@ -1,6 +1,7 @@
 import frappe
 import json
 from pypika import Order
+from frappe import _
 
 
 @frappe.whitelist()
@@ -84,19 +85,21 @@ def notify_mentions(entity_name, document_name):
             author_full_name = frappe.db.get_value(
                 "User", {"name": mention["author"]}, ["full_name"]
             )
-            message = f' {author_full_name} mentioned you in document "{entity.title}"'
-            create_notification(mention["author"], mention["id"], "Mention", entity, message)
+            message = " " + _('{0} mentioned you in document "{1}"').format(
+                author_full_name, entity.title
+            )
+            create_notification(mention["author"], mention["id"], _("Mention"), entity, message)
         if mention["type"] == "User Group":
             group_users = frappe.get_all(
                 "User Group Member", filters={"parent": mention["id"]}, fields="user"
             )
-            message = (
-                f' {author_full_name} mentioned {mention["id"]} group in document "{entity.title}"'
+            message = " " + _('{0} mentioned {1} group in document "{2}"').format(
+                author_full_name, mention["id"], entity.title
             )
             for user in group_users:
                 if user.user == frappe.session.user:
                     continue
-                create_notification(mention["author"], user.user, "Mention", entity, message)
+                create_notification(mention["author"], user.user, _("Mention"), entity, message)
 
 
 def notify_share(entity_name, docshare_name):
@@ -109,12 +112,16 @@ def notify_share(entity_name, docshare_name):
     docshare = frappe.get_doc("Drive DocShare", docshare_name)
 
     author_full_name = frappe.db.get_value("User", {"name": docshare.owner}, ["full_name"])
-    entity_type = "document" if entity.document else "folder" if entity.is_group else "file"
+    entity_type = (
+        _("document") if entity.document else _("folder") if entity.is_group else _("file")
+    )
 
-    message = f'{author_full_name} shared {entity_type} "{entity.title}" with you'
+    message = _('{0} shared {1} "{2}" with you').format(
+        author_full_name, entity_type, entity.title
+    )
 
     if docshare.user_doctype == "User":
-        create_notification(docshare.owner, docshare.user_name, "Share", entity, message)
+        create_notification(docshare.owner, docshare.user_name, _("Share"), entity, message)
 
     if docshare.user_doctype == "User Group":
         group_users = frappe.get_all(
@@ -123,7 +130,7 @@ def notify_share(entity_name, docshare_name):
         for user in group_users:
             if user.user == frappe.session.user:
                 continue
-            create_notification(docshare.owner, user.user, "Share", entity, message)
+            create_notification(docshare.owner, user.user, _("Share"), entity, message)
 
     if docshare.everyone:
         drive_users = frappe.get_all(
@@ -141,7 +148,7 @@ def notify_share(entity_name, docshare_name):
         for user in drive_users:
             if user.email == frappe.session.user:
                 continue
-            create_notification(docshare.owner, user.email, "Share", entity, message)
+            create_notification(docshare.owner, user.email, _("Share"), entity, message)
         return
 
 
@@ -159,7 +166,9 @@ def create_notification(from_user, to_user, type, entity, message=None):
     user_access = get_user_access(entity.name, to_user)
     if user_access.get("read") == 0:
         return
-    entity_type = "Document" if entity.document else "Folder" if entity.is_group else "File"
+    entity_type = (
+        _("Document") if entity.document else _("Folder") if entity.is_group else _("File")
+    )
     notif = frappe.get_doc(
         {
             "doctype": "Drive Notification",
@@ -167,7 +176,7 @@ def create_notification(from_user, to_user, type, entity, message=None):
             "to_user": to_user,
             "type": type,
             "entity_type": entity_type,
-            "notif_doctype": "Drive Entity",
+            "notif_doctype": _("Drive Entity"),
             "notif_doctype_name": entity.name,
             "message": message,
         }

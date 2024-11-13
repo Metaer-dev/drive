@@ -3,6 +3,7 @@ import os
 import re
 import magic
 import mimetypes
+from frappe import _
 from werkzeug.utils import secure_filename
 from werkzeug.wrappers import Response
 from werkzeug.wsgi import wrap_file
@@ -68,7 +69,7 @@ def upload_chunked_file(fullpath=None, parent=None, last_modified=None):
     if not frappe.has_permission(
         doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+        frappe.throw(_("Cannot upload due to insufficient permissions"), frappe.PermissionError)
 
     file = frappe.request.files["file"]
 
@@ -80,7 +81,7 @@ def upload_chunked_file(fullpath=None, parent=None, last_modified=None):
     file_size = int(frappe.form_dict.total_file_size)
     save_path = Path(embed_directory) / f"{secure_filename(name+file_ext)}"
     if current_chunk == 0 and save_path.exists():
-        frappe.throw(f"File '{title}' already exists", FileExistsError)
+        frappe.throw(_("File '{0}' already exists").format(title), FileExistsError)
 
     if not mime_type:
         mime_type = magic.from_buffer(open(save_path, "rb").read(2048), mime=True)
@@ -94,7 +95,7 @@ def upload_chunked_file(fullpath=None, parent=None, last_modified=None):
 
     if file_size != int(frappe.form_dict.total_file_size):
         save_path.unlink()
-        frappe.throw("Size on disk does not match specified filesize", ValueError)
+        frappe.throw(_("Size on disk does not match specified filesize"), ValueError)
     drive_entity = create_drive_entity(
         name, title, parent, save_path, file_size, file_ext, mime_type, last_modified
     )
@@ -139,7 +140,7 @@ def get_file_content(embed_name, parent_entity_name, trigger_download=0):
             ptype="read",
             user=frappe.session.user,
         ):
-            raise frappe.PermissionError("You do not have permission to view this file")
+            raise frappe.PermissionError(_("You do not have permission to view this file"))
 
     with DistributedLock(drive_entity.path, exclusive=False):
         user_embeds_directory = get_user_embeds_directory(user=drive_entity.owner)

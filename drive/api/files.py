@@ -2,6 +2,7 @@ import frappe
 import os
 import re
 import json
+from frappe import _
 from pypika import Order, Case, functions as fn
 from pathlib import Path
 from werkzeug.wrappers import Response
@@ -56,7 +57,7 @@ def get_home_folder_id(user=None):
             return get_user_directory(user).name
         if "Drive Guest" in frappe.get_roles(user):
             frappe.throw(
-                "Access forbidden: You do not have permission to access this resource.",
+                _("Access forbidden: You do not have permission to access this resource."),
                 frappe.PermissionError,
             )
         return get_user_directory(user).name
@@ -79,7 +80,7 @@ def create_document_entity(title, content, parent=None):
         user=frappe.session.user,
     ):
         frappe.throw(
-            "Cannot access folder due to insufficient permissions",
+            _("Cannot access folder due to insufficient permissions"),
             frappe.PermissionError,
         )
     drive_doc = frappe.new_doc("Drive Document")
@@ -218,7 +219,7 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
     if not frappe.has_permission(
         doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+        frappe.throw(_("Cannot upload due to insufficient permissions"), frappe.PermissionError)
 
     file = frappe.request.files["file"]
     upload_session = frappe.form_dict.uuid
@@ -234,7 +235,7 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
     )
 
     if get_storage_allowed() < int(frappe.form_dict.total_file_size):
-        frappe.throw("Out of allocated storage", ValueError)
+        frappe.throw(_("Out of allocated storage"), ValueError)
 
     with temp_path.open("ab") as f:
         f.seek(int(frappe.form_dict.chunk_byte_offset))
@@ -248,7 +249,7 @@ def upload_file(fullpath=None, parent=None, last_modified=None):
         file_size = temp_path.stat().st_size
         if file_size != int(frappe.form_dict.total_file_size):
             temp_path.unlink()
-            frappe.throw("Size on disk does not match specified filesize", ValueError)
+            frappe.throw(_("Size on disk does not match specified filesize"), ValueError)
         else:
             os.rename(temp_path, save_path)
         mime_type, _ = mimetypes.guess_type(temp_path)
@@ -313,7 +314,7 @@ def upload_file_and_validate_file(fullpath=None, parent=None, last_modified=None
     if not frappe.has_permission(
         doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+        frappe.throw(_("Cannot upload due to insufficient permissions"), frappe.PermissionError)
 
     file = frappe.request.files["file"]
     upload_session = frappe.form_dict.uuid
@@ -329,7 +330,7 @@ def upload_file_and_validate_file(fullpath=None, parent=None, last_modified=None
     )
 
     if get_storage_allowed() < int(frappe.form_dict.total_file_size):
-        frappe.throw("Out of allocated storage", ValueError)
+        frappe.throw(_("Out of allocated storage"), ValueError)
 
     with temp_path.open("ab") as f:
         f.seek(int(frappe.form_dict.chunk_byte_offset))
@@ -343,7 +344,7 @@ def upload_file_and_validate_file(fullpath=None, parent=None, last_modified=None
         file_size = temp_path.stat().st_size
         if file_size != int(frappe.form_dict.total_file_size):
             temp_path.unlink()
-            frappe.throw("Size on disk does not match specified filesize", ValueError)
+            frappe.throw(_("Size on disk does not match specified filesize"), ValueError)
         else:
             os.rename(temp_path, save_path)
         mime_type, _ = mimetypes.guess_type(temp_path)
@@ -425,7 +426,7 @@ def upload_file_and_insert_doctype(fullpath=None, parent=None, last_modified=Non
     if not frappe.has_permission(
         doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+        frappe.throw(_("Cannot upload due to insufficient permissions"), frappe.PermissionError)
 
     file = frappe.request.files["file"]
     upload_session = frappe.form_dict.uuid
@@ -441,7 +442,7 @@ def upload_file_and_insert_doctype(fullpath=None, parent=None, last_modified=Non
     )
 
     if get_storage_allowed() < int(frappe.form_dict.total_file_size):
-        frappe.throw("Out of allocated storage", ValueError)
+        frappe.throw(_("Out of allocated storage"), ValueError)
 
     with temp_path.open("ab") as f:
         f.seek(int(frappe.form_dict.chunk_byte_offset))
@@ -455,7 +456,7 @@ def upload_file_and_insert_doctype(fullpath=None, parent=None, last_modified=Non
         file_size = temp_path.stat().st_size
         if file_size != int(frappe.form_dict.total_file_size):
             temp_path.unlink()
-            frappe.throw("Size on disk does not match specified filesize", ValueError)
+            frappe.throw(_("Size on disk does not match specified filesize"), ValueError)
         else:
             os.rename(temp_path, save_path)
         mime_type, _ = mimetypes.guess_type(temp_path)
@@ -540,7 +541,7 @@ def upload_file_and_update_doctype(fullpath=None, parent=None, last_modified=Non
     if not frappe.has_permission(
         doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+        frappe.throw(_("Cannot upload due to insufficient permissions"), frappe.PermissionError)
 
     file = frappe.request.files["file"]
     upload_session = frappe.form_dict.uuid
@@ -556,7 +557,7 @@ def upload_file_and_update_doctype(fullpath=None, parent=None, last_modified=Non
     )
 
     if get_storage_allowed() < int(frappe.form_dict.total_file_size):
-        frappe.throw("Out of allocated storage", ValueError)
+        frappe.throw(_("Out of allocated storage"), ValueError)
 
     with temp_path.open("ab") as f:
         f.seek(int(frappe.form_dict.chunk_byte_offset))
@@ -570,7 +571,7 @@ def upload_file_and_update_doctype(fullpath=None, parent=None, last_modified=Non
         file_size = temp_path.stat().st_size
         if file_size != int(frappe.form_dict.total_file_size):
             temp_path.unlink()
-            frappe.throw("Size on disk does not match specified filesize", ValueError)
+            frappe.throw(_("Size on disk does not match specified filesize"), ValueError)
         else:
             os.rename(temp_path, save_path)
         mime_type, _ = mimetypes.guess_type(temp_path)
@@ -653,7 +654,7 @@ def upload_file_and_cover_doctype(fullpath=None, parent=None, last_modified=None
     if not frappe.has_permission(
         doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Cannot upload due to insufficient permissions", frappe.PermissionError)
+        frappe.throw(_("Cannot upload due to insufficient permissions"), frappe.PermissionError)
 
     file = frappe.request.files["file"]
     upload_session = frappe.form_dict.uuid
@@ -669,7 +670,7 @@ def upload_file_and_cover_doctype(fullpath=None, parent=None, last_modified=None
     )
 
     if get_storage_allowed() < int(frappe.form_dict.total_file_size):
-        frappe.throw("Out of allocated storage", ValueError)
+        frappe.throw(_("Out of allocated storage"), ValueError)
 
     with temp_path.open("ab") as f:
         f.seek(int(frappe.form_dict.chunk_byte_offset))
@@ -683,7 +684,7 @@ def upload_file_and_cover_doctype(fullpath=None, parent=None, last_modified=None
         file_size = temp_path.stat().st_size
         if file_size != int(frappe.form_dict.total_file_size):
             temp_path.unlink()
-            frappe.throw("Size on disk does not match specified filesize", ValueError)
+            frappe.throw(_("Size on disk does not match specified filesize"), ValueError)
         else:
             os.rename(temp_path, save_path)
         mime_type, _ = mimetypes.guess_type(temp_path)
@@ -787,7 +788,7 @@ def create_folder(title, parent=None):
         doctype="Drive Entity", doc=parent, ptype="write", user=frappe.session.user
     ):
         frappe.throw(
-            "Cannot create folder due to insufficient permissions",
+            _("Cannot create folder due to insufficient permissions"),
             frappe.PermissionError,
         )
 
@@ -797,7 +798,7 @@ def create_folder(title, parent=None):
     if entity_exists:
         suggested_name = get_new_title(title, parent, folder=True)
         frappe.throw(
-            f"Folder '{title}' already exists.\n Suggested: {suggested_name}",
+            _("Folder '{0}' already exists.\n Suggested: {1}").format(title, suggested_name),
             FileExistsError,
         )
 
@@ -840,7 +841,7 @@ def save_doc(entity_name, doc_name, raw_content, content, file_size, mentions, s
         ptype="write",
         user=frappe.session.user,
     ):
-        raise frappe.PermissionError("You do not have permission to view this file")
+        raise frappe.PermissionError(_("You do not have permission to view this file"))
     if settings:
         frappe.db.set_value("Drive Document", doc_name, "settings", json.dumps(settings))
     file_size = len(content.encode("utf-8")) + len(raw_content.encode("utf-8"))
@@ -871,7 +872,7 @@ def create_doc_version(entity_name, doc_name, snapshot_data, snapshot_message):
         ptype="write",
         user=frappe.session.user,
     ):
-        raise frappe.PermissionError("You do not have permission to view this file")
+        raise frappe.PermissionError(_("You do not have permission to view this file"))
     new_version = frappe.new_doc("Drive Document Version")
     new_version.snapshot_data = snapshot_data
     new_version.parent_entity = entity_name
@@ -890,7 +891,7 @@ def get_doc_version_list(entity_name):
         ptype="write",
         user=frappe.session.user,
     ):
-        raise frappe.PermissionError("You do not have permission to view this file")
+        raise frappe.PermissionError(_("You do not have permission to view this file"))
     return frappe.get_list(
         "Drive Document Version",
         filters={"parent_entity": entity_name},
@@ -924,7 +925,7 @@ def get_file_content(entity_name, trigger_download=0):  #
         ptype="read",
         user=frappe.session.user,
     ):
-        raise frappe.PermissionError("You do not have permission to view this file")
+        raise frappe.PermissionError(_("You do not have permission to view this file"))
     trigger_download = int(trigger_download)
     drive_entity = frappe.get_value(
         "Drive Entity",
@@ -1023,9 +1024,9 @@ def list_folder_contents(entity_name=None, order_by="modified", is_active=1, lim
     # Parent can be null for $HOME_DIR
     if parent:
         if not parent_is_group:
-            frappe.throw("Specified entity is not a folder", NotADirectoryError)
+            frappe.throw(_("Specified entity is not a folder"), NotADirectoryError)
         if not parent_is_active:
-            frappe.throw("Specified folder has been trashed by the owner")
+            frappe.throw(_("Specified folder has been trashed by the owner"))
     is_public = False
     if frappe.db.exists(
         {
@@ -1044,7 +1045,7 @@ def list_folder_contents(entity_name=None, order_by="modified", is_active=1, lim
             user=frappe.session.user,
         ):
             frappe.throw(
-                "Cannot access folder due to insufficient permissions",
+                _("Cannot access folder due to insufficient permissions"),
                 frappe.PermissionError,
             )
     general_access_val = "public" if is_public else "everyone"
@@ -1145,16 +1146,16 @@ def list_owned_entities(
         "Drive Entity", entity_name, ["is_group", "is_active", "owner"]
     )
     if not parent_is_group:
-        frappe.throw("Specified entity is not a folder", NotADirectoryError)
+        frappe.throw(_("Specified entity is not a folder"), NotADirectoryError)
     if not parent_is_active:
-        frappe.throw("Specified folder has been trashed by the owner")
+        frappe.throw(_("Specified folder has been trashed by the owner"))
     if not frappe.session.user == parent_owner:
-        frappe.throw("Not permitted")
+        frappe.throw(_("Not permitted"))
     if not frappe.has_permission(
         doctype="Drive Entity", doc=entity_name, ptype="write", user=frappe.session.user
     ):
         frappe.throw(
-            "Not permitted to read",
+            _("Not permitted to read"),
             frappe.PermissionError,
         )
 
@@ -1247,16 +1248,16 @@ def list_trashed_entities(
         "Drive Entity", entity_name, ["is_group", "is_active", "owner"]
     )
     if not parent_is_group:
-        frappe.throw("Specified entity is not a folder", NotADirectoryError)
+        frappe.throw(_("Specified entity is not a folder"), NotADirectoryError)
     if not parent_is_active:
-        frappe.throw("Specified folder has been trashed by the owner")
+        frappe.throw(_("Specified folder has been trashed by the owner"))
     if not frappe.session.user == parent_owner:
-        frappe.throw("Not permitted")
+        frappe.throw(_("Not permitted"))
     if not frappe.has_permission(
         doctype="Drive Entity", doc=entity_name, ptype="write", user=frappe.session.user
     ):
         frappe.throw(
-            "Not permitted to read",
+            _("Not permitted to read"),
             frappe.PermissionError,
         )
 
@@ -1378,11 +1379,11 @@ def unshare_entities(entity_names, move=False):
     if isinstance(entity_names, str):
         entity_names = json.loads(entity_names)
     if not isinstance(entity_names, list):
-        frappe.throw(f"Expected list but got {type(entity_names)}", ValueError)
+        frappe.throw(_("Expected list but got {0}").format(type(entity_names)), ValueError)
     for entity in entity_names:
         doc = frappe.get_doc("Drive Entity", entity)
         if not doc:
-            frappe.throw("Entity does not exist", ValueError)
+            frappe.throw(_("Entity does not exist"), ValueError)
         if move:
             doc.move()
         doc.unshare(frappe.session.user)
@@ -1408,7 +1409,7 @@ def delete_entities(entity_names=None, clear_all=None):
     if isinstance(entity_names, str):
         entity_names = json.loads(entity_names)
     if not isinstance(entity_names, list):
-        frappe.throw(f"Expected list but got {type(entity_names)}", ValueError)
+        frappe.throw(_("Expected list but got {0}").format(type(entity_names)), ValueError)
     for entity in entity_names:
         root_entity = get_ancestors_of(entity)
         if root_entity:
@@ -1530,7 +1531,7 @@ def add_or_remove_favourites(entity_names=None, clear_all=False):
     if isinstance(entity_names, str):
         entity_names = json.loads(entity_names)
     if not isinstance(entity_names, list):
-        frappe.throw(f"Expected list but got {type(entity_names)}", ValueError)
+        frappe.throw(_("Expected list but got {0}").format(type(entity_names)), ValueError)
     for entity in entity_names:
         existing_doc = frappe.db.exists(
             {
@@ -1570,7 +1571,7 @@ def remove_or_restore(entity_names, move=False):
     if isinstance(entity_names, str):
         entity_names = json.loads(entity_names)
     if not isinstance(entity_names, list):
-        frappe.throw(f"Expected list but got {type(entity_names)}", ValueError)
+        frappe.throw(_("Expected list but got {0}").format(type(entity_names)), ValueError)
 
     def depth_zero_toggle_is_active(doc):
         if doc.is_active:
@@ -1622,7 +1623,7 @@ def call_controller_method(entity_name, method):
 
     drive_entity = frappe.get_doc("Drive Entity", frappe.local.form_dict.pop("entity_name"))
     if not drive_entity:
-        frappe.throw("Entity does not exist", ValueError)
+        frappe.throw(_("Entity does not exist"), ValueError)
     method = frappe.local.form_dict.pop("method")
     drive_entity.is_whitelisted(method)
     frappe.local.form_dict.pop("cmd")
@@ -1722,7 +1723,7 @@ def remove_recents(entity_names=None, clear_all=False):
     if isinstance(entity_names, str):
         entity_names = json.loads(entity_names)
     if not isinstance(entity_names, list):
-        frappe.throw(f"Expected list but got {type(entity_names)}", ValueError)
+        frappe.throw(_("Expected list but got {0}").format(type(entity_names)), ValueError)
     for entity in entity_names:
         existing_doc = frappe.db.exists(
             {
@@ -1796,7 +1797,7 @@ def get_title(entity_name):
     if not frappe.has_permission(
         doctype="Drive Entity", doc=entity_name, ptype="write", user=frappe.session.user
     ):
-        frappe.throw("Not permitted", frappe.PermissionError)
+        frappe.throw(_("Not permitted"), frappe.PermissionError)
     return frappe.db.get_value("Drive Entity", entity_name, "title")
 
 
@@ -1814,7 +1815,7 @@ def move(entity_names, new_parent=None):
     if isinstance(entity_names, str):
         entity_names = json.loads(entity_names)
     if not isinstance(entity_names, list):
-        frappe.throw(f"Expected list but got {type(entity_names)}", ValueError)
+        frappe.throw(_("Expected list but got {0}").format(type(entity_names)), ValueError)
 
     for entity in entity_names:
         doc = frappe.get_doc("Drive Entity", entity)

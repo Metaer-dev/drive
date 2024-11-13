@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 
 
 @frappe.whitelist()
@@ -22,7 +23,7 @@ def create_tag(title, color="gray"):
         {"doctype": "Drive Tag", "owner": frappe.session.user, "title": title}
     )
     if tag_exists:
-        frappe.throw("Tag already exists")
+        frappe.throw(_("Tag already exists"))
     doc.save()
     return doc.name
 

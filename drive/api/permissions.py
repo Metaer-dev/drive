@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from pypika import Order, Case, functions as fn
 from drive.api.files import get_entity
 from drive.api.files import get_doc_content
@@ -299,13 +300,13 @@ def get_entity_with_permissions(entity_name):
         if not frappe.has_permission(
             doctype="Drive Entity", doc=entity_name, ptype="read", user=frappe.session.user
         ):
-            frappe.throw("Not permitted", frappe.PermissionError)
+            frappe.throw(_("Not permitted"), frappe.PermissionError)
 
     entity = get_entity(entity_name, fields)
 
     validate_parent_folder(entity)
     if not entity.is_active:
-        frappe.throw("Specified file has been trashed by the owner")
+        frappe.throw(_("Specified file has been trashed by the owner"))
 
     if entity.owner == frappe.session.user:
         valid_until = frappe.db.get_value(
@@ -319,7 +320,7 @@ def get_entity_with_permissions(entity_name):
         user_access = get_user_access(entity.name)
 
     if user_access.get("read") == 0:
-        frappe.throw("Unauthorized", frappe.PermissionError)
+        frappe.throw(_("Unauthorized"), frappe.PermissionError)
 
     owner_info = frappe.db.get_value(
         "User", entity.owner, ["user_image", "full_name"], as_dict=True

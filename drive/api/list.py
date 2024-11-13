@@ -1,5 +1,6 @@
 import frappe
 import json
+from frappe import _
 from drive.utils.files import get_user_directory
 from pypika import Order, Criterion, Case, functions as fn
 
@@ -20,9 +21,9 @@ def validate_parent(entity_name):
         "Drive Entity", entity_name, ["name", "is_group", "is_active"]
     )
     if not is_group:
-        frappe.throw("Specified entity is not a folder", NotADirectoryError)
+        frappe.throw(_("Specified entity is not a folder"), NotADirectoryError)
     if not is_active:
-        frappe.throw("Specified folder has been trashed by the owner")
+        frappe.throw(_("Specified folder has been trashed by the owner"))
     return
 
 

@@ -1,0 +1,1064 @@
+# Translations template for Frappe Drive.
+# Copyright (C) 2024 Frappe Technologies Pvt. Ltd.
+# This file is distributed under the same license as the Frappe Drive project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Frappe Drive VERSION\n"
+"Report-Msgid-Bugs-To: developers@frappe.io\n"
+"POT-Creation-Date: 2024-11-12 02:46+0000\n"
+"PO-Revision-Date: 2024-11-12 02:46+0000\n"
+"Last-Translator: developers@frappe.io\n"
+"Language-Team: developers@frappe.io\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: drive/drive/doctype/drive_entity/drive_entity.py:347
+msgid ""
+"'File' '{0}' already exists\n"
+" Try '{1}' "
+msgstr ""
+
+#: drive/drive/doctype/drive_entity/drive_entity.py:340
+msgid ""
+"'Folder' '{0}' already exists\n"
+" Try '{1}' "
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Accepted"
+msgstr ""
+
+#. Label of the accepted_at (Datetime) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Accepted At"
+msgstr ""
+
+#: drive/api/files.py:60
+msgid "Access forbidden: You do not have permission to access this resource."
+msgstr ""
+
+#. Label of the action_type (Select) field in DocType 'Drive Entity Activity
+#. Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "Action Type"
+msgstr ""
+
+#. Label of the allow_comments (Check) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Allow Comments"
+msgstr ""
+
+#. Label of the allow_download (Check) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Allow Download"
+msgstr ""
+
+#. Description of the 'Meta Value' (Data) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "Can contain whatever meta value needed for the access log. Ex: Used to store access level 1,2,3 etc on a DriveDocShare"
+msgstr ""
+
+#: drive/api/files.py:83 drive/api/files.py:1048
+msgid "Cannot access folder due to insufficient permissions"
+msgstr ""
+
+#: drive/api/files.py:791
+msgid "Cannot create folder due to insufficient permissions"
+msgstr ""
+
+#: drive/drive/doctype/drive_entity/drive_entity.py:177
+msgid "Cannot move into itself"
+msgstr ""
+
+#: drive/drive/doctype/drive_entity/drive_entity.py:222
+msgid "Cannot paste to this folder due to insufficient permissions"
+msgstr ""
+
+#: drive/api/embed.py:72 drive/api/files.py:222 drive/api/files.py:317
+#: drive/api/files.py:429 drive/api/files.py:544 drive/api/files.py:657
+#: drive/api/thumbnail_generator.py:36 drive/api/thumbnail_generator.py:74
+msgid "Cannot upload due to insufficient permissions"
+msgstr ""
+
+#. Label of the color (Data) field in DocType 'Drive Entity'
+#. Label of the color (Data) field in DocType 'Drive Tag'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+#: drive/drive/doctype/drive_tag/drive_tag.json
+msgid "Color"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:305
+msgid "Column {0}"
+msgstr ""
+
+#. Label of the comments (JSON) field in DocType 'Drive Document'
+#: drive/drive/doctype/drive_document/drive_document.json
+msgid "Comments"
+msgstr ""
+
+#. Label of the content (Long Text) field in DocType 'Drive Document'
+#: drive/drive/doctype/drive_document/drive_document.json
+msgid "Content"
+msgstr ""
+
+#. Option for the 'Import Type' (Select) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Cover All Records"
+msgstr ""
+
+#. Label of the notif_doctype_name (Dynamic Link) field in DocType 'Drive
+#. Notification'
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "DocType Name"
+msgstr ""
+
+#. Label of the document (Link) field in DocType 'Drive Entity'
+#: drive/api/notifications.py:170
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Document"
+msgstr ""
+
+#. Label of the document_field (Data) field in DocType 'Drive Entity Activity
+#. Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "Document Field"
+msgstr ""
+
+#. Label of the share_name (Dynamic Link) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Document Name"
+msgstr ""
+
+#. Label of the reference_doctype (Link) field in DocType 'Drive Data Import'
+#. Label of the share_doctype (Link) field in DocType 'Drive DocShare'
+#. Label of the notif_doctype (Link) field in DocType 'Drive Notification'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "Document Type"
+msgstr ""
+
+#. Label of the mute_emails (Check) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Don't Send Emails"
+msgstr ""
+
+#: drive/config/desktop.py:11
+msgid "Drive"
+msgstr ""
+
+#. Name of a role
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+#: drive/drive/doctype/drive_document/drive_document.json
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+#: drive/drive/doctype/drive_entity/drive_entity.json
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+#: drive/drive/doctype/drive_entity_log/drive_entity_log.json
+#: drive/drive/doctype/drive_favourite/drive_favourite.json
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+#: drive/drive/doctype/drive_notification/drive_notification.json
+#: drive/drive/doctype/drive_tag/drive_tag.json
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+#: drive/drive/doctype/drive_user_storage_quota/drive_user_storage_quota.json
+msgid "Drive Admin"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Drive Data Import"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Drive DocShare"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_document/drive_document.json
+msgid "Drive Document"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+msgid "Drive Document Version"
+msgstr ""
+
+#. Name of a DocType
+#. Label of the entity (Link) field in DocType 'Drive Favourite'
+#: drive/api/notifications.py:179
+#: drive/drive/doctype/drive_entity/drive_entity.json
+#: drive/drive/doctype/drive_favourite/drive_favourite.json
+msgid "Drive Entity"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "Drive Entity Activity Log"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_entity_log/drive_entity_log.json
+msgid "Drive Entity Log"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_entity_tag/drive_entity_tag.json
+msgid "Drive Entity Tag"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_favourite/drive_favourite.json
+msgid "Drive Favourite"
+msgstr ""
+
+#. Name of a role
+#. Option for the 'Role' (Select) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_document/drive_document.json
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+#: drive/drive/doctype/drive_entity/drive_entity.json
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+#: drive/drive/doctype/drive_entity_log/drive_entity_log.json
+#: drive/drive/doctype/drive_favourite/drive_favourite.json
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+#: drive/drive/doctype/drive_tag/drive_tag.json
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+#: drive/drive/doctype/drive_user_storage_quota/drive_user_storage_quota.json
+msgid "Drive Guest"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Drive Instance Settings"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "Drive Notification"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_tag/drive_tag.json
+msgid "Drive Tag"
+msgstr ""
+
+#. Name of a role
+#. Option for the 'Role' (Select) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+#: drive/drive/doctype/drive_document/drive_document.json
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+#: drive/drive/doctype/drive_entity/drive_entity.json
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+#: drive/drive/doctype/drive_entity_log/drive_entity_log.json
+#: drive/drive/doctype/drive_favourite/drive_favourite.json
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+#: drive/drive/doctype/drive_notification/drive_notification.json
+#: drive/drive/doctype/drive_tag/drive_tag.json
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+#: drive/drive/doctype/drive_user_storage_quota/drive_user_storage_quota.json
+msgid "Drive User"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Drive User Invitation"
+msgstr ""
+
+#. Name of a DocType
+#: drive/drive/doctype/drive_user_storage_quota/drive_user_storage_quota.json
+msgid "Drive User Storage Quota"
+msgstr ""
+
+#: drive/drive/doctype/drive_notification/drive_notification.py:21
+msgid "Duplicate Notification"
+msgstr ""
+
+#. Label of the email (Data) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Email"
+msgstr ""
+
+#. Label of the sent_at (Datetime) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Email Sent At"
+msgstr ""
+
+#. Label of the enable_user_storage_quota (Check) field in DocType 'Drive
+#. Instance Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Enable User Storage Quota"
+msgstr ""
+
+#. Label of the entity (Link) field in DocType 'Drive Entity Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "Entity"
+msgstr ""
+
+#. Label of the entity_name (Link) field in DocType 'Drive Entity Log'
+#: drive/drive/doctype/drive_entity_log/drive_entity_log.json
+msgid "Entity Name"
+msgstr ""
+
+#. Label of the entity_type (Data) field in DocType 'Drive Notification'
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "Entity Type"
+msgstr ""
+
+#: drive/api/files.py:1386 drive/api/files.py:1626
+msgid "Entity does not exist"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Error"
+msgstr ""
+
+#. Label of the everyone (Check) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Everyone"
+msgstr ""
+
+#: drive/api/files.py:1382 drive/api/files.py:1412 drive/api/files.py:1534
+#: drive/api/files.py:1574 drive/api/files.py:1726 drive/api/files.py:1818
+msgid "Expected list but got {0}"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Expired"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:30
+msgid "Export Errored Rows"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:451
+msgid "Export Import Log"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:392
+msgid "Failure"
+msgstr ""
+
+#: drive/api/notifications.py:170
+msgid "File"
+msgstr ""
+
+#: drive/api/embed.py:84 drive/drive/doctype/drive_entity/drive_entity.py:273
+msgid "File '{0}' already exists"
+msgstr ""
+
+#. Label of the file_ext (Data) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "File Ext"
+msgstr ""
+
+#. Label of the file_kind (Data) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "File Kind"
+msgstr ""
+
+#. Label of the file_size (Long Int) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "File Size"
+msgstr ""
+
+#: drive/api/notifications.py:170
+msgid "Folder"
+msgstr ""
+
+#: drive/api/files.py:801
+msgid ""
+"Folder '{0}' already exists.\n"
+" Suggested: {1}"
+msgstr ""
+
+#. Label of the from_user (Link) field in DocType 'Drive Notification'
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "From User"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:37
+msgid "Go to {0} List"
+msgstr ""
+
+#. Name of a role
+#: drive/drive/doctype/drive_document/drive_document.json
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Guest"
+msgstr ""
+
+#. Label of the import_file (Data) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Import File"
+msgstr ""
+
+#. Label of the import_warnings_section (Section Break) field in DocType 'Drive
+#. Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Import File Errors and Warnings"
+msgstr ""
+
+#. Label of the import_log_section (Section Break) field in DocType 'Drive Data
+#. Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Import Log"
+msgstr ""
+
+#. Label of the import_log_preview (HTML) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Import Log Preview"
+msgstr ""
+
+#. Label of the import_preview (HTML) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Import Preview"
+msgstr ""
+
+#. Label of the import_type (Select) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Import Type"
+msgstr ""
+
+#. Label of the import_warnings (HTML) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Import Warnings"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Imported Not Validated"
+msgstr ""
+
+#. Option for the 'Import Type' (Select) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Insert New Records"
+msgstr ""
+
+#. Label of the instance_email (Data) field in DocType 'Drive Instance
+#. Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Instance Email"
+msgstr ""
+
+#. Label of the instance_id (Data) field in DocType 'Drive Instance Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Instance ID"
+msgstr ""
+
+#. Description of a DocType
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Internal record of drive entity shares"
+msgstr ""
+
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.py:61
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.py:64
+msgid "Invalid or expired key"
+msgstr ""
+
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.py:67
+msgid "Invitation already accepted"
+msgstr ""
+
+#. Label of the invited_by (Link) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Invited By"
+msgstr ""
+
+#. Label of the is_active (Int) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Is Active"
+msgstr ""
+
+#. Label of the is_group (Check) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Is Group"
+msgstr ""
+
+#. Label of the key (Data) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Key"
+msgstr ""
+
+#. Label of the last_interaction (Datetime) field in DocType 'Drive Entity Log'
+#: drive/drive/doctype/drive_entity_log/drive_entity_log.json
+msgid "Last Interaction"
+msgstr ""
+
+#. Label of the lft (Int) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Left"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:176
+msgid "Loading import file..."
+msgstr ""
+
+#. Label of the mime_type (Data) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "MIME Type"
+msgstr ""
+
+#. Option for the 'Type' (Select) field in DocType 'Drive Notification'
+#: drive/api/notifications.py:91 drive/api/notifications.py:102
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "Mention"
+msgstr ""
+
+#. Label of the mentions (JSON) field in DocType 'Drive Document'
+#: drive/drive/doctype/drive_document/drive_document.json
+msgid "Mentions"
+msgstr ""
+
+#. Label of the snapshot_message (Text) field in DocType 'Drive Document
+#. Version'
+#. Label of the message (Data) field in DocType 'Drive Entity Activity Log'
+#. Label of the message (Text) field in DocType 'Drive Notification'
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:416
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "Message"
+msgstr ""
+
+#. Label of the meta_value (Data) field in DocType 'Drive Entity Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "Meta Value"
+msgstr ""
+
+#. Label of the new_value (Data) field in DocType 'Drive Entity Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "New Value"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:411
+msgid "No failed logs"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Not Validated Not Imported"
+msgstr ""
+
+#. Description of the 'Instance ID' (Data) field in DocType 'Drive Instance
+#. Settings'
+#. Description of the 'Instance Email' (Data) field in DocType 'Drive Instance
+#. Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Not implemented yet"
+msgstr ""
+
+#: drive/api/files.py:1153 drive/api/files.py:1255 drive/api/files.py:1800
+#: drive/api/permissions.py:303
+msgid "Not permitted"
+msgstr ""
+
+#: drive/api/files.py:1158 drive/api/files.py:1260
+msgid "Not permitted to read"
+msgstr ""
+
+#: drive/drive/doctype/drive_entity/drive_entity.py:465
+msgid "Not permitted to share"
+msgstr ""
+
+#. Label of the notify (Check) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Notify"
+msgstr ""
+
+#. Label of the old_parent (Link) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Old Parent"
+msgstr ""
+
+#. Label of the old_value (Data) field in DocType 'Drive Entity Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "Old Value"
+msgstr ""
+
+#. Label of the org_name (Data) field in DocType 'Drive Instance Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Organization Name"
+msgstr ""
+
+#: drive/api/files.py:238 drive/api/files.py:333 drive/api/files.py:445
+#: drive/api/files.py:560 drive/api/files.py:673
+msgid "Out of allocated storage"
+msgstr ""
+
+#. Label of the owner_parent (Data) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Owner Parent"
+msgstr ""
+
+#. Label of the parent_before_trash (Text) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Parent Before Trash"
+msgstr ""
+
+#. Label of the parent_document (Link) field in DocType 'Drive Document
+#. Version'
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+msgid "Parent Document"
+msgstr ""
+
+#. Label of the parent_drive_entity (Link) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Parent Drive Entity"
+msgstr ""
+
+#. Label of the parent_entity (Link) field in DocType 'Drive Document Version'
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+msgid "Parent Entity"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Partial Success"
+msgstr ""
+
+#. Label of the path (Text) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Path"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Data Import'
+#. Option for the 'Status' (Select) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Pending"
+msgstr ""
+
+#. Label of the section_import_preview (Section Break) field in DocType 'Drive
+#. Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Preview"
+msgstr ""
+
+#. Label of the protected (Check) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Protected"
+msgstr ""
+
+#. Label of the public (Check) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Public"
+msgstr ""
+
+#. Label of the raw_content (Long Text) field in DocType 'Drive Document'
+#: drive/drive/doctype/drive_document/drive_document.json
+msgid "Raw Content"
+msgstr ""
+
+#. Label of the read (Check) field in DocType 'Drive DocShare'
+#. Label of the read (Check) field in DocType 'Drive Notification'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "Read"
+msgstr ""
+
+#. Description of the 'Enable User Storage Quota' (Check) field in DocType
+#. 'Drive Instance Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Requires making new entry for each user in <b>Drive User Storage Quota</b> DocType."
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:56
+msgid "Retry"
+msgstr ""
+
+#. Label of the rgt (Int) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Right"
+msgstr ""
+
+#. Label of the role (Select) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Role"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:416
+msgid "Row Number"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:292
+msgid "Row {0}"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:59
+msgid "Save"
+msgstr ""
+
+#. Label of the settings (JSON) field in DocType 'Drive Document'
+#: drive/drive/doctype/drive_document/drive_document.json
+msgid "Settings"
+msgstr ""
+
+#. Label of the share (Check) field in DocType 'Drive DocShare'
+#. Option for the 'Type' (Select) field in DocType 'Drive Notification'
+#: drive/api/notifications.py:124 drive/api/notifications.py:133
+#: drive/api/notifications.py:151
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "Share"
+msgstr ""
+
+#. Label of the share_parent (Data) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Share Parent"
+msgstr ""
+
+#. Label of the show_failed_logs (Check) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Show Only Failed Logs"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:381
+msgid "Show Traceback"
+msgstr ""
+
+#: drive/api/embed.py:98 drive/api/files.py:252 drive/api/files.py:347
+#: drive/api/files.py:459 drive/api/files.py:574 drive/api/files.py:687
+msgid "Size on disk does not match specified filesize"
+msgstr ""
+
+#. Label of the snapshot_data (Long Text) field in DocType 'Drive Document
+#. Version'
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+msgid "Snapshot Data"
+msgstr ""
+
+#. Label of the snapshot_size (Int) field in DocType 'Drive Document Version'
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+msgid "Snapshot Size"
+msgstr ""
+
+#. Description of the 'Storage Limit' (Int) field in DocType 'Drive User
+#. Storage Quota'
+#: drive/drive/doctype/drive_user_storage_quota/drive_user_storage_quota.json
+msgid "Space to allocate in GB"
+msgstr ""
+
+#: drive/api/files.py:1027 drive/api/files.py:1149 drive/api/files.py:1251
+#: drive/api/list.py:24
+msgid "Specified entity is not a folder"
+msgstr ""
+
+#: drive/api/permissions.py:309
+msgid "Specified file has been trashed by the owner"
+msgstr ""
+
+#: drive/api/files.py:1029 drive/api/files.py:1151 drive/api/files.py:1253
+#: drive/api/list.py:26
+msgid "Specified folder has been trashed by the owner"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:56
+msgid "Start Import"
+msgstr ""
+
+#. Label of the status (Select) field in DocType 'Drive Data Import'
+#. Label of the status (Select) field in DocType 'Drive Entity'
+#. Label of the status (Select) field in DocType 'Drive User Invitation'
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:416
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+#: drive/drive/doctype/drive_entity/drive_entity.json
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+msgid "Status"
+msgstr ""
+
+#. Label of the user_storage_limit (Int) field in DocType 'Drive User Storage
+#. Quota'
+#: drive/drive/doctype/drive_user_storage_quota/drive_user_storage_quota.json
+msgid "Storage Limit"
+msgstr ""
+
+#. Label of the submit_after_import (Check) field in DocType 'Drive Data
+#. Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Submit After Import"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:392
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Success"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:356
+msgid "Successfully covered {0}"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:348
+msgid "Successfully imported {0}"
+msgstr ""
+
+#: drive/drive/doctype/drive_data_import/drive_data_import.js:364
+msgid "Successfully updated {0}"
+msgstr ""
+
+#. Name of a role
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+#: drive/drive/doctype/drive_document_version/drive_document_version.json
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+#: drive/drive/doctype/drive_entity_log/drive_entity_log.json
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+#: drive/drive/doctype/drive_notification/drive_notification.json
+#: drive/drive/doctype/drive_user_invitation/drive_user_invitation.json
+#: drive/drive/doctype/drive_user_storage_quota/drive_user_storage_quota.json
+msgid "System Manager"
+msgstr ""
+
+#. Label of the tag (Link) field in DocType 'Drive Entity Tag'
+#: drive/drive/doctype/drive_entity_tag/drive_entity_tag.json
+msgid "Tag"
+msgstr ""
+
+#: drive/api/tags.py:26
+msgid "Tag already exists"
+msgstr ""
+
+#. Label of the tags (Table) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Tags"
+msgstr ""
+
+#. Label of the template_options (Code) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Template Options"
+msgstr ""
+
+#. Label of the template_warnings (Code) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Template Warnings"
+msgstr ""
+
+#: drive/api/importer.py:92
+msgid "The Doctype cannot be imported"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Timed Out"
+msgstr ""
+
+#. Label of the title (Text) field in DocType 'Drive Document'
+#. Label of the title (Data) field in DocType 'Drive Entity'
+#. Label of the title (Data) field in DocType 'Drive Tag'
+#: drive/drive/doctype/drive_document/drive_document.json
+#: drive/drive/doctype/drive_entity/drive_entity.json
+#: drive/drive/doctype/drive_tag/drive_tag.json
+msgid "Title"
+msgstr ""
+
+#. Label of the to_user (Link) field in DocType 'Drive Notification'
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "To User"
+msgstr ""
+
+#. Label of the self_storage_limit (Int) field in DocType 'Drive Instance
+#. Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Total Disk Storage Limit"
+msgstr ""
+
+#. Description of the 'Total Disk Storage Limit' (Int) field in DocType 'Drive
+#. Instance Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Total space to allocate to Frappe Drive in GB"
+msgstr ""
+
+#. Label of the trashed_on (Date) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Trashed On"
+msgstr ""
+
+#. Label of the type (Select) field in DocType 'Drive Notification'
+#: drive/drive/doctype/drive_notification/drive_notification.json
+msgid "Type"
+msgstr ""
+
+#: drive/api/permissions.py:323
+msgid "Unauthorized"
+msgstr ""
+
+#. Option for the 'Import Type' (Select) field in DocType 'Drive Data Import'
+#: drive/drive/doctype/drive_data_import/drive_data_import.json
+msgid "Update Existing Records"
+msgstr ""
+
+#. Description of the 'Organization Name' (Data) field in DocType 'Drive
+#. Instance Settings'
+#: drive/drive/doctype/drive_instance_settings/drive_instance_settings.json
+msgid "Used to show the organization name in the Frappe Drive portal"
+msgstr ""
+
+#. Label of the user (Link) field in DocType 'Drive Entity Log'
+#. Label of the user (Link) field in DocType 'Drive Favourite'
+#. Label of the user (Link) field in DocType 'Drive User Storage Quota'
+#: drive/drive/doctype/drive_entity_log/drive_entity_log.json
+#: drive/drive/doctype/drive_favourite/drive_favourite.json
+#: drive/drive/doctype/drive_user_storage_quota/drive_user_storage_quota.json
+msgid "User"
+msgstr ""
+
+#. Label of the user_name (Dynamic Link) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "User Name"
+msgstr ""
+
+#. Label of the user_doctype (Link) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "User Type"
+msgstr ""
+
+#: drive/drive/doctype/drive_entity/drive_entity.py:577
+msgid "User owns parent folder"
+msgstr ""
+
+#. Label of the valid_until (Date) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Valid Until"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Validated And Imported"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Validated Not Imported"
+msgstr ""
+
+#. Label of the version (Int) field in DocType 'Drive Document'
+#. Label of the version (Int) field in DocType 'Drive Entity'
+#: drive/drive/doctype/drive_document/drive_document.json
+#: drive/drive/doctype/drive_entity/drive_entity.json
+msgid "Version"
+msgstr ""
+
+#. Label of the write (Check) field in DocType 'Drive DocShare'
+#: drive/drive/doctype/drive_docshare/drive_docshare.json
+msgid "Write"
+msgstr ""
+
+#: drive/drive/doctype/drive_entity/drive_entity.py:228
+msgid "You cannot copy a folder into itself"
+msgstr ""
+
+#: drive/api/embed.py:143 drive/api/files.py:844 drive/api/files.py:875
+#: drive/api/files.py:894 drive/api/files.py:928
+msgid "You do not have permission to view this file"
+msgstr ""
+
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:200
+msgid "You need to have \"Share\" permission"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "comment"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "create"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "delete"
+msgstr ""
+
+#: drive/api/notifications.py:116
+msgid "document"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "edit"
+msgstr ""
+
+#: drive/api/notifications.py:116
+msgid "file"
+msgstr ""
+
+#: drive/api/notifications.py:116
+msgid "folder"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "move"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "rename"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "share_add"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "share_edit"
+msgstr ""
+
+#. Option for the 'Action Type' (Select) field in DocType 'Drive Entity
+#. Activity Log'
+#: drive/drive/doctype/drive_entity_activity_log/drive_entity_activity_log.json
+msgid "share_remove"
+msgstr ""
+
+#: drive/api/notifications.py:88
+msgid "{0} mentioned you in document \"{1}\""
+msgstr ""
+
+#: drive/api/notifications.py:96
+msgid "{0} mentioned {1} group in document \"{2}\""
+msgstr ""
+
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:92
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:155
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:222
+msgid "{0} shared this document publicly"
+msgstr ""
+
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:80
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:143
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:210
+msgid "{0} shared this document with everyone"
+msgstr ""
+
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:115
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:132
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:178
+msgid "{0} shared this document with {1}"
+msgstr ""
+
+#: drive/api/notifications.py:119
+msgid "{0} shared {1} \"{2}\" with you"
+msgstr ""
+
+#: drive/drive/doctype/drive_docshare/drive_docshare.py:259
+msgid "{0} un-shared this document with {1}"
+msgstr ""
+
