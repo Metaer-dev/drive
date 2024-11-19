@@ -143,7 +143,7 @@
         </div>
       </div>
     </div>
-    <Dialog v-model="showErrorDialog">
+    <Dialog v-if="showErrorDialog" v-model="showErrorDialog">
       <template #body-title>
         <p v-if="typeof selectedUpload.error === 'string'">
           <b>Upload Failed!</b>
