@@ -10,7 +10,6 @@ import uuid
 import mimetypes
 import hashlib
 import json
-import pandas as pd
 
 from drive.utils.files import (
     get_user_directory,
@@ -367,10 +366,9 @@ def upload_file_and_validate_file(fullpath=None, parent=None, last_modified=None
             relative_path = str(path)
             (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
             payloads = importer.import_file.get_payloads_for_import()
-            valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
             from dataq.data_quality_management.api import gx_validate
 
-            validation_results, df = gx_validate(doctype, valide_data, True)
+            validation_results, df = gx_validate(doctype, payloads, True)
             validated = True
             imported = False
         # valide end
@@ -480,10 +478,9 @@ def upload_file_and_insert_doctype(fullpath=None, parent=None, last_modified=Non
 
             (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
             payloads = importer.import_file.get_payloads_for_import()
-            valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
             from dataq.data_quality_management.api import gx_validate
 
-            validation_results, df = gx_validate(doctype, valide_data, True)
+            validation_results, df = gx_validate(doctype, payloads, True)
             if validation_results:
                 validated = True
                 importer.import_data()
@@ -594,10 +591,9 @@ def upload_file_and_update_doctype(fullpath=None, parent=None, last_modified=Non
             relative_path = str(path)
             (importer, drive_data_import) = get_importer(doctype, relative_path, "Update")
             payloads = importer.import_file.get_payloads_for_import()
-            valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
             from dataq.data_quality_management.api import gx_validate
 
-            validation_results, df = gx_validate(doctype, valide_data, True)
+            validation_results, df = gx_validate(doctype, payloads, True)
             if validation_results:
                 validated = True
                 importer.import_data()
@@ -707,10 +703,9 @@ def upload_file_and_cover_doctype(fullpath=None, parent=None, last_modified=None
             relative_path = str(path)
             (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
             payloads = importer.import_file.get_payloads_for_import()
-            valide_data = pd.DataFrame.from_records(pd.DataFrame.from_records(payloads)["doc"])
             from dataq.data_quality_management.api import gx_validate
 
-            validation_results, df = gx_validate(doctype, valide_data, True)
+            validation_results, df = gx_validate(doctype, payloads, True)
             if validation_results:
                 validated = True
                 frappe.db.delete(doctype)
