@@ -1,10 +1,10 @@
 <template>
-  <Dialog v-model="open" :options="{ title: 'New Folder', size: 'xs' }">
+  <Dialog v-model="open" :options="{ title: $t('new-folder'), size: 'xs' }">
     <template #body-content>
       <Input
         ref="input"
         v-model="folderName"
-        placeholder="Untitled Folder"
+        :placeholder="$t('untitled-folder')"
         type="text"
         @keyup.enter="
           (e) =>
@@ -22,7 +22,7 @@
           :loading="$resources.createFolder.loading"
           @click="$resources.createFolder.submit()"
         >
-          Create
+          {{ $t("create") }}
         </Button>
       </div>
     </template>

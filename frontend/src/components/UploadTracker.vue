@@ -11,22 +11,40 @@
         v-if="uploadsInProgress.length > 0"
         class="font-medium truncate text-lg"
       >
-        Uploading {{ uploadsInProgress.length }}
-        {{ uploadsInProgress.length == 1 ? "file" : "files" }}
+        {{
+          $t(
+            `uploading-status-${
+              uploadsInProgress.length === 1 ? "single" : "multiple"
+            }`,
+            { count: uploadsInProgress.length }
+          )
+        }}
       </div>
       <div
         v-else-if="uploadsCompleted.length > 0"
         class="font-medium truncate text-lg"
       >
-        {{ uploadsCompleted.length }}
-        {{ uploadsCompleted.length == 1 ? "upload" : "uploads" }} complete
+        {{
+          $t(
+            `completed-status-${
+              uploadsCompleted.length === 1 ? "single" : "multiple"
+            }`,
+            { count: uploadsCompleted.length }
+          )
+        }}
       </div>
       <div
         v-else-if="uploadsFailed.length > 0"
         class="font-medium truncate text-lg"
       >
-        {{ uploadsFailed.length }}
-        {{ uploadsFailed.length == 1 ? "upload" : "uploads" }} failed
+        {{
+          $t(
+            `failed-status-${
+              uploadsFailed.length === 1 ? "single" : "multiple"
+            }`,
+            { count: uploadsFailed.length }
+          )
+        }}
       </div>
       <div class="ml-auto flex items-center gap-4">
         <button
@@ -54,7 +72,7 @@
         ]"
         @click="currentTab = 1"
       >
-        In Progress
+        {{ $t("in-progress") }}
       </Button>
       <Button
         variant="ghost"
@@ -66,7 +84,7 @@
         ]"
         @click="currentTab = 2"
       >
-        Completed
+        {{ $t("completed") }}
       </Button>
       <Button
         v-show="uploadsFailed.length > 0"
@@ -79,7 +97,7 @@
         ]"
         @click="currentTab = 3"
       >
-        Failed
+        {{ $t("failed") }}
       </Button>
     </div>
     <div v-if="!collapsed" class="max-h-64 overflow-y-auto bg-white w-full">
@@ -146,10 +164,10 @@
     <Dialog v-if="showErrorDialog" v-model="showErrorDialog">
       <template #body-title>
         <p v-if="typeof selectedUpload.error === 'string'">
-          <b>Upload Failed!</b>
+          <b>{{ $t("upload-failed") }}</b>
         </p>
         <p v-else-if="Array.isArray(selectedUpload.error)">
-          <b>The following data rules did not pass</b>
+          <b>{{ $t("the-following-data-rules-did-not-pass") }}</b>
         </p>
       </template>
       <template #body-content>
@@ -167,12 +185,12 @@
       v-if="showCancelDialog"
       v-model="showCancelDialog"
       :options="{
-        title: 'Cancel uploads',
-        message: 'Are you sure you want to cancel all ongoing uploads?',
+        title: this.$t('cancel-uploads'),
+        message: this.$t('are-you-sure-you-want-to-cancel-all-ongoing-uploads'),
         size: 'sm',
         actions: [
           {
-            label: 'Confirm',
+            label: this.$t('confirm'),
             variant: 'subtle',
             theme: 'red',
             onClick: () => {
@@ -209,7 +227,7 @@ export default {
       showErrorDialog: false,
       selectedUpload: null,
       currentTab: 1,
-      emptyMessage: "No uploads in progress",
+      emptyMessage: this.$t("no-uploads-in-progress"),
     }
   },
   computed: {
@@ -222,16 +240,16 @@ export default {
     currentTabGetter() {
       switch (this.currentTab) {
         case 1:
-          this.emptyMessage = "No uploads in progress"
+          this.emptyMessage = this.$t("no-uploads-in-progress")
           return this.uploadsInProgress
         case 2:
-          this.emptyMessage = "No uploads completed"
+          this.emptyMessage = this.$t("no-uploads-completed")
           return this.uploadsCompleted
         case 3:
-          this.emptyMessage = "No failed uploads"
+          this.emptyMessage = this.$t("no-failed-uploads")
           return this.uploadsFailed
         default:
-          this.emptyMessage = "No uploads completed"
+          this.emptyMessage = this.$t("no-uploads-completed")
           return this.uploadsCompleted
       }
     },

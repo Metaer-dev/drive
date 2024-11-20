@@ -31,11 +31,15 @@ export default {
     },
     primaryMessage: {
       type: String,
-      default: "You don't have any files yet",
+      default() {
+        return this.$t("you-dont-have-any-files-yet")
+      },
     },
     secondaryMessage: {
       type: String,
-      default: "Drop files here",
+      default() {
+        return this.$t("drop-files-here")
+      },
     },
   },
 }

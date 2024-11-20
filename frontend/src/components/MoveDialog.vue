@@ -62,7 +62,9 @@
             class="flex flex-col items-center justify-center h-[45vh] my-2"
           >
             <Folder class="text-gray-600 h-10 w-auto" />
-            <span class="text-gray-600 text-base mt-2">Folder is Empty</span>
+            <span class="text-gray-600 text-base mt-2">{{
+              $t("folder-is-empty")
+            }}</span>
           </div>
         </Tabs>
         <div class="flex items-center justify-between max-h-7">
@@ -135,7 +137,7 @@
             <template #prefix>
               <Move />
             </template>
-            Move
+            {{ $t("move") }}
           </Button>
         </div>
       </div>
@@ -152,7 +154,9 @@ import Star from "./EspressoIcons/Star.vue"
 import Users from "./EspressoIcons/Users.vue"
 import Move from "./EspressoIcons/Move.vue"
 import Folder from "./EspressoIcons/Folder.vue"
+import { useI18n } from "vue-i18n"
 
+const { t } = useI18n()
 const store = useStore()
 const currentFolder = ref(store.state.homeFolderID)
 const emit = defineEmits(["update:modelValue", "success"])
@@ -190,9 +194,9 @@ const evalPermission = computed(() => {
 
 const DialogTitle = computed(() => {
   if (store.state.entityInfo.length > 1) {
-    return `Moving ${store.state.entityInfo.length} items`
+    return t("move-items", { items: store.state.entityInfo.length })
   } else {
-    return `Moving "${store.state.entityInfo[0].title}"`
+    return t("move-item", { title: store.state.entityInfo[0].title })
   }
 })
 
@@ -221,15 +225,15 @@ const dropDownItems = computed(() => {
 
 const tabs = [
   {
-    label: "Home",
+    label: t("home"),
     icon: h(Home, { class: "w-4 h-4" }),
   },
   {
-    label: "Favourites",
+    label: t("favourites"),
     icon: h(Star, { class: "w-4 h-4" }),
   },
   {
-    label: "Shared",
+    label: t("shared"),
     icon: h(Users, { class: "w-4 h-4" }),
   },
 ]

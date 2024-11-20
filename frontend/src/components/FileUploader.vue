@@ -7,9 +7,11 @@ import { useStore } from "vuex"
 import { useRoute } from "vue-router"
 import Dropzone from "dropzone"
 import { capture } from "@/telemetry"
+import { useI18n } from "vue-i18n"
 
 const store = useStore()
 const route = useRoute()
+const { t } = useI18n()
 
 const stopCode = [417, 404, 403] // Set to immediately stop retrying uploads if this error code is encountered
 
@@ -41,7 +43,7 @@ function doesRootFolderFullPathExist(k, file_parent) {
     const json = JSON.parse(xhr.responseText)
     return json.message
   } else {
-    throw new Error(`Request failed with status ${xhr.status}`)
+    throw new Error(t("request-failed", { status: xhr.status }))
   }
 }
 
@@ -59,7 +61,7 @@ function rootFolderFullPathNewName(k, file_parent) {
     const json = JSON.parse(xhr.responseText)
     return json.message
   } else {
-    throw new Error(`Request failed with status ${xhr.status}`)
+    throw new Error(t("request-failed", { status: xhr.status }))
   }
 }
 
@@ -111,7 +113,7 @@ onMounted(() => {
     retryChunks: false,
     forceChunking: true,
     url: "/api/method/drive.api.files.upload_file",
-    dictUploadCanceled: "Upload canceled by user",
+    dictUploadCanceled: t("upload-canceled-by-user"),
     maxFilesize: 10 * 1024, // 10GB
     timeout: 120000, // 2 minutes
     chunkSize: 20 * 1024 * 1024, // 20MB
@@ -121,7 +123,7 @@ onMounted(() => {
     },
     accept: function (file, done) {
       if (file.size == 0) {
-        done("Empty files will not be uploaded.")
+        done(t("empty-files-will-not-be-uploaded"))
       } else {
         done()
       }
@@ -200,7 +202,7 @@ onMounted(() => {
 
         if (xhr.status === 500 && chunk.retryCount < 5) {
           chunk.retryCount++
-          message = "Server error, retrying..."
+          message = t("server-error-retrying")
           setTimeout(() => dropzone.value.processFile(file), 1000)
         } else if (stopCode.includes(xhr.status)) {
           try {
@@ -209,11 +211,11 @@ onMounted(() => {
             ).message
           } catch (e) {}
           message =
-            message || response || "File validation failed, upload rejected."
+            message || response || t("file-validation-failed-upload-rejected")
           dropzone.value.cancelUpload(file)
         } else {
           // Handling other server errors
-          message = `Upload failed with status ${xhr.status}`
+          message = t("upload-failed-with-status", { status: xhr.status })
         }
       } else {
         // An error occurred after the file upload was completed (non-chunk related)
@@ -224,22 +226,22 @@ onMounted(() => {
             ).message
           } catch (e) {}
           message =
-            message || response || "File validation failed, upload rejected."
+            message || response || t("file-validation-failed-upload-rejected")
 
           dropzone.value.cancelUpload(file) // stop uploadload
         } else {
-          message = `Upload failed with status ${xhr.status}`
+          message = t("upload-failed-with-status", { status: xhr.status })
         }
       }
     } else {
       // Handling client errors (xhr does not exist)
       if (typeof response === "string") {
-        message = response || "Client-side upload error"
+        message = response || t("client-side-upload-error")
       } else {
         try {
-          message = response.message || "Upload failed"
+          message = response.message || t("upload-failed")
         } catch (e) {
-          message = "Unknown client-side error occurred"
+          message = t("unknown-client-side-error-occurred")
         }
       }
     }
@@ -270,7 +272,7 @@ onMounted(() => {
         message = JSON.parse(JSON.parse(response._server_messages)[0]).message
       } catch (e) {}
       message =
-        message || response || "File validation failed, upload rejected."
+        message || response || t("file-validation-failed-upload-rejected")
       dropzone.value.cancelUpload(file)
       store.commit("updateUpload", {
         uuid: file.upload.uuid,
@@ -278,7 +280,7 @@ onMounted(() => {
       })
     } else if (xhr && xhr.status === 200) {
       // if statuscode is 200, success
-      message = "File upload successful."
+      message = t("file-upload-successful")
       store.commit("updateUpload", {
         uuid: file.upload.uuid,
         completed: true,
@@ -286,7 +288,9 @@ onMounted(() => {
       capture("new_file_uploaded")
     } else {
       // Handling other errors
-      message = `File upload failed with status ${xhr?.status || "unknown"}`
+      message = t("upload-failed-with-status-or-unknown", {
+        status: xhr?.status || t("unknown"),
+      })
       store.commit("updateUpload", {
         uuid: file.upload.uuid,
         error: message,

@@ -1,13 +1,15 @@
 <template>
-  <Dialog v-model="open" :options="{ title: 'Delete Forever?', size: 'sm' }">
+  <Dialog
+    v-model="open"
+    :options="{ title: $t('delete-forever-dialog'), size: 'sm' }"
+  >
     <template #body-content>
       <p class="text-gray-600">
         {{
           entities.length === 1
-            ? `${entities.length} item`
-            : `${entities.length} items`
-        }}
-        will be deleted forever. This is an irreversible process.
+            ? $t("single-items")
+            : $t("multiple-items", { count: entities.length })
+        }}{{ $t("will-be-deleted-forever-this-is-an-irreversible-process") }}
       </p>
       <div class="flex mt-5">
         <Button
@@ -18,7 +20,7 @@
           :loading="$resources.delete.loading"
           @click="$resources.delete.submit()"
         >
-          Delete Forever
+          {{ $t("delete-forever") }}
         </Button>
       </div>
     </template>
