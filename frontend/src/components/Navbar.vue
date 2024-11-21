@@ -149,6 +149,7 @@
   />
 </template>
 <script>
+import { markRaw } from "vue"
 import UsersBar from "./UsersBar.vue"
 import { Dropdown, FeatherIcon, Button } from "frappe-ui"
 import NewFolderDialog from "@/components/NewFolderDialog.vue"
@@ -171,6 +172,11 @@ import FileUpload from "./EspressoIcons/File-upload.vue"
 import FolderUpload from "./EspressoIcons/Folder-upload.vue"
 import NewFile from "./EspressoIcons/NewFile.vue"
 import { capture } from "@/telemetry"
+
+const FileUploadIcon = markRaw(FileUpload)
+const FolderUploadIcon = markRaw(FolderUpload)
+const NewFolderIcon = markRaw(NewFolder)
+const NewFileIcon = markRaw(NewFile)
 
 export default {
   name: "Navbar",
@@ -208,17 +214,17 @@ export default {
             {
               // label: this.$t('Upload And Insert'),
               label: "Insert",
-              icon: FileUpload,
+              icon: FileUploadIcon,
               onClick: () => this.emitter.emit("uploadFile", { insert: true }),
             },
             {
               label: "Update",
-              icon: FileUpload,
+              icon: FileUploadIcon,
               onClick: () => this.emitter.emit("uploadFile", { update: true }),
             },
             {
               label: "Cover",
-              icon: FileUpload,
+              icon: FileUploadIcon,
               onClick: () => this.emitter.emit("uploadFile", { cover: true }),
             },
           ],
@@ -228,18 +234,18 @@ export default {
           items: [
             {
               label: "Validate File",
-              icon: FileUpload,
+              icon: FileUploadIcon,
               onClick: () =>
                 this.emitter.emit("uploadFile", { validate: true }),
             },
             {
               label: "Upload File",
-              icon: FileUpload,
+              icon: FileUploadIcon,
               onClick: () => this.emitter.emit("uploadFile"),
             },
             {
               label: "Upload Folder",
-              icon: FolderUpload,
+              icon: FolderUploadIcon,
               onClick: () => this.emitter.emit("uploadFolder"),
               isEnabled: () => this.selectedEntities.length === 0,
             },
@@ -250,12 +256,12 @@ export default {
           items: [
             {
               label: "New Folder",
-              icon: NewFolder,
+              icon: NewFolderIcon,
               onClick: () => (this.showNewFolderDialog = true),
             },
             {
               label: "New Document",
-              icon: NewFile,
+              icon: NewFileIcon,
               onClick: async () => {
                 await this.$resources.createDocument.submit({
                   title: "Untitled Document",

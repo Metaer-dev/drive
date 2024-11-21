@@ -299,6 +299,7 @@ onMounted(() => {
     return directUplodEntityName.value
   }); */
   emitter.on("uploadFile", (extraData) => {
+    dropzone.value.options.url = "/api/method/drive.api.files.upload_file"
     if (typeof extraData !== "undefined" && extraData?.validate) {
       // upload and validate file
       dropzone.value.options.url =

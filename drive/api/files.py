@@ -787,7 +787,7 @@ def create_folder(title, parent=None):
         )
 
     entity_exists = frappe.db.exists(
-        {"doctype": "Drive Entity", "parent_drive_entity": parent, "title": title}
+        {"doctype": "Drive Entity", "is_active": 1, "parent_drive_entity": parent, "title": title}
     )
     if entity_exists:
         suggested_name = get_new_title(title, parent, folder=True)
