@@ -145,17 +145,13 @@
     />
     <DeleteDialog
       v-model="showDeleteDialog"
-      :entities="
-        selectedEntities.length > 0
-          ? selectedEntities
-          : $resources.folderContents.data
-      "
+      :entities="selectedEntities.length > 0 ? selectedEntities : []"
       @success="
         () => {
           offset = 0
           folderItems = null
           selectedEntities = []
-          fetchNextPage()
+          resetAndFetch()
           showDeleteDialog = false
         }
       "

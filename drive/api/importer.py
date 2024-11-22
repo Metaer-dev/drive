@@ -88,8 +88,9 @@ def get_importer(
 
     # Check if the document can be imported
     doc = frappe.get_doc("DocType", doctype)
-    if not doc.allow_import:
+    if (not doc.allow_import) and (import_type != "Validate"):
         frappe.throw(_("The Doctype cannot be imported"))
+
     # get importer
     ImportFile.read_file = read_file_fix
     if not drive_data_import:
@@ -99,7 +100,9 @@ def get_importer(
         drive_data_import.reference_doctype = doctype
         drive_data_import.import_file = file_path
         drive_data_import.import_type = (
-            "Insert New Records" if import_type.lower() == "insert" else "Update Existing Records"
+            "Insert New Records"
+            if import_type.lower() in ("insert", "validate")
+            else "Update Existing Records"
         )
         drive_data_import.insert()
         frappe.db.commit()

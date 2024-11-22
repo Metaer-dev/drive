@@ -325,6 +325,7 @@ class DriveEntity(Document):
         entity_exists = frappe.db.exists(
             {
                 "doctype": "Drive Entity",
+                "is_active": 1,
                 "parent_drive_entity": self.parent_drive_entity,
                 "title": new_title,
                 "mime_type": self.mime_type,

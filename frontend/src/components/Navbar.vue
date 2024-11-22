@@ -126,6 +126,71 @@
       </div>
     </div>
   </nav>
+  <Dialog
+    v-if="showUpdateDialog"
+    v-model="showUpdateDialog"
+    :options="{
+      title: 'Warning! ',
+      icon: 'alert-octagon',
+      message:
+        'You are about to upload file and update doctype. Records in the doctype will be updated with records having the same ID from the uploaded file. Please confirm to proceed.',
+      size: 'sm',
+      actions: [
+        {
+          label: 'Confirm',
+          variant: 'solid',
+          theme: 'red',
+          onClick: () => {
+            emitter.emit('uploadFile', { update: true })
+            showUpdateDialog = false
+          },
+        },
+      ],
+    }"
+  />
+  <Dialog
+    v-if="showInsertDialog"
+    v-model="showInsertDialog"
+    :options="{
+      title: 'Notice! ',
+      icon: 'alert-octagon',
+      message:
+        ' You are about to upload file and insert records into doctype. The content of the file will be inserted as new records at the end of the doctype. Please confirm to proceed.',
+      size: 'sm',
+      actions: [
+        {
+          label: 'Confirm',
+          variant: 'subtle',
+          theme: 'red',
+          onClick: () => {
+            emitter.emit('uploadFile', { insert: true })
+            showInsertDialog = false
+          },
+        },
+      ],
+    }"
+  />
+  <Dialog
+    v-if="showCoverDialog"
+    v-model="showCoverDialog"
+    :options="{
+      title: 'Warning! ',
+      message:
+        'You are about to upload file and overwrite doctype. All existing records in the doctype will be deleted and replaced with records from the uploaded file. Please confirm to proceed.',
+      size: 'sm',
+      actions: [
+        {
+          label: 'Confirm',
+          variant: 'solid',
+          theme: 'red',
+          onClick: () => {
+            emitter.emit('uploadFile', { cover: true })
+            showCoverDialog = false
+          },
+        },
+      ],
+    }"
+  />
   <NewFolderDialog
     v-model="showNewFolderDialog"
     :parent="$route.params.entityName"
@@ -149,8 +214,9 @@
   />
 </template>
 <script>
+import { markRaw } from "vue"
 import UsersBar from "./UsersBar.vue"
-import { Dropdown, FeatherIcon, Button } from "frappe-ui"
+import { Dropdown, FeatherIcon, Button, Dialog } from "frappe-ui"
 import NewFolderDialog from "@/components/NewFolderDialog.vue"
 import RenameDialog from "@/components/RenameDialog.vue"
 import Breadcrumbs from "@/components/Breadcrumbs.vue"
@@ -172,9 +238,15 @@ import FolderUpload from "./EspressoIcons/Folder-upload.vue"
 import NewFile from "./EspressoIcons/NewFile.vue"
 import { capture } from "@/telemetry"
 
+const FileUploadIcon = markRaw(FileUpload)
+const FolderUploadIcon = markRaw(FolderUpload)
+const NewFolderIcon = markRaw(NewFolder)
+const NewFileIcon = markRaw(NewFile)
+
 export default {
   name: "Navbar",
   components: {
+    Dialog,
     RenameDialog,
     NewFolderDialog,
     Dropdown,
@@ -201,24 +273,27 @@ export default {
       showPreview: false,
       showNewFolderDialog: false,
       showRenameDialog: false,
+      showUpdateDialog: false,
+      showInsertDialog: false,
+      showCoverDialog: false,
       newEntityOptions: [
         {
           group: this.$t("new-doctype"),
           items: [
             {
               label: this.$t("insert"),
-              icon: FileUpload,
-              onClick: () => this.emitter.emit("uploadFile", { insert: true }),
+              icon: FileUploadIcon,
+              onClick: () => (this.showInsertDialog = true),
             },
             {
               label: this.$t("update"),
-              icon: FileUpload,
-              onClick: () => this.emitter.emit("uploadFile", { update: true }),
+              icon: FileUploadIcon,
+              onClick: () => (this.showUpdateDialog = true),
             },
             {
               label: this.$t("cover"),
-              icon: FileUpload,
-              onClick: () => this.emitter.emit("uploadFile", { cover: true }),
+              icon: FileUploadIcon,
+              onClick: () => (this.showCoverDialog = true),
             },
           ],
         },
@@ -227,18 +302,18 @@ export default {
           items: [
             {
               label: this.$t("validate-file"),
-              icon: FileUpload,
+              icon: FileUploadIcon,
               onClick: () =>
                 this.emitter.emit("uploadFile", { validate: true }),
             },
             {
               label: this.$t("upload-file"),
-              icon: FileUpload,
+              icon: FileUploadIcon,
               onClick: () => this.emitter.emit("uploadFile"),
             },
             {
               label: this.$t("upload-folder"),
-              icon: FolderUpload,
+              icon: FolderUploadIcon,
               onClick: () => this.emitter.emit("uploadFolder"),
               isEnabled: () => this.selectedEntities.length === 0,
             },
@@ -249,12 +324,12 @@ export default {
           items: [
             {
               label: this.$t("new-folder"),
-              icon: NewFolder,
+              icon: NewFolderIcon,
               onClick: () => (this.showNewFolderDialog = true),
             },
             {
               label: this.$t("new-document"),
-              icon: NewFile,
+              icon: NewFileIcon,
               onClick: async () => {
                 await this.$resources.createDocument.submit({
                   title: this.$t("untitled-document"),

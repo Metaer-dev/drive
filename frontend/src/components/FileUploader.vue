@@ -195,6 +195,10 @@ onMounted(() => {
 
   dropzone.value.on("error", function (file, response, xhr) {
     let message
+    try {
+      message = JSON.parse(JSON.parse(response._server_messages)[0]).message
+    } catch (e) {}
+
     if (xhr) {
       const chunk = file.upload.chunks?.find((chunk) => !chunk.status)
       if (chunk) {
@@ -205,32 +209,28 @@ onMounted(() => {
           message = t("server-error-retrying")
           setTimeout(() => dropzone.value.processFile(file), 1000)
         } else if (stopCode.includes(xhr.status)) {
-          try {
-            message = JSON.parse(
-              JSON.parse(response._server_messages)[0]
-            ).message
-          } catch (e) {}
           message =
             message || response || t("file-validation-failed-upload-rejected")
           dropzone.value.cancelUpload(file)
         } else {
           // Handling other server errors
-          message = t("upload-failed-with-status", { status: xhr.status })
+          message =
+            message ||
+            response ||
+            t("upload-failed-with-status", { status: xhr.status })
         }
       } else {
         // An error occurred after the file upload was completed (non-chunk related)
         if (stopCode.includes(xhr.status)) {
-          try {
-            message = JSON.parse(
-              JSON.parse(response._server_messages)[0]
-            ).message
-          } catch (e) {}
           message =
             message || response || t("file-validation-failed-upload-rejected")
 
           dropzone.value.cancelUpload(file) // stop uploadload
         } else {
-          message = t("upload-failed-with-status", { status: xhr.status })
+          message =
+            message ||
+            response ||
+            t("upload-failed-with-status", { status: xhr.status })
         }
       }
     } else {
@@ -303,6 +303,7 @@ onMounted(() => {
     return directUplodEntityName.value
   }); */
   emitter.on("uploadFile", (extraData) => {
+    dropzone.value.options.url = "/api/method/drive.api.files.upload_file"
     if (typeof extraData !== "undefined" && extraData?.validate) {
       // upload and validate file
       dropzone.value.options.url =

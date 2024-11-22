@@ -365,7 +365,7 @@ def upload_file_and_validate_file(fullpath=None, parent=None, last_modified=None
 
             doctype = get_original_doc_name(remove_brackets_and_extension(file_name))
             relative_path = str(path)
-            (importer, drive_data_import) = get_importer(doctype, relative_path, "Insert")
+            (importer, drive_data_import) = get_importer(doctype, relative_path, "Validate")
             payloads = importer.import_file.get_payloads_for_import()
             from dataq.data_quality_management.api import gx_validate
 
@@ -788,7 +788,7 @@ def create_folder(title, parent=None):
         )
 
     entity_exists = frappe.db.exists(
-        {"doctype": "Drive Entity", "parent_drive_entity": parent, "title": title}
+        {"doctype": "Drive Entity", "is_active": 1, "parent_drive_entity": parent, "title": title}
     )
     if entity_exists:
         suggested_name = get_new_title(title, parent, folder=True)
