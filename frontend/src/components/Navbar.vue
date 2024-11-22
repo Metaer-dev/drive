@@ -130,14 +130,15 @@
     v-if="showUpdateDialog"
     v-model="showUpdateDialog"
     :options="{
-      title: 'Warning! ',
+      title: $t('warning'),
       icon: 'alert-octagon',
-      message:
-        'You are about to upload file and update doctype. Records in the doctype will be updated with records having the same ID from the uploaded file. Please confirm to proceed.',
+      message: $t(
+        'you-are-about-to-upload-file-and-update-doctype-records-in-the-doctype-will-be-updated-with-records-having-the-same-id-from-the-uploaded-file-please-confirm-to-proceed'
+      ),
       size: 'sm',
       actions: [
         {
-          label: 'Confirm',
+          label: $t('confirm'),
           variant: 'solid',
           theme: 'red',
           onClick: () => {
@@ -152,14 +153,15 @@
     v-if="showInsertDialog"
     v-model="showInsertDialog"
     :options="{
-      title: 'Notice! ',
+      title: $t('notice'),
       icon: 'alert-octagon',
-      message:
-        ' You are about to upload file and insert records into doctype. The content of the file will be inserted as new records at the end of the doctype. Please confirm to proceed.',
+      message: $t(
+        'you-are-about-to-upload-file-and-insert-records-into-doctype-the-content-of-the-file-will-be-inserted-as-new-records-at-the-end-of-the-doctype-please-confirm-to-proceed'
+      ),
       size: 'sm',
       actions: [
         {
-          label: 'Confirm',
+          label: $t('confirm'),
           variant: 'subtle',
           theme: 'red',
           onClick: () => {
@@ -174,13 +176,14 @@
     v-if="showCoverDialog"
     v-model="showCoverDialog"
     :options="{
-      title: 'Warning! ',
-      message:
-        'You are about to upload file and overwrite doctype. All existing records in the doctype will be deleted and replaced with records from the uploaded file. Please confirm to proceed.',
+      title: $t('warning'),
+      message: $t(
+        'you-are-about-to-upload-file-and-overwrite-doctype-all-existing-records-in-the-doctype-will-be-deleted-and-replaced-with-records-from-the-uploaded-file-please-confirm-to-proceed'
+      ),
       size: 'sm',
       actions: [
         {
-          label: 'Confirm',
+          label: $t('confirm'),
           variant: 'solid',
           theme: 'red',
           onClick: () => {

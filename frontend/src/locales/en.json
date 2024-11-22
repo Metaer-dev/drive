@@ -379,5 +379,10 @@
   "no-failed-uploads": "No failed uploads",
   "the-following-data-rules-did-not-pass": "The following data rules did not pass",
   "cancel-uploads": "Cancel uploads",
-  "are-you-sure-you-want-to-cancel-all-ongoing-uploads": "Are you sure you want to cancel all ongoing uploads?"
+  "are-you-sure-you-want-to-cancel-all-ongoing-uploads": "Are you sure you want to cancel all ongoing uploads?",
+  "notice": "Notice!",
+  "you-are-about-to-upload-file-and-insert-records-into-doctype-the-content-of-the-file-will-be-inserted-as-new-records-at-the-end-of-the-doctype-please-confirm-to-proceed": "You are about to upload file and insert records into doctype. The content of the file will be inserted as new records at the end of the doctype. Please confirm to proceed.",
+  "warning": "Warning!",
+  "you-are-about-to-upload-file-and-update-doctype-records-in-the-doctype-will-be-updated-with-records-having-the-same-id-from-the-uploaded-file-please-confirm-to-proceed": "You are about to upload file and update doctype. Records in the doctype will be updated with records having the same ID from the uploaded file. Please confirm to proceed.",
+  "you-are-about-to-upload-file-and-overwrite-doctype-all-existing-records-in-the-doctype-will-be-deleted-and-replaced-with-records-from-the-uploaded-file-please-confirm-to-proceed": "You are about to upload file and overwrite doctype. All existing records in the doctype will be deleted and replaced with records from the uploaded file. Please confirm to proceed."
 }
