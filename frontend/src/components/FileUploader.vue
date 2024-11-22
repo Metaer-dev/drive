@@ -193,6 +193,10 @@ onMounted(() => {
 
   dropzone.value.on("error", function (file, response, xhr) {
     let message
+    try {
+      message = JSON.parse(JSON.parse(response._server_messages)[0]).message
+    } catch (e) {}
+
     if (xhr) {
       const chunk = file.upload.chunks?.find((chunk) => !chunk.status)
       if (chunk) {
@@ -203,32 +207,24 @@ onMounted(() => {
           message = "Server error, retrying..."
           setTimeout(() => dropzone.value.processFile(file), 1000)
         } else if (stopCode.includes(xhr.status)) {
-          try {
-            message = JSON.parse(
-              JSON.parse(response._server_messages)[0]
-            ).message
-          } catch (e) {}
           message =
             message || response || "File validation failed, upload rejected."
           dropzone.value.cancelUpload(file)
         } else {
           // Handling other server errors
-          message = `Upload failed with status ${xhr.status}`
+          message =
+            message || response || `Upload failed with status ${xhr.status}`
         }
       } else {
         // An error occurred after the file upload was completed (non-chunk related)
         if (stopCode.includes(xhr.status)) {
-          try {
-            message = JSON.parse(
-              JSON.parse(response._server_messages)[0]
-            ).message
-          } catch (e) {}
           message =
             message || response || "File validation failed, upload rejected."
 
           dropzone.value.cancelUpload(file) // stop uploadload
         } else {
-          message = `Upload failed with status ${xhr.status}`
+          message =
+            message || response || `Upload failed with status ${xhr.status}`
         }
       }
     } else {
