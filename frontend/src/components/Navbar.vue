@@ -126,6 +126,71 @@
       </div>
     </div>
   </nav>
+  <Dialog
+    v-if="showUpdateDialog"
+    v-model="showUpdateDialog"
+    :options="{
+      title: 'Warning! ',
+      icon: 'alert-octagon',
+      message:
+        'You are about to upload file and update doctype. Records in the doctype will be updated with records having the same ID from the uploaded file. Please confirm to proceed.',
+      size: 'sm',
+      actions: [
+        {
+          label: 'Confirm',
+          variant: 'solid',
+          theme: 'red',
+          onClick: () => {
+            emitter.emit('uploadFile', { update: true })
+            showUpdateDialog = false
+          },
+        },
+      ],
+    }"
+  />
+  <Dialog
+    v-if="showInsertDialog"
+    v-model="showInsertDialog"
+    :options="{
+      title: 'Notice! ',
+      icon: 'alert-octagon',
+      message:
+        ' You are about to upload file and insert records into doctype. The content of the file will be inserted as new records at the end of the doctype. Please confirm to proceed.',
+      size: 'sm',
+      actions: [
+        {
+          label: 'Confirm',
+          variant: 'subtle',
+          theme: 'red',
+          onClick: () => {
+            emitter.emit('uploadFile', { insert: true })
+            showInsertDialog = false
+          },
+        },
+      ],
+    }"
+  />
+  <Dialog
+    v-if="showCoverDialog"
+    v-model="showCoverDialog"
+    :options="{
+      title: 'Warning! ',
+      message:
+        'You are about to upload file and overwrite doctype. All existing records in the doctype will be deleted and replaced with records from the uploaded file. Please confirm to proceed.',
+      size: 'sm',
+      actions: [
+        {
+          label: 'Confirm',
+          variant: 'solid',
+          theme: 'red',
+          onClick: () => {
+            emitter.emit('uploadFile', { cover: true })
+            showCoverDialog = false
+          },
+        },
+      ],
+    }"
+  />
   <NewFolderDialog
     v-model="showNewFolderDialog"
     :parent="$route.params.entityName"
@@ -151,7 +216,7 @@
 <script>
 import { markRaw } from "vue"
 import UsersBar from "./UsersBar.vue"
-import { Dropdown, FeatherIcon, Button } from "frappe-ui"
+import { Dropdown, FeatherIcon, Button, Dialog } from "frappe-ui"
 import NewFolderDialog from "@/components/NewFolderDialog.vue"
 import RenameDialog from "@/components/RenameDialog.vue"
 import Breadcrumbs from "@/components/Breadcrumbs.vue"
@@ -181,6 +246,7 @@ const NewFileIcon = markRaw(NewFile)
 export default {
   name: "Navbar",
   components: {
+    Dialog,
     RenameDialog,
     NewFolderDialog,
     Dropdown,
@@ -207,25 +273,27 @@ export default {
       showPreview: false,
       showNewFolderDialog: false,
       showRenameDialog: false,
+      showUpdateDialog: false,
+      showInsertDialog: false,
+      showCoverDialog: false,
       newEntityOptions: [
         {
           group: "New Doctype",
           items: [
             {
-              // label: this.$t('Upload And Insert'),
               label: "Insert",
               icon: FileUploadIcon,
-              onClick: () => this.emitter.emit("uploadFile", { insert: true }),
+              onClick: () => (this.showInsertDialog = true),
             },
             {
               label: "Update",
               icon: FileUploadIcon,
-              onClick: () => this.emitter.emit("uploadFile", { update: true }),
+              onClick: () => (this.showUpdateDialog = true),
             },
             {
               label: "Cover",
               icon: FileUploadIcon,
-              onClick: () => this.emitter.emit("uploadFile", { cover: true }),
+              onClick: () => (this.showCoverDialog = true),
             },
           ],
         },
