@@ -5,7 +5,7 @@
     :is-active="0"
     :show-sort="true"
     :icon="Trash"
-    :primaryMessage="'Trash is Empty'"
+    :primaryMessage="$t('trash-is-empty')"
     :secondaryMessage="''"
   />
 </template>

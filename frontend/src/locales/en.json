@@ -384,5 +384,11 @@
   "you-are-about-to-upload-file-and-insert-records-into-doctype-the-content-of-the-file-will-be-inserted-as-new-records-at-the-end-of-the-doctype-please-confirm-to-proceed": "You are about to upload file and insert records into doctype. The content of the file will be inserted as new records at the end of the doctype. Please confirm to proceed.",
   "warning": "Warning!",
   "you-are-about-to-upload-file-and-update-doctype-records-in-the-doctype-will-be-updated-with-records-having-the-same-id-from-the-uploaded-file-please-confirm-to-proceed": "You are about to upload file and update doctype. Records in the doctype will be updated with records having the same ID from the uploaded file. Please confirm to proceed.",
-  "you-are-about-to-upload-file-and-overwrite-doctype-all-existing-records-in-the-doctype-will-be-deleted-and-replaced-with-records-from-the-uploaded-file-please-confirm-to-proceed": "You are about to upload file and overwrite doctype. All existing records in the doctype will be deleted and replaced with records from the uploaded file. Please confirm to proceed."
+  "you-are-about-to-upload-file-and-overwrite-doctype-all-existing-records-in-the-doctype-will-be-deleted-and-replaced-with-records-from-the-uploaded-file-please-confirm-to-proceed": "You are about to upload file and overwrite doctype. All existing records in the doctype will be deleted and replaced with records from the uploaded file. Please confirm to proceed.",
+  "no-recent-files": "No Recent Files",
+  "home-is-empty": "Home is empty",
+  "add-files-by-dropping-them-here": "Add files by dropping them here",
+  "add-files-by-dropping-them-here-0": "Add files by dropping them here",
+  "no-shared-files": "No Shared Files",
+  "trash-is-empty": "Trash is Empty"
 }

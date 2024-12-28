@@ -386,5 +386,10 @@
   "you-are-about-to-upload-file-and-insert-records-into-doctype-the-content-of-the-file-will-be-inserted-as-new-records-at-the-end-of-the-doctype-please-confirm-to-proceed": "你正在进行上传文件且插入 doctype 的操作。表格数据会在 docytype 后面插入记录。请确认后进行。",
   "warning": "警告！",
   "you-are-about-to-upload-file-and-update-doctype-records-in-the-doctype-will-be-updated-with-records-having-the-same-id-from-the-uploaded-file-please-confirm-to-proceed": "你正在进行上传文件且更新 doctype 的操作。doctype 会被上传文件中有同样 id 的记录覆盖。请确定后进行。",
-  "you-are-about-to-upload-file-and-overwrite-doctype-all-existing-records-in-the-doctype-will-be-deleted-and-replaced-with-records-from-the-uploaded-file-please-confirm-to-proceed": "你正在进行上传文件且覆盖 doctype 的操作。doctype 旧记录会被全部删除，然后插入上传表格中的记录。请确定后进行。"
+  "you-are-about-to-upload-file-and-overwrite-doctype-all-existing-records-in-the-doctype-will-be-deleted-and-replaced-with-records-from-the-uploaded-file-please-confirm-to-proceed": "你正在进行上传文件且覆盖 doctype 的操作。doctype 旧记录会被全部删除，然后插入上传表格中的记录。请确定后进行。",
+  "no-recent-files": "最近没有浏览",
+  "home-is-empty": "主页没有文件",
+  "add-files-by-dropping-them-here-0": "通过拖放等方式添加文件",
+  "no-shared-files": "没有共享的文件",
+  "trash-is-empty": "回收站是空的"
 }

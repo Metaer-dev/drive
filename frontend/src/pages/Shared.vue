@@ -5,7 +5,7 @@
     :allow-empty-context-menu="allowEmptyContextMenu"
     :show-sort="true"
     :icon="Users"
-    :primaryMessage="'No Shared Files'"
+    :primaryMessage="$t('no-shared-files')"
     :secondaryMessage="''"
   />
 </template>
