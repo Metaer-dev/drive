@@ -99,17 +99,6 @@ export default {
             {
               component: markRaw(AppSwitcher),
             },
-            {
-              icon: Docs,
-              label: "Documentation",
-              onClick: () =>
-                window.open("https://docs.frappe.io/drive", "_blank"),
-            },
-            {
-              icon: "life-buoy",
-              label: "Support",
-              onClick: () => window.open("https://t.me/frappedrive", "_blank"),
-            },
           ],
         },
         {
