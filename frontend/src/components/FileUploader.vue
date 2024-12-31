@@ -259,6 +259,7 @@ onMounted(() => {
     let xhr = file.xhr
     let message
 
+    dropzone.value.options.url = "/api/method/drive.api.files.upload_file"
     // Check the status code returned by the server in the complete event
     if (xhr && stopCode.includes(xhr.status)) {
       // if statuscode is in stopCode, then cancel upload
